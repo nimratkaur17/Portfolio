@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import Hero from '../components/Hero'
 import './Landing.css'
 
 function Landing() {
@@ -13,10 +14,7 @@ function Landing() {
 
   return (
     <main>
-      <section className="hero">
-        <h1>Nimrat Kaur</h1>
-        <p>Product designer who also builds.</p>
-      </section>
+      <Hero />
       <section id="projects" className="projects">
         <h2>Projects</h2>
       </section>

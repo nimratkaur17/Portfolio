@@ -1,13 +1,3 @@
-.hero {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: var(--color-surface);
-}
-
 .projects {
   min-height: 100dvh;
   scroll-margin-top: 88px;
