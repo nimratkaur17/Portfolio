@@ -1,0 +1,333 @@
+@property --overlay-o {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --shadow-t {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.project-stack {
+  position: relative;
+  padding: 0 24px 120px;
+}
+
+.project-stack__heading {
+  max-width: 920px;
+  margin: 0 auto;
+  padding-top: 64px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.project-section {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 140px;
+  scroll-margin-top: 88px;
+}
+
+.project-card {
+  position: sticky;
+  top: 88px;
+  width: min(920px, 100%);
+  transform: scale(1) translateY(0);
+  --overlay-o: 0;
+  --shadow-t: 0;
+}
+
+.project-card__surface {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  gap: 32px;
+  background: var(--color-bg);
+  border-radius: 20px;
+  padding: 32px;
+  transition: transform 250ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.project-card:hover .project-card__surface {
+  transform: translateY(-4px);
+}
+
+.project-card__surface::before,
+.project-card__surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.project-card__surface::before {
+  opacity: calc(1 - var(--shadow-t));
+  box-shadow:
+    0 24px 48px rgba(36, 26, 22, 0.16),
+    0 8px 20px rgba(36, 26, 22, 0.1);
+}
+
+.project-card__surface::after {
+  opacity: var(--shadow-t);
+  box-shadow: 0 6px 14px rgba(36, 26, 22, 0.12);
+}
+
+.project-card__overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-text);
+  opacity: var(--overlay-o);
+  pointer-events: none;
+}
+
+.project-card__media {
+  flex: 0 0 280px;
+  border-radius: 14px;
+  background: linear-gradient(155deg, var(--color-surface), var(--color-muted));
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.project-card__kicker,
+.project-card__title,
+.project-card__copy,
+.project-card__tags,
+.project-card__cta {
+  margin: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 0.9, 0.25, 1),
+    transform 420ms cubic-bezier(0.22, 0.9, 0.25, 1);
+}
+
+.project-card__body.is-revealed .project-card__kicker {
+  transition-delay: 0ms;
+}
+
+.project-card__body.is-revealed .project-card__title {
+  transition-delay: 60ms;
+}
+
+.project-card__body.is-revealed .project-card__copy {
+  transition-delay: 120ms;
+}
+
+.project-card__body.is-revealed .project-card__tags {
+  transition-delay: 180ms;
+}
+
+.project-card__body.is-revealed .project-card__cta {
+  transition-delay: 240ms;
+}
+
+.project-card__body.is-revealed .project-card__kicker,
+.project-card__body.is-revealed .project-card__title,
+.project-card__body.is-revealed .project-card__copy,
+.project-card__body.is-revealed .project-card__tags,
+.project-card__body.is-revealed .project-card__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card__kicker {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.project-card__title {
+  font-weight: 500;
+  font-size: 1.75rem;
+  color: var(--color-text);
+}
+
+.project-card__copy {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.project-card__tags li {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-muted);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+}
+
+.project-card__cta {
+  margin-top: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: 'Figtree', sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.project-card__cta:hover {
+  background: var(--color-primary-h);
+}
+
+.project-card a:focus-visible,
+.project-card button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Progressive enhancement: native scroll-driven timeline. Each card's
+   recede animation is driven by the NEXT card's own view timeline (named
+   and exposed via timeline-scope), so it plays as that card - the one
+   doing the covering - enters and crosses the scrollport. Falls back to
+   the IntersectionObserver + rAF loop in ProjectStack.tsx when either
+   feature is unsupported. */
+@supports (animation-timeline: view()) and (timeline-scope: --x) {
+  .project-stack {
+    timeline-scope: --card-1, --card-2, --card-3, --card-4;
+  }
+
+  .project-section:nth-of-type(1) .project-card {
+    view-timeline-name: --card-1;
+  }
+
+  .project-section:nth-of-type(2) .project-card {
+    view-timeline-name: --card-2;
+  }
+
+  .project-section:nth-of-type(3) .project-card {
+    view-timeline-name: --card-3;
+  }
+
+  .project-section:nth-of-type(4) .project-card {
+    view-timeline-name: --card-4;
+  }
+
+  .project-section:nth-of-type(1) .project-card {
+    animation: card-recede linear both;
+    animation-timeline: --card-2;
+    animation-range: cover 0% cover 100%;
+  }
+
+  .project-section:nth-of-type(2) .project-card {
+    animation: card-recede linear both;
+    animation-timeline: --card-3;
+    animation-range: cover 0% cover 100%;
+  }
+
+  .project-section:nth-of-type(3) .project-card {
+    animation: card-recede linear both;
+    animation-timeline: --card-4;
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+@keyframes card-recede {
+  from {
+    transform: scale(1) translateY(0);
+    --overlay-o: 0;
+    --shadow-t: 0;
+  }
+  to {
+    transform: scale(0.94) translateY(-18px);
+    --overlay-o: 0.07;
+    --shadow-t: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .project-stack {
+    padding: 0 20px 60px;
+  }
+
+  .project-section {
+    min-height: auto;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 24px;
+  }
+
+  .project-card {
+    position: static;
+    width: 100%;
+  }
+
+  .project-card__surface {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .project-card:hover .project-card__surface {
+    transform: none;
+  }
+
+  .project-card__media {
+    flex: none;
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card__surface {
+    transition: none;
+  }
+
+  .project-card:hover .project-card__surface {
+    transform: none;
+  }
+
+  .project-card__kicker,
+  .project-card__title,
+  .project-card__copy,
+  .project-card__tags,
+  .project-card__cta {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  @keyframes card-recede {
+    from {
+      transform: none;
+      --overlay-o: 0;
+      --shadow-t: 0;
+    }
+    to {
+      transform: none;
+      --overlay-o: 0.07;
+      --shadow-t: 1;
+    }
+  }
+}
