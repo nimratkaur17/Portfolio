@@ -46,8 +46,8 @@
 
 .hero__pills {
   position: absolute;
-  left: 24px;
-  right: 24px;
+  left: 48px;
+  right: 48px;
   bottom: 15px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -113,8 +113,8 @@
 
 @media (max-width: 760px) {
   .hero__pills {
-    left: 16px;
-    right: 16px;
+    left: 24px;
+    right: 24px;
     grid-template-columns: repeat(4, 1fr);
     gap: 6px 8px;
   }
