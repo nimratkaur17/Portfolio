@@ -44,6 +44,13 @@
   }
 }
 
+.letter {
+  display: inline-block;
+  transition:
+    transform 400ms cubic-bezier(0.25, 0.85, 0.3, 1),
+    color 400ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
 .hero__pills {
   position: absolute;
   left: 48px;
@@ -56,6 +63,8 @@
 }
 
 .pill {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -74,6 +83,36 @@
   animation-duration: 950ms;
   animation-timing-function: cubic-bezier(0.25, 0.85, 0.3, 1);
   animation-fill-mode: both;
+  transition: transform 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.pill::before,
+.pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.pill::before {
+  opacity: 1;
+  box-shadow: 0 2px 6px rgba(36, 26, 22, 0.25);
+}
+
+.pill::after {
+  opacity: 0;
+  box-shadow: 0 16px 30px rgba(36, 26, 22, 0.35);
+}
+
+.pill--raised::before {
+  opacity: 0;
+}
+
+.pill--raised::after {
+  opacity: 1;
 }
 
 .pill--left {
@@ -142,6 +181,12 @@
   .pill--bottom {
     --fly-x: -26px;
     --fly-y: 260px;
+  }
+}
+
+@media (pointer: coarse) {
+  .pill:active {
+    transform: scale(0.96) rotate(var(--rot));
   }
 }
 
