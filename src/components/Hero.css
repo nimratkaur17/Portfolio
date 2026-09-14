@@ -46,13 +46,12 @@
 
 .hero__pills {
   position: absolute;
-  left: 50%;
+  left: 24px;
+  right: 24px;
   bottom: 15px;
-  transform: translateX(-50%);
   display: grid;
-  grid-template-columns: repeat(5, auto);
-  justify-content: center;
-  gap: 2px 3px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px 10px;
   padding-top: 26px;
 }
 
@@ -60,13 +59,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 26px;
+  padding: 22px 28px;
   border-radius: 9999px;
   background: var(--color-primary);
   color: var(--color-bg);
   font-family: 'Figtree', sans-serif;
   font-weight: 800;
-  font-size: 17px;
+  font-size: 26px;
   line-height: 1;
   white-space: nowrap;
   transform: rotate(var(--rot));
@@ -114,12 +113,15 @@
 
 @media (max-width: 760px) {
   .hero__pills {
-    grid-template-columns: repeat(4, auto);
+    left: 16px;
+    right: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px 8px;
   }
 
   .pill {
-    font-size: 15px;
-    padding: 10px 18px;
+    font-size: 16px;
+    padding: 14px 12px;
   }
 
   .pill--left {
