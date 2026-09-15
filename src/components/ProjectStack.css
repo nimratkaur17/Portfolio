@@ -187,12 +187,15 @@
 }
 
 .project-card__cta {
+  display: inline-flex;
+  align-items: center;
   margin-top: 8px;
   padding: 12px 24px;
   border: none;
   border-radius: 9999px;
   background: var(--color-primary);
   color: var(--color-bg);
+  text-decoration: none;
   font-family: 'Figtree', sans-serif;
   font-weight: 500;
   font-size: 0.9375rem;

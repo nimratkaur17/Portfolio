@@ -1,8 +1,10 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import './ProjectStack.css'
 
 interface CaseStudy {
+  slug: string
   kicker: string
   title: string
   copy: string
@@ -11,24 +13,28 @@ interface CaseStudy {
 
 const CASE_STUDIES: CaseStudy[] = [
   {
+    slug: 'wayfinding-for-a-hospital-network',
     kicker: 'Case study 01',
     title: 'Wayfinding for a hospital network',
     copy: 'Redesigning signage and a companion app so patients stop asking strangers for directions.',
     tags: ['UX research', 'Wayfinding', 'Mobile'],
   },
   {
+    slug: 'checkout-for-a-small-grocer',
     kicker: 'Case study 02',
     title: 'Checkout for a small grocer',
     copy: 'A point-of-sale rebuild that trims a six-step checkout down to two taps.',
     tags: ['Product design', 'React', 'POS'],
   },
   {
+    slug: 'onboarding-for-a-fintech-app',
     kicker: 'Case study 03',
     title: 'Onboarding for a fintech app',
     copy: 'Cutting first-session drop-off by rethinking what identity verification has to feel like.',
     tags: ['Onboarding', 'Design systems'],
   },
   {
+    slug: 'dashboard-for-field-technicians',
     kicker: 'Case study 04',
     title: 'Dashboard for field technicians',
     copy: 'Turning a spreadsheet-shaped workflow into something usable with gloves on.',
@@ -163,9 +169,9 @@ function ProjectStack() {
                     <li key={tag}>{tag}</li>
                   ))}
                 </ul>
-                <button type="button" className="project-card__cta">
+                <Link to={`/case/${study.slug}`} className="project-card__cta">
                   View case study
-                </button>
+                </Link>
               </div>
               <div className="project-card__overlay" aria-hidden="true" />
             </div>

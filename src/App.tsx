@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
 import About from './pages/About'
+import CaseStudy from './pages/CaseStudy'
 import Landing from './pages/Landing'
 
 function ScrollToTop() {
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
+        <Route path="/case/:slug" element={<CaseStudy />} />
       </Routes>
     </div>
   )
