@@ -1,0 +1,216 @@
+.wave {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 960 / 220;
+  margin: 56px 0 24px;
+}
+
+.wave__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wave__path {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--path-length, 1000);
+  stroke-dashoffset: var(--path-length, 1000);
+  transition: stroke-dashoffset 1400ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.is-drawn .wave__path {
+  stroke-dashoffset: 0;
+}
+
+.wave__node-dot {
+  fill: var(--color-bg);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--pop-delay, 0ms);
+}
+
+.is-drawn .wave__node-dot {
+  transform: scale(1);
+}
+
+.wave__marker {
+  position: absolute;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+.wave__marker--active {
+  z-index: 10;
+}
+
+.wave__label {
+  position: absolute;
+  left: 50%;
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 0) scale(0.8);
+  transition:
+    opacity 400ms ease,
+    transform 400ms ease;
+  transition-delay: var(--pop-delay, 0ms);
+  pointer-events: none;
+}
+
+.wave__arrow {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  transition-delay: var(--pop-delay, 0ms);
+  pointer-events: none;
+}
+
+.wave__marker--above .wave__label {
+  bottom: 38px;
+}
+
+.wave__marker--above .wave__arrow {
+  bottom: 6px;
+  transform: translateX(-50%);
+}
+
+.wave__marker--below .wave__label {
+  top: 38px;
+}
+
+.wave__marker--below .wave__arrow {
+  top: 6px;
+  transform: translateX(-50%) scaleY(-1);
+}
+
+.is-drawn .wave__label,
+.is-drawn .wave__arrow {
+  opacity: 1;
+}
+
+.is-drawn .wave__label {
+  transform: translate(-50%, 0) scale(1);
+}
+
+.wave__node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.wave__node:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+.wave__card {
+  position: absolute;
+  top: 0;
+  width: 220px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  background: var(--color-bg);
+  border: 1px solid var(--color-muted);
+  border-radius: 10px;
+  transform: translateY(-50%);
+  transition:
+    max-height 320ms ease,
+    opacity 320ms ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.wave__card--right {
+  left: 22px;
+}
+
+.wave__card--left {
+  right: 22px;
+}
+
+.wave__card.is-open {
+  max-height: 280px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wave__card-inner {
+  padding: 14px 16px;
+}
+
+.wave__card-note {
+  margin: 0 0 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.wave__card-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wave__chip {
+  padding: 5px 12px;
+  font-size: 0.6875rem;
+}
+
+@media (max-width: 640px) {
+  .wave {
+    margin: 40px 0 16px;
+  }
+
+  .wave__label {
+    font-size: 1.25rem;
+  }
+
+  .wave__card {
+    width: 180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave__path {
+    transition: none;
+  }
+
+  .wave__node-dot {
+    transition: none;
+  }
+
+  .wave__label,
+  .wave__arrow {
+    transition: none;
+  }
+
+  .wave__card {
+    transition: none;
+  }
+}

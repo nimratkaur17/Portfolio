@@ -62,21 +62,11 @@
   padding-top: 26px;
 }
 
-.pill {
+.hero-pill {
   position: relative;
   isolation: isolate;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   padding: 22px 28px;
-  border-radius: 9999px;
-  background: var(--color-primary);
-  color: var(--color-bg);
-  font-family: 'Figtree', sans-serif;
-  font-weight: 800;
   font-size: 26px;
-  line-height: 1;
-  white-space: nowrap;
   transform: rotate(var(--rot));
   opacity: 0;
   animation-name: pill-fly;
@@ -86,8 +76,8 @@
   transition: transform 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
 }
 
-.pill::before,
-.pill::after {
+.hero-pill::before,
+.hero-pill::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -97,21 +87,21 @@
   transition: opacity 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
 }
 
-.pill::before {
+.hero-pill::before {
   opacity: 1;
   box-shadow: 0 2px 6px rgba(36, 26, 22, 0.25);
 }
 
-.pill::after {
+.hero-pill::after {
   opacity: 0;
   box-shadow: 0 16px 30px rgba(36, 26, 22, 0.35);
 }
 
-.pill--raised::before {
+.hero-pill.pill--raised::before {
   opacity: 0;
 }
 
-.pill--raised::after {
+.hero-pill.pill--raised::after {
   opacity: 1;
 }
 
@@ -158,7 +148,7 @@
     gap: 6px 8px;
   }
 
-  .pill {
+  .hero-pill {
     font-size: 16px;
     padding: 14px 12px;
   }
@@ -185,7 +175,7 @@
 }
 
 @media (pointer: coarse) {
-  .pill:active {
+  .hero-pill:active {
     transform: scale(0.96) rotate(var(--rot));
   }
 }
@@ -198,7 +188,7 @@
     transform: none;
   }
 
-  .pill {
+  .hero-pill {
     animation: none;
     opacity: 1;
   }

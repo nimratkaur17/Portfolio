@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { CSSProperties } from 'react'
+import Pill from './Pill'
 import './Hero.css'
 
 type Direction = 'left' | 'top' | 'right' | 'bottom'
@@ -157,9 +158,9 @@ function Hero() {
       </div>
       <div className="hero__pills">
         {SKILLS.map((skill, i) => (
-          <span
+          <Pill
             key={skill.name}
-            className={`pill pill--${skill.direction}`}
+            className={`hero-pill pill--${skill.direction}`}
             ref={(el) => {
               pillsRef.current[i] = el
             }}
@@ -172,7 +173,7 @@ function Hero() {
             }
           >
             {skill.name}
-          </span>
+          </Pill>
         ))}
       </div>
     </section>
