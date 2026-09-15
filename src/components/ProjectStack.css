@@ -13,6 +13,7 @@
 .project-stack {
   position: relative;
   padding: 0 24px 120px;
+  scroll-margin-top: 88px;
 }
 
 .project-stack__heading {
@@ -24,19 +25,22 @@
   color: var(--color-text);
 }
 
-.project-section {
-  position: relative;
+/* Pure scroll-runway spacer between cards. Deliberately a sibling of
+   .project-card, not a wrapper around it - if a card's sticky containing
+   block were its own small per-card box, it would unstick and scroll
+   fully off-screen before the next card arrives, leaving a dead gap
+   where neither card is visible. As direct children of .project-stack,
+   every card shares ONE large containing block, so an earlier card stays
+   pinned at top:88 - covered, not gone - until a later one truly needs
+   the space. */
+.project-spacer {
   min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 140px;
-  scroll-margin-top: 88px;
 }
 
 .project-card {
   position: sticky;
   top: 88px;
+  margin: 0 auto;
   width: min(920px, 100%);
   transform: scale(1) translateY(0);
   --overlay-o: 0;
@@ -216,35 +220,35 @@
     timeline-scope: --card-1, --card-2, --card-3, --card-4;
   }
 
-  .project-section:nth-of-type(1) .project-card {
+  .project-card:nth-of-type(1) {
     view-timeline-name: --card-1;
   }
 
-  .project-section:nth-of-type(2) .project-card {
+  .project-card:nth-of-type(2) {
     view-timeline-name: --card-2;
   }
 
-  .project-section:nth-of-type(3) .project-card {
+  .project-card:nth-of-type(3) {
     view-timeline-name: --card-3;
   }
 
-  .project-section:nth-of-type(4) .project-card {
+  .project-card:nth-of-type(4) {
     view-timeline-name: --card-4;
   }
 
-  .project-section:nth-of-type(1) .project-card {
+  .project-card:nth-of-type(1) {
     animation: card-recede linear both;
     animation-timeline: --card-2;
     animation-range: cover 0% cover 100%;
   }
 
-  .project-section:nth-of-type(2) .project-card {
+  .project-card:nth-of-type(2) {
     animation: card-recede linear both;
     animation-timeline: --card-3;
     animation-range: cover 0% cover 100%;
   }
 
-  .project-section:nth-of-type(3) .project-card {
+  .project-card:nth-of-type(3) {
     animation: card-recede linear both;
     animation-timeline: --card-4;
     animation-range: cover 0% cover 100%;
@@ -269,16 +273,14 @@
     padding: 0 20px 60px;
   }
 
-  .project-section {
-    min-height: auto;
-    display: block;
-    padding-top: 0;
-    padding-bottom: 24px;
+  .project-spacer {
+    display: none;
   }
 
   .project-card {
     position: static;
     width: 100%;
+    margin: 0 0 24px;
   }
 
   .project-card__surface {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import './ProjectStack.css'
 
@@ -39,7 +39,6 @@ const CASE_STUDIES: CaseStudy[] = [
 const STICKY_OFFSET = 88
 
 function ProjectStack() {
-  const sectionRefs = useRef<(HTMLElement | null)[]>([])
   const cardRefs = useRef<(HTMLElement | null)[]>([])
   const [revealed, setRevealed] = useState<boolean[]>(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -87,17 +86,16 @@ function ProjectStack() {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const cards = cardRefs.current
-    const sections = sectionRefs.current
     const activePairs = new Set<number>()
     let frame = 0
 
     const applyRecede = (i: number) => {
       const card = cards[i]
-      const nextSection = sections[i + 1]
-      if (!card || !nextSection) return
+      const nextCard = cards[i + 1]
+      if (!card || !nextCard) return
       const cardHeight = card.getBoundingClientRect().height
       const cardBottom = STICKY_OFFSET + cardHeight
-      const nextTop = nextSection.getBoundingClientRect().top
+      const nextTop = nextCard.getBoundingClientRect().top
       const k = Math.min(1, Math.max(0, (cardBottom - nextTop) / cardHeight))
       const scale = reduceMotion ? 1 : 1 - 0.06 * k
       const lift = reduceMotion ? 0 : -18 * k
@@ -117,9 +115,9 @@ function ProjectStack() {
     }
 
     const observers: IntersectionObserver[] = []
-    for (let i = 0; i < sections.length - 1; i++) {
-      const nextSection = sections[i + 1]
-      if (!nextSection) continue
+    for (let i = 0; i < cards.length - 1; i++) {
+      const nextCard = cards[i + 1]
+      if (!nextCard) continue
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -131,7 +129,7 @@ function ProjectStack() {
         },
         { rootMargin: '50% 0px 50% 0px', threshold: 0 },
       )
-      observer.observe(nextSection)
+      observer.observe(nextCard)
       observers.push(observer)
     }
 
@@ -142,16 +140,11 @@ function ProjectStack() {
   }, [])
 
   return (
-    <div id="projects" className="project-stack" aria-label="Projects">
+    <div id="projects" className="project-stack">
       <h2 className="project-stack__heading">Projects</h2>
       {CASE_STUDIES.map((study, i) => (
-        <section
-          key={study.title}
-          className="project-section"
-          ref={(el) => {
-            sectionRefs.current[i] = el
-          }}
-        >
+        <Fragment key={study.title}>
+          {i > 0 && <div className="project-spacer" aria-hidden="true" />}
           <article
             className="project-card"
             style={{ zIndex: i + 1 } as CSSProperties}
@@ -177,8 +170,11 @@ function ProjectStack() {
               <div className="project-card__overlay" aria-hidden="true" />
             </div>
           </article>
-        </section>
+        </Fragment>
       ))}
+      {/* Trailing runway so the last card has room to fully reach top:88
+          before the document runs out of scroll height. */}
+      <div className="project-spacer" aria-hidden="true" />
     </div>
   )
 }
