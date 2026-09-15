@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import BeyondDesign from '../components/BeyondDesign'
 import HowIThink from '../components/HowIThink'
 import './About.css'
 
@@ -91,14 +92,14 @@ function About() {
         </section>
       </div>
 
-      <section className="about__section about__section--wave" aria-label="How I think">
+      <section className="about__section about__section--wide" aria-label="How I think">
         <h2>How I think</h2>
         <HowIThink />
       </section>
 
-      <section className="about__section" aria-label="Beyond design">
+      <section className="about__section about__section--wide" aria-label="Beyond design">
         <h2>Beyond design</h2>
-        <p>What I spend time on that has nothing to do with a screen.</p>
+        <BeyondDesign />
       </section>
 
       <section className="about__section" aria-label="Currently reading">
