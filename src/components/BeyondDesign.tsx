@@ -59,6 +59,31 @@ const TILES: Tile[] = [
     alt: 'Placeholder — photograph taken',
     gradient: 'linear-gradient(155deg, var(--color-muted), var(--color-surface))',
   },
+  {
+    id: 'work-6',
+    alt: 'Placeholder — work sample',
+    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-surface))',
+  },
+  {
+    id: 'life-6',
+    alt: 'Placeholder — photograph taken',
+    gradient: 'linear-gradient(155deg, var(--color-accent), var(--color-contrast))',
+  },
+  {
+    id: 'work-7',
+    alt: 'Placeholder — work sample',
+    gradient: 'linear-gradient(155deg, var(--color-muted), var(--color-accent))',
+  },
+  {
+    id: 'life-7',
+    alt: 'Placeholder — photograph taken',
+    gradient: 'linear-gradient(155deg, var(--color-surface), var(--color-primary))',
+  },
+  {
+    id: 'work-8',
+    alt: 'Placeholder — work sample',
+    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-muted))',
+  },
 ]
 
 interface Scatter {
@@ -68,14 +93,16 @@ interface Scatter {
   ty: number
 }
 
-// Four scatter vectors, cycled, so tiles arrive from varied depths and
-// angles rather than a single uniform direction - mirrors the reference:
-// tiles hang tilted in 3D space before gliding flat into the grid.
+// Every vector starts BELOW the resting position (large positive ty) and
+// tilted back like a floor tipped toward the viewer (positive rx), so the
+// whole group reads as rising up off the bottom of the screen rather than
+// drifting in from random directions. rotateY and depth vary a little per
+// vector, cycled, so neighbouring tiles don't arrive as identical clones.
 const SCATTER: Scatter[] = [
-  { rx: 22, ry: -18, tz: -260, ty: 46 },
-  { rx: -20, ry: 16, tz: -220, ty: -38 },
-  { rx: 16, ry: 22, tz: -300, ty: 32 },
-  { rx: -24, ry: -14, tz: -240, ty: -28 },
+  { rx: 38, ry: -10, tz: -200, ty: 260 },
+  { rx: 44, ry: 8, tz: -260, ty: 320 },
+  { rx: 34, ry: -6, tz: -160, ty: 220 },
+  { rx: 42, ry: 12, tz: -230, ty: 290 },
 ]
 
 function BeyondDesign() {
@@ -94,7 +121,7 @@ function BeyondDesign() {
         setIsRevealed(true)
         observer.disconnect()
       },
-      { threshold: 0.15 },
+      { threshold: 0.1 },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -104,7 +131,6 @@ function BeyondDesign() {
     <div className={`beyond-grid${isRevealed ? ' is-revealed' : ''}`} ref={gridRef}>
       {TILES.map((tile, i) => {
         const scatter = SCATTER[i % SCATTER.length]
-        const restRot = i % 2 === 0 ? 2 : -2
 
         return (
           <div
@@ -115,12 +141,11 @@ function BeyondDesign() {
             style={
               {
                 background: tile.gradient,
-                '--rest-rot': `${restRot}deg`,
                 '--scatter-rx': `${scatter.rx}deg`,
                 '--scatter-ry': `${scatter.ry}deg`,
                 '--scatter-tz': `${scatter.tz}px`,
                 '--scatter-ty': `${scatter.ty}px`,
-                '--delay': `${i * 70}ms`,
+                '--delay': `${i * 60}ms`,
               } as CSSProperties
             }
           />

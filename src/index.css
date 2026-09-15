@@ -19,6 +19,10 @@ html,
 body {
   margin: 0;
   padding: 0;
+  /* Full-bleed sections (100vw breakouts) can be a hair wider than the
+     visible viewport, since 100vw includes the scrollbar gutter in most
+     browsers. Clipping that sliver here is safer than fighting vw math. */
+  overflow-x: hidden;
 }
 
 html {

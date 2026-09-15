@@ -1,9 +1,17 @@
+/* Full-bleed breakout - the grid spans the viewport width regardless of
+   the reading-width column it sits in, matching the reference's edge-to-
+   edge panel. Relies on no ancestor clipping overflow-x, which nothing
+   in this layout does. */
 .beyond-grid {
   position: relative;
-  perspective: 1400px;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  perspective: 1800px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
 }
 
 .beyond-tile {
@@ -11,22 +19,23 @@
   border-radius: 4px;
   opacity: 0;
   transform: translate3d(0, var(--scatter-ty), var(--scatter-tz)) rotateX(var(--scatter-rx))
-    rotateY(var(--scatter-ry)) rotate(var(--rest-rot));
+    rotateY(var(--scatter-ry));
   transition:
-    transform 900ms cubic-bezier(0.16, 0.9, 0.2, 1),
-    opacity 700ms ease;
+    transform 1000ms cubic-bezier(0.16, 0.9, 0.2, 1),
+    opacity 800ms ease;
   transition-delay: var(--delay);
 }
 
 .is-revealed .beyond-tile {
   opacity: 1;
-  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotate(var(--rest-rot));
+  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
 }
 
 @media (max-width: 640px) {
   .beyond-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 12px;
+    padding: 0 12px;
   }
 }
 
