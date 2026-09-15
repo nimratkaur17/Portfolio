@@ -1,4 +1,237 @@
 .about {
   min-height: 100dvh;
-  padding: 88px 32px 0;
+  padding: 88px 32px 140px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.about__title {
+  padding-top: 40px;
+  margin: 0 0 48px;
+}
+
+/* Hero photo — the frame + crossfading pair sit inside a slightly larger
+   box so the decorative chrome (handles, label, annotation) has room to
+   sit just outside the photo's edges, like a design tool's own overlay. */
+.hero-photo {
+  position: relative;
+  width: min(360px, 100%);
+  margin: 0 auto 64px;
+  padding: 22px;
+}
+
+.hero-photo__chrome {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-photo__handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-primary);
+  background: var(--color-bg);
+}
+
+.hero-photo__handle--tl {
+  top: 17px;
+  left: 17px;
+}
+
+.hero-photo__handle--tr {
+  top: 17px;
+  right: 17px;
+}
+
+.hero-photo__handle--bl {
+  bottom: 17px;
+  left: 17px;
+}
+
+.hero-photo__handle--br {
+  bottom: 17px;
+  right: 17px;
+}
+
+.hero-photo__label {
+  position: absolute;
+  top: -10px;
+  left: 22px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.hero-photo__annotation {
+  position: absolute;
+  top: 22px;
+  right: -28px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-photo__annotation-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  border-left: 1px dashed var(--color-primary);
+}
+
+.hero-photo__annotation-line::before,
+.hero-photo__annotation-line::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  width: 8px;
+  height: 1px;
+  background: var(--color-primary);
+}
+
+.hero-photo__annotation-line::before {
+  top: 0;
+}
+
+.hero-photo__annotation-line::after {
+  bottom: 0;
+}
+
+.hero-photo__annotation-value {
+  position: relative;
+  padding: 1px 5px;
+  background: var(--color-bg);
+  color: var(--color-primary);
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  font-size: 0.6875rem;
+}
+
+.hero-photo__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: none;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: var(--color-surface);
+}
+
+.hero-photo__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 500ms ease;
+}
+
+.hero-photo__img--alt {
+  opacity: 0;
+}
+
+.hero-photo__frame.is-swapped .hero-photo__img--base {
+  opacity: 0;
+}
+
+.hero-photo__frame.is-swapped .hero-photo__img--alt {
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-photo__frame:hover .hero-photo__img--base {
+    opacity: 0;
+  }
+
+  .hero-photo__frame:hover .hero-photo__img--alt {
+    opacity: 1;
+  }
+}
+
+.hero-photo__frame:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Sections */
+.about__section {
+  margin-bottom: 56px;
+}
+
+.about__section h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
+.about__section p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.about__reading-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.0625rem;
+  color: var(--color-text);
+}
+
+.about__closing p {
+  font-size: 1.1875rem;
+  font-weight: 500;
+}
+
+/* Highlighter sweep — a solid-colour gradient so background-size stays
+   animatable (background-color has no size to animate). Kept low-opacity
+   so the text underneath stays readable. */
+.highlight {
+  background-image: linear-gradient(
+    to right,
+    rgba(74, 22, 37, 0.16),
+    rgba(74, 22, 37, 0.16)
+  );
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: left center;
+  transition: background-size 700ms ease;
+}
+
+.highlight.is-swept {
+  background-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo__img {
+    transition: none;
+  }
+
+  .highlight {
+    background-size: 100% 100%;
+    transition: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-photo {
+    padding: 18px;
+  }
+
+  .hero-photo__annotation {
+    right: -8px;
+  }
 }
