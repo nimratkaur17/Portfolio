@@ -146,7 +146,7 @@ function ProjectStack() {
   }, [])
 
   return (
-    <div id="projects" className="project-stack">
+    <div id="projects" className="project-stack" data-nav-theme="light">
       <h2 className="project-stack__heading">Projects</h2>
       {CASE_STUDIES.map((study, i) => (
         <Fragment key={study.title}>

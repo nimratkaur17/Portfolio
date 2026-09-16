@@ -76,7 +76,7 @@ function CaseStudy() {
 
   return (
     <main className="case-study">
-      <header className="case-study__hero">
+      <header className="case-study__hero" data-nav-theme="light">
         <div className="case-study__hero-inner">
           <p className="case-study__kicker">Case study</p>
           <h1 className="case-study__title">{slugToTitle(slug)}</h1>

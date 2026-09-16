@@ -1,12 +1,3 @@
-.nav-scroll-sentinel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 50px;
-  pointer-events: none;
-}
-
 .nav {
   position: fixed;
   top: 0;
@@ -19,15 +10,6 @@
   justify-content: space-between;
   padding: 0 var(--gutter);
   background: transparent;
-  border-bottom: 1px solid transparent;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.nav--scrolled {
-  background: var(--color-bg);
-  border-bottom-color: var(--color-muted);
 }
 
 .nav__logo {
@@ -35,6 +17,7 @@
   font-size: 1.25rem;
   color: var(--color-primary);
   text-decoration: none;
+  transition: color 200ms ease;
 }
 
 .nav__links {
@@ -50,6 +33,7 @@
   color: var(--color-text);
   text-decoration: none;
   font-weight: 500;
+  transition: color 200ms ease;
 }
 
 .nav__links a:hover {
@@ -63,20 +47,21 @@
   border-radius: 2px;
 }
 
-/* Case study pages open on a merlot band, not ivory or sand - the
-   default merlot logo and espresso links would sit dark-on-dark until
-   the nav scrolls to its solid ivory state. Swap to ivory in the
-   unscrolled gap over that band specifically. */
-.nav:has(~ .case-study):not(.nav--scrolled) .nav__logo,
-.nav:has(~ .case-study):not(.nav--scrolled) .nav__links a {
+/* No background of its own (see Nav.tsx) - some pages open on a dark
+   section (navy Projects, the merlot case-study band), where the
+   default merlot logo and espresso links would sit dark-on-dark. Swap
+   to ivory whenever a data-nav-theme="light" section is under the nav. */
+.nav--on-dark .nav__logo,
+.nav--on-dark .nav__links a {
   color: var(--color-bg);
 }
 
-.nav:has(~ .case-study):not(.nav--scrolled) .nav__links a:hover {
+.nav--on-dark .nav__links a:hover {
   color: var(--color-surface);
 }
 
-.nav:has(~ .case-study):not(.nav--scrolled) a:focus-visible {
+.nav--on-dark a:focus-visible,
+.nav--on-dark .nav__logo:focus-visible {
   outline-color: var(--color-bg);
 }
 
