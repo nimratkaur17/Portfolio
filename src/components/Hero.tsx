@@ -4,7 +4,7 @@ import Pill from './Pill'
 import './Hero.css'
 
 type Direction = 'left' | 'top' | 'right' | 'bottom'
-type PillColor = 'mauve' | 'olive' | 'sand' | 'slate'
+type PillColor = 'mauve' | 'olive' | 'sand' | 'slate' | 'green'
 
 interface Skill {
   name: string
@@ -24,19 +24,21 @@ interface Skill {
 // Tilt/shift are wide enough to read as scattered rather than a tidy grid;
 // size varies through font-size (not a transform scale) so flex-wrap still
 // reflows around each pill's real footprint instead of letting a visually
-// bigger pill overlap its neighbours.
+// bigger pill overlap its neighbours. Sizes are kept modest overall so the
+// full set fills two rows across the width instead of leaving the right
+// side empty.
 const SKILLS: Skill[] = [
   { name: 'Critical Thinking', tilt: -8, shift: 7, spin: 20, direction: 'left', color: 'mauve', outline: false, scale: 1.15 },
-  { name: 'Collaboration', tilt: 7, shift: -9, spin: -18, direction: 'top', color: 'olive', outline: true, scale: 1.1 },
-  { name: 'Build', tilt: -12, shift: 9, spin: 23, direction: 'right', color: 'sand', outline: true, scale: 0.85 },
-  { name: 'Creativity', tilt: 10, shift: -7, spin: -17, direction: 'bottom', color: 'slate', outline: false, scale: 1.0 },
-  { name: 'Design Principles', tilt: -5, shift: -10, spin: 21, direction: 'left', color: 'mauve', outline: true, scale: 0.9 },
-  { name: 'Testing', tilt: 8, shift: 8, spin: -19, direction: 'top', color: 'olive', outline: true, scale: 0.9 },
-  { name: 'Prototyping', tilt: -9, shift: -6, spin: 24, direction: 'right', color: 'sand', outline: true, scale: 1.0 },
-  { name: 'Problem Solving', tilt: 6, shift: 10, spin: -16, direction: 'bottom', color: 'slate', outline: false, scale: 0.95 },
-  { name: 'Interface Design', tilt: -10, shift: 6, spin: 22, direction: 'left', color: 'mauve', outline: true, scale: 0.85 },
-  { name: 'User flow', tilt: 9, shift: -8, spin: -20, direction: 'top', color: 'olive', outline: true, scale: 1.05 },
-  { name: 'UI UX', tilt: -6, shift: 9, spin: 19, direction: 'right', color: 'sand', outline: false, scale: 1.2 },
+  { name: 'Collaboration', tilt: 7, shift: -9, spin: -18, direction: 'top', color: 'olive', outline: true, scale: 1.0 },
+  { name: 'Build', tilt: -12, shift: 9, spin: 23, direction: 'right', color: 'sand', outline: true, scale: 0.75 },
+  { name: 'Creativity', tilt: 10, shift: -7, spin: -17, direction: 'bottom', color: 'slate', outline: false, scale: 0.95 },
+  { name: 'Design Principles', tilt: -5, shift: -10, spin: 21, direction: 'left', color: 'mauve', outline: true, scale: 0.85 },
+  { name: 'Testing', tilt: 8, shift: 8, spin: -19, direction: 'top', color: 'green', outline: false, scale: 0.85 },
+  { name: 'Prototyping', tilt: -9, shift: -6, spin: 24, direction: 'right', color: 'sand', outline: true, scale: 0.95 },
+  { name: 'Problem Solving', tilt: 6, shift: 10, spin: -16, direction: 'bottom', color: 'slate', outline: false, scale: 0.9 },
+  { name: 'Interface Design', tilt: -10, shift: 6, spin: 22, direction: 'left', color: 'mauve', outline: true, scale: 0.8 },
+  { name: 'User flow', tilt: 9, shift: -8, spin: -20, direction: 'top', color: 'olive', outline: true, scale: 1.0 },
+  { name: 'UI UX', tilt: -6, shift: 9, spin: 19, direction: 'right', color: 'sand', outline: false, scale: 1.1 },
 ]
 
 const PILLS_START = 450
