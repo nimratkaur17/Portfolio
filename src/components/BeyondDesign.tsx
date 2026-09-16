@@ -125,6 +125,7 @@ const PIN_MIN_WIDTH = 901
 const ARRIVAL_ORDER = [11, 2, 8, 14, 0, 6, 13, 4, 9, 1, 12, 5, 10, 3, 7]
 const ARRIVAL_RANK = TILES.map((_, i) => ARRIVAL_ORDER.indexOf(i))
 const STAGGER_SPAN = 0.6 // fraction of the scroll range spent staggering starts; the rest overlaps
+const SETTLE_FRACTION = 0.55 // fraction of the pinned scroll range used to fully settle, leaving the rest as a held pause before it unpins
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
@@ -157,12 +158,17 @@ function BeyondDesign() {
 
       if (pinned) {
         // While pinned, the whole grid stays on screen and "overall" is
-        // just how far the user has scrolled through the runway - a
-        // little lead-in as it approaches, then the full pinned range.
+        // how far the user has scrolled through the runway - a little
+        // lead-in as it approaches, then most of the pinned range. It
+        // reaches 1 with room to spare (SETTLE_FRACTION) rather than
+        // exactly when the section unpins, so the finished grid holds
+        // still on screen for a beat instead of finishing just as it
+        // scrolls away.
         const rect = wrap.getBoundingClientRect()
-        const lead = vh * 0.7
+        const lead = vh * 0.6
         const scrollable = Math.max(rect.height - vh, 1)
-        overall = clamp((lead - rect.top) / (lead + scrollable), 0, 1)
+        const settleDistance = lead + scrollable * SETTLE_FRACTION
+        overall = clamp((lead - rect.top) / settleDistance, 0, 1)
       } else {
         // Narrower layouts aren't pinned, so the grid just scrolls past
         // normally - progress tracks the grid's own position instead.

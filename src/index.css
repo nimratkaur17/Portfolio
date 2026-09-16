@@ -21,8 +21,13 @@ body {
   padding: 0;
   /* Full-bleed sections (100vw breakouts) can be a hair wider than the
      visible viewport, since 100vw includes the scrollbar gutter in most
-     browsers. Clipping that sliver here is safer than fighting vw math. */
-  overflow-x: hidden;
+     browsers. Clipping that sliver here is safer than fighting vw math.
+     Specifically `clip`, not `hidden` - overflow-x set to anything but
+     visible/clip forces the other axis to compute as `auto`, which turns
+     body into its own (never-actually-scrolling) scroll container and
+     breaks position: sticky for every descendant. `clip` is exempt from
+     that pairing rule. */
+  overflow-x: clip;
 }
 
 html {

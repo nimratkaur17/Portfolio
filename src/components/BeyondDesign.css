@@ -1,14 +1,23 @@
-/* Pinned scroll runway - taller than the viewport so there's room to
-   scrub through the reveal while .beyond-pin stays stuck in place, with
-   the whole grid on screen at once (the reference never shows a row
-   scrolling off before the next one arrives). */
+/* Full-bleed breakout - lives on the wrap itself (plain position:relative,
+   not the sticky pin), since combining left:50%/margin-left:-50vw with
+   position:sticky resolves unreliably (the percentage offset ends up
+   relative to the pin's own static container instead of the viewport,
+   leaving the pinned grid stuck in its reading-width column). The pin
+   below just inherits full width from this already-full-bleed parent. */
 .beyond-pin-wrap {
   position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
   height: 200vh;
   margin-top: 8vh;
   margin-bottom: 8vh;
 }
 
+/* Scroll runway - taller than the viewport so there's room to scrub
+   through the reveal while .beyond-pin stays stuck in place, with the
+   whole grid on screen at once (the reference never shows a row
+   scrolling off before the next one arrives). */
 .beyond-pin {
   position: sticky;
   top: 88px;
@@ -18,25 +27,20 @@
   overflow: hidden;
 }
 
-/* Full-bleed breakout - the grid spans the viewport width regardless of
-   the reading-width column it sits in, matching the reference's edge-to-
-   edge panel. Relies on no ancestor clipping overflow-x, which nothing
-   in this layout does (overflow-x: hidden on html covers the 100vw vs.
-   scrollbar-gutter mismatch instead). */
 .beyond-grid {
   position: relative;
-  left: 50%;
-  width: 100vw;
-  margin-left: -50vw;
+  width: 96%;
+  height: 88%;
+  margin: 0 auto;
   perspective: 1800px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 20px;
   padding: 0 20px;
 }
 
 .beyond-tile {
-  aspect-ratio: 4 / 3;
   border-radius: 4px;
   opacity: 0;
   /* Written every frame from JS while scrolling - no transition here.
@@ -49,7 +53,7 @@
 /* Below the pin's minimum width, 3 or 2 columns push the grid to 5-8
    rows - too tall to fit one screen, so it isn't pinned. It scrolls past
    like normal content instead (BeyondDesign.tsx switches its progress
-   math to match). */
+   math to match). The wrap stays full-bleed either way. */
 @media (max-width: 900px) {
   .beyond-pin-wrap {
     height: auto;
@@ -65,7 +69,14 @@
   }
 
   .beyond-grid {
+    width: 100%;
+    height: auto;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: none;
+  }
+
+  .beyond-tile {
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -89,7 +100,14 @@
     overflow: visible;
   }
 
+  .beyond-grid {
+    width: 100%;
+    height: auto;
+    grid-template-rows: none;
+  }
+
   .beyond-tile {
+    aspect-ratio: 4 / 3;
     transform: none !important;
     opacity: 1 !important;
   }
