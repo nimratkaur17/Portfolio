@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import Contact from '../components/Contact'
 import Hero from '../components/Hero'
 import ProjectStack from '../components/ProjectStack'
 
@@ -16,6 +17,7 @@ function Landing() {
     <main>
       <Hero />
       <ProjectStack />
+      <Contact />
     </main>
   )
 }

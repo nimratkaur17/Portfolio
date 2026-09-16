@@ -1,0 +1,181 @@
+/* Scroll runway - tall enough that the reveal (the first 100vh) is
+   followed by a genuine held pause where the panel sits fully visible
+   and interactive, before releasing at the very end of the page. */
+.contact-wrap {
+  position: relative;
+  height: 320vh;
+}
+
+.contact-panel {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.contact-surface {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px var(--gutter) 40px;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  will-change: transform;
+}
+
+.contact-top {
+  max-width: 640px;
+}
+
+.contact-kicker {
+  margin: 0 0 24px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+}
+
+.contact-heading {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-primary);
+}
+
+.contact-links {
+  position: absolute;
+  top: 56px;
+  right: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms ease;
+}
+
+.contact-link:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+.contact-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.contact-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-name {
+  position: relative;
+  align-self: flex-start;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Figtree', sans-serif;
+  font-weight: 500;
+  font-size: clamp(3rem, 12vw, 9rem);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.contact-name__pill {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  padding: 12px 22px;
+  border-radius: 9999px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Figtree', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.contact-name:hover .contact-name__pill,
+.contact-name:focus-visible .contact-name__pill {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.contact-name:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 6px;
+}
+
+.contact-copyright {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+@media (max-width: 760px) {
+  .contact-wrap {
+    height: auto;
+  }
+
+  .contact-panel {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .contact-surface {
+    position: static;
+    transform: none !important;
+    gap: 48px;
+    padding: 96px 20px 32px;
+  }
+
+  .contact-links {
+    position: static;
+    align-items: flex-start;
+  }
+
+  .contact-name {
+    font-size: clamp(2.5rem, 14vw, 4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-wrap {
+    height: auto;
+  }
+
+  .contact-panel {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .contact-surface {
+    position: static;
+    transform: none !important;
+  }
+}
