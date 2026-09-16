@@ -5,30 +5,33 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  background: var(--color-surface);
+  background: var(--color-text);
   overflow: hidden;
 }
 
 .hero__intro {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: flex-end;
+  justify-content: space-between;
+  align-self: stretch;
+  gap: 24px;
   padding: 0 var(--gutter);
 }
 
 .hero__name {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--color-bg);
   margin: 0;
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 100ms both;
 }
 
 .hero__tagline {
-  font-size: 1.125rem;
-  color: var(--color-text);
+  max-width: 320px;
   margin: 0;
+  font-size: 1.125rem;
+  color: var(--color-bg);
+  text-align: right;
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 350ms both;
 }
 
@@ -55,9 +58,9 @@
   left: var(--gutter);
   right: var(--gutter);
   bottom: 15px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px 20px;
   padding-top: 26px;
 }
 
@@ -66,7 +69,7 @@
   isolation: isolate;
   padding: 22px 28px;
   font-size: 26px;
-  transform: rotate(var(--rot));
+  transform: translateY(var(--shift, 0px)) rotate(var(--rot));
   opacity: 0;
   animation-name: pill-fly;
   animation-duration: 950ms;
@@ -88,12 +91,12 @@
 
 .hero-pill::before {
   opacity: 1;
-  box-shadow: 0 2px 6px rgba(36, 26, 22, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 .hero-pill::after {
   opacity: 0;
-  box-shadow: 0 16px 30px rgba(36, 26, 22, 0.35);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.45);
 }
 
 .hero-pill.pill--raised::before {
@@ -102,6 +105,29 @@
 
 .hero-pill.pill--raised::after {
   opacity: 1;
+}
+
+/* Four-colour set, each paired with a readable foreground - overridden
+   with a two-class selector so it reliably beats .pill's own
+   background/colour regardless of stylesheet import order. */
+.hero-pill.hero-pill--mauve {
+  background: var(--color-primary-h);
+  color: var(--color-bg);
+}
+
+.hero-pill.hero-pill--olive {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.hero-pill.hero-pill--sand {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.hero-pill.hero-pill--slate {
+  background: var(--color-muted);
+  color: var(--color-bg);
 }
 
 .pill--left {
@@ -135,14 +161,24 @@
   }
   100% {
     opacity: 1;
-    transform: rotate(var(--rot));
+    transform: translateY(var(--shift, 0px)) rotate(var(--rot));
   }
 }
 
 @media (max-width: 760px) {
+  .hero__intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .hero__tagline {
+    max-width: none;
+    text-align: left;
+  }
+
   .hero__pills {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px 8px;
+    gap: 16px 8px;
   }
 
   .hero-pill {
