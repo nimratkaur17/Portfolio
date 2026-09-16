@@ -139,6 +139,9 @@ function Contact() {
                     rel="noopener noreferrer"
                   >
                     LinkedIn
+                    <span className="contact-link__arrow" aria-hidden="true">
+                      ↗
+                    </span>
                   </a>
                 </li>
                 <li>
@@ -149,6 +152,9 @@ function Contact() {
                     rel="noopener noreferrer"
                   >
                     Resume
+                    <span className="contact-link__arrow" aria-hidden="true">
+                      ↗
+                    </span>
                   </a>
                 </li>
               </ul>
@@ -157,9 +163,11 @@ function Contact() {
             <aside className="contact-reading" aria-label="Currently reading">
               <p className="contact-reading__label">Currently reading</p>
               <div className="contact-reading__card">
-                <div className="contact-reading__cover" aria-hidden="true">
-                  <span className="contact-reading__cover-label">cover</span>
-                </div>
+                <img
+                  className="contact-reading__cover"
+                  src="/gladness.jpg"
+                  alt={`Cover of ${READING.title} by ${READING.author}`}
+                />
                 <div className="contact-reading__info">
                   <h3 className="contact-reading__title">{READING.title}</h3>
                   <p className="contact-reading__author">{READING.author}</p>
@@ -176,9 +184,7 @@ function Contact() {
                       style={{ width: `${(READING.pagesRead / READING.pagesTotal) * 100}%` }}
                     />
                   </div>
-                  <p className="contact-reading__stats">
-                    {READING_PERCENT}% · {READING.pagesRead}/{READING.pagesTotal} pages
-                  </p>
+                  <p className="contact-reading__stats">{READING_PERCENT}%</p>
                 </div>
               </div>
             </aside>
