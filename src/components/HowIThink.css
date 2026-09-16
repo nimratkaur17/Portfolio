@@ -1,8 +1,8 @@
 .wave {
   position: relative;
   width: 100%;
-  aspect-ratio: 960 / 220;
-  margin: 56px 0 24px;
+  aspect-ratio: 960 / 640;
+  margin: 16px 0 0;
 }
 
 .wave__svg {
@@ -184,7 +184,7 @@
 
 @media (max-width: 640px) {
   .wave {
-    margin: 40px 0 16px;
+    margin: 8px 0 0;
   }
 
   .wave__label {

@@ -14,16 +14,19 @@ interface Step {
 }
 
 const VIEW_W = 960
-const VIEW_H = 220
+const VIEW_H = 640
 
+// The trend runs bottom-left to top-right (not a flat left-to-right band),
+// so each step sits noticeably higher than the last on top of its own
+// small wave wiggle.
 const STEPS: Step[] = [
   {
     id: 'listen',
     label: 'Listen',
     note: 'I start by listening — to users, to support tickets, to whatever nobody asked me to read.',
     tools: ['User interviews', 'Affinity mapping', 'Dovetail'],
-    x: 60,
-    y: 130,
+    x: 50,
+    y: 580,
     labelSide: 'above',
   },
   {
@@ -31,8 +34,8 @@ const STEPS: Step[] = [
     label: 'Check',
     note: 'Then I check whether what people said matches what the data actually shows.',
     tools: ['SQL', 'Python', 'Amplitude'],
-    x: 270,
-    y: 60,
+    x: 280,
+    y: 470,
     labelSide: 'below',
   },
   {
@@ -40,8 +43,8 @@ const STEPS: Step[] = [
     label: 'Sketch',
     note: 'Once the shape of the problem is clear, I sketch fast and cheap before anything gets precious.',
     tools: ['Figma', 'Prototyping', 'Design systems'],
-    x: 480,
-    y: 150,
+    x: 470,
+    y: 350,
     labelSide: 'above',
   },
   {
@@ -49,8 +52,8 @@ const STEPS: Step[] = [
     label: 'Build',
     note: 'What survives sketching gets built — by me, in code, not handed off as a spec.',
     tools: ['React', 'TypeScript', 'Vue'],
-    x: 690,
-    y: 70,
+    x: 680,
+    y: 200,
     labelSide: 'below',
   },
   {
@@ -58,14 +61,14 @@ const STEPS: Step[] = [
     label: 'Watch',
     note: 'Then I watch real people use it and find out how wrong I was.',
     tools: ['Usability testing', 'Maze', 'Session replay'],
-    x: 900,
-    y: 120,
+    x: 910,
+    y: 70,
     labelSide: 'above',
   },
 ]
 
 const WAVE_PATH =
-  'M60,130 C130,90 200,50 270,60 C340,50 410,140 480,150 C550,160 620,60 690,70 C750,60 830,130 900,120'
+  'M50,580 C120,540 160,600 280,470 C350,400 400,380 470,350 C540,320 610,260 680,200 C750,160 850,110 910,70'
 
 function HowIThink() {
   const containerRef = useRef<HTMLDivElement>(null)

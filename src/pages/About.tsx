@@ -92,7 +92,10 @@ function About() {
         </section>
       </div>
 
-      <section className="about__section about__section--wide" aria-label="How I think">
+      <section
+        className="about__section about__section--wide about__feature"
+        aria-label="How I think"
+      >
         <h2>How I think</h2>
         <HowIThink />
       </section>

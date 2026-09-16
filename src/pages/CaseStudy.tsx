@@ -76,11 +76,15 @@ function CaseStudy() {
 
   return (
     <main className="case-study">
-      <div className="case-study__layout">
-        <article className="case-study__content">
+      <header className="case-study__hero">
+        <div className="case-study__hero-inner">
           <p className="case-study__kicker">Case study</p>
           <h1 className="case-study__title">{slugToTitle(slug)}</h1>
+        </div>
+      </header>
 
+      <div className="case-study__layout">
+        <article className="case-study__content">
           {SECTIONS.map((section, i) => (
             <section
               key={section.id}

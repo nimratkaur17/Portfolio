@@ -3,9 +3,8 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
   background: var(--color-surface);
   overflow: hidden;
 }
@@ -13,9 +12,9 @@
 .hero__intro {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
-  padding: 0 24px;
+  padding: 0 var(--gutter);
 }
 
 .hero__name {
@@ -53,8 +52,8 @@
 
 .hero__pills {
   position: absolute;
-  left: 48px;
-  right: 48px;
+  left: var(--gutter);
+  right: var(--gutter);
   bottom: 15px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -142,8 +141,6 @@
 
 @media (max-width: 760px) {
   .hero__pills {
-    left: 24px;
-    right: 24px;
     grid-template-columns: repeat(4, 1fr);
     gap: 6px 8px;
   }

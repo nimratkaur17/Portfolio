@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 var(--gutter);
   background: transparent;
   border-bottom: 1px solid transparent;
   transition:
@@ -63,11 +63,24 @@
   border-radius: 2px;
 }
 
-@media (max-width: 760px) {
-  .nav {
-    padding: 0 20px;
-  }
+/* Case study pages open on a merlot band, not ivory or sand - the
+   default merlot logo and espresso links would sit dark-on-dark until
+   the nav scrolls to its solid ivory state. Swap to ivory in the
+   unscrolled gap over that band specifically. */
+.nav:has(~ .case-study):not(.nav--scrolled) .nav__logo,
+.nav:has(~ .case-study):not(.nav--scrolled) .nav__links a {
+  color: var(--color-bg);
+}
 
+.nav:has(~ .case-study):not(.nav--scrolled) .nav__links a:hover {
+  color: var(--color-surface);
+}
+
+.nav:has(~ .case-study):not(.nav--scrolled) a:focus-visible {
+  outline-color: var(--color-bg);
+}
+
+@media (max-width: 760px) {
   .nav__links {
     gap: 20px;
   }

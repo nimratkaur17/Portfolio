@@ -1,10 +1,24 @@
 .case-study {
-  padding: 128px 24px 140px;
+  padding-bottom: 140px;
+}
+
+/* One distinct, branded moment per case study - full-bleed merlot behind
+   the title, the same breakout technique used elsewhere on the site. */
+.case-study__hero {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  padding: 140px var(--gutter) 56px;
+  background: var(--color-primary);
+}
+
+.case-study__hero-inner {
+  max-width: 680px;
 }
 
 .case-study__layout {
-  max-width: 1040px;
-  margin: 0 auto;
+  padding: 64px var(--gutter) 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
   gap: 64px;
@@ -19,13 +33,15 @@
   margin: 0 0 8px;
   font-weight: 500;
   font-size: 0.875rem;
-  color: var(--color-accent);
+  color: var(--color-bg);
+  opacity: 0.75;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .case-study__title {
-  margin: 0 0 64px;
+  margin: 0;
+  color: var(--color-bg);
   font-size: clamp(2rem, 4vw, 3rem);
 }
 
@@ -112,5 +128,11 @@
 
   .case-study__content {
     max-width: 680px;
+  }
+}
+
+@media (max-width: 640px) {
+  .case-study__hero {
+    padding: 120px var(--gutter) 40px;
   }
 }
