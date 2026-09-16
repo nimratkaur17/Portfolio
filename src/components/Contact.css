@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 56px var(--gutter) 40px;
-  background: var(--color-muted);
+  background: var(--color-muted-l);
   color: var(--color-primary-d);
   will-change: transform;
 }
