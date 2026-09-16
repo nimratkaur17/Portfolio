@@ -65,6 +65,9 @@
   padding: 0;
 }
 
+/* Shared by the LinkedIn/Resume <a> and the Email <button> (it copies
+   rather than navigates, so it can't be a link) - reset button chrome
+   so both render identically. */
 .contact-link {
   display: inline-flex;
   align-items: center;
@@ -75,8 +78,10 @@
   border-radius: 10px;
   color: var(--color-primary-d);
   text-decoration: none;
+  font-family: inherit;
   font-weight: 500;
   font-size: 1.0625rem;
+  cursor: pointer;
   transition:
     background-color 200ms ease,
     color 200ms ease,
@@ -105,15 +110,16 @@
   outline-offset: 2px;
 }
 
-/* Currently reading */
+/* Currently reading - sized 7% over the original (not the prior 15%
+   pass) */
 .contact-reading {
-  flex: 0 1 420px;
+  flex: 0 1 385px;
 }
 
 .contact-reading__label {
-  margin: 0 0 20px;
+  margin: 0 0 17px;
   font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -122,12 +128,12 @@
 
 .contact-reading__card {
   display: flex;
-  gap: 24px;
+  gap: 21px;
 }
 
 .contact-reading__cover {
-  flex: 0 0 116px;
-  width: 116px;
+  flex: 0 0 103px;
+  width: 103px;
   aspect-ratio: 3 / 4;
   border-radius: 8px;
   object-fit: cover;
@@ -137,13 +143,13 @@
 .contact-reading__info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
   min-width: 0;
 }
 
 .contact-reading__title {
   margin: 0;
-  font-size: 1.375rem;
+  font-size: 1.2rem;
   font-weight: 500;
   line-height: 1.25;
   color: var(--color-primary-d);
@@ -151,14 +157,14 @@
 
 .contact-reading__author {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   color: var(--color-primary-d);
   opacity: 0.8;
 }
 
 .contact-reading__bar {
-  margin-top: 6px;
-  height: 7px;
+  margin-top: 4px;
+  height: 6.4px;
   border-radius: 9999px;
   background: color-mix(in srgb, var(--color-primary-d), transparent 78%);
   overflow: hidden;
@@ -173,7 +179,7 @@
 .contact-reading__stats {
   margin: 0;
   font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   letter-spacing: 0.02em;
   color: var(--color-primary-d);
   opacity: 0.8;

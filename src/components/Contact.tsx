@@ -1,9 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './Contact.css'
 
-// TODO: swap in your real contact details.
-const EMAIL = 'hello@nimratkaur.com'
-const LINKEDIN_URL = 'https://www.linkedin.com/in/nimratkaur'
+const EMAIL = 'nimratksondhi@gmail.com'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/nimrat-kaur-39a129219'
 const NAME = 'Nimrat Kaur'
 
 const READING = {
@@ -127,9 +126,14 @@ function Contact() {
 
               <ul className="contact-links">
                 <li>
-                  <a className="contact-link" href={`mailto:${EMAIL}`}>
-                    Email
-                  </a>
+                  <button
+                    type="button"
+                    className="contact-link"
+                    onClick={handleCopyEmail}
+                    aria-label={copied ? 'Email address copied' : 'Copy email address'}
+                  >
+                    {copied ? 'Copied!' : 'Email'}
+                  </button>
                 </li>
                 <li>
                   <a
