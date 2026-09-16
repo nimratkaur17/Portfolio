@@ -67,8 +67,14 @@
 .hero-pill {
   position: relative;
   isolation: isolate;
-  padding: 22px 28px;
-  font-size: 26px;
+  /* Padding in em (not px) so it scales with font-size below - size
+     variety comes from font-size, a real layout property flex-wrap
+     reflows around, rather than a transform: scale() that would let a
+     "bigger" pill visually overlap neighbours its box doesn't account
+     for. */
+  padding: 0.846em 1.077em;
+  font-size: calc(26px * var(--scale, 1));
+  border: 2px solid transparent;
   transform: translateY(var(--shift, 0px)) rotate(var(--rot));
   opacity: 0;
   animation-name: pill-fly;
@@ -130,6 +136,35 @@
   color: var(--color-bg);
 }
 
+/* Outline variants (three-class selector for the same specificity
+   reason) - transparent fill with the colour as a ring instead. Text
+   stays ivory across all four regardless of ring colour, since it's
+   sitting on the transparent hero background, not the pill's own
+   colour - readability doesn't depend on which ring you get. */
+.hero-pill.hero-pill--outline.hero-pill--mauve {
+  background: transparent;
+  border-color: var(--color-primary-h);
+  color: var(--color-bg);
+}
+
+.hero-pill.hero-pill--outline.hero-pill--olive {
+  background: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.hero-pill.hero-pill--outline.hero-pill--sand {
+  background: transparent;
+  border-color: var(--color-surface);
+  color: var(--color-bg);
+}
+
+.hero-pill.hero-pill--outline.hero-pill--slate {
+  background: transparent;
+  border-color: var(--color-muted);
+  color: var(--color-bg);
+}
+
 .pill--left {
   --fly-x: -620px;
   --fly-y: -150px;
@@ -182,8 +217,8 @@
   }
 
   .hero-pill {
-    font-size: 16px;
-    padding: 14px 12px;
+    font-size: calc(16px * var(--scale, 1));
+    padding: 0.875em 0.75em;
   }
 
   .pill--left {

@@ -13,24 +13,30 @@ interface Skill {
   spin: number
   direction: Direction
   color: PillColor
+  outline: boolean
+  scale: number
 }
 
-// Directions, colours and vertical shift are all hand-sequenced (not a
-// plain i % n cycle) so that no two pills next to each other - horizontally
-// OR vertically, at both the desktop and mobile wrap - share a fly-in
-// direction or a colour. Tilt/shift are wide enough to read as scattered
-// rather than a tidy grid, without rotating so far that neighbours overlap.
+// Direction, colour, outline/filled and size are all hand-sequenced (not a
+// plain i % n cycle) so that no two pills next to each other share a
+// fly-in direction or a colour, and filled pills (used sparingly, like the
+// reference's bolded concepts) never sit adjacent to another filled one.
+// Tilt/shift are wide enough to read as scattered rather than a tidy grid;
+// size varies through font-size (not a transform scale) so flex-wrap still
+// reflows around each pill's real footprint instead of letting a visually
+// bigger pill overlap its neighbours.
 const SKILLS: Skill[] = [
-  { name: 'React', tilt: -7, shift: 6, spin: 20, direction: 'left', color: 'mauve' },
-  { name: 'UX', tilt: 6, shift: -8, spin: -18, direction: 'top', color: 'olive' },
-  { name: 'Figma', tilt: -11, shift: 10, spin: 22, direction: 'right', color: 'sand' },
-  { name: 'CSS', tilt: 9, shift: -6, spin: -16, direction: 'bottom', color: 'slate' },
-  { name: 'Code', tilt: -4, shift: -10, spin: 24, direction: 'top', color: 'mauve' },
-  { name: 'Motion', tilt: 10, shift: 8, spin: -19, direction: 'right', color: 'olive' },
-  { name: 'API', tilt: -6, shift: -7, spin: 21, direction: 'bottom', color: 'sand' },
-  { name: 'A11y', tilt: 8, shift: 9, spin: -17, direction: 'top', color: 'slate' },
-  { name: 'Design', tilt: -9, shift: 7, spin: 23, direction: 'left', color: 'mauve' },
-  { name: 'Ship', tilt: 5, shift: -9, spin: -20, direction: 'bottom', color: 'olive' },
+  { name: 'Critical Thinking', tilt: -8, shift: 7, spin: 20, direction: 'left', color: 'mauve', outline: false, scale: 1.15 },
+  { name: 'Collaboration', tilt: 7, shift: -9, spin: -18, direction: 'top', color: 'olive', outline: true, scale: 1.1 },
+  { name: 'Build', tilt: -12, shift: 9, spin: 23, direction: 'right', color: 'sand', outline: true, scale: 0.85 },
+  { name: 'Creativity', tilt: 10, shift: -7, spin: -17, direction: 'bottom', color: 'slate', outline: false, scale: 1.0 },
+  { name: 'Design Principles', tilt: -5, shift: -10, spin: 21, direction: 'left', color: 'mauve', outline: true, scale: 0.9 },
+  { name: 'Testing', tilt: 8, shift: 8, spin: -19, direction: 'top', color: 'olive', outline: true, scale: 0.9 },
+  { name: 'Prototyping', tilt: -9, shift: -6, spin: 24, direction: 'right', color: 'sand', outline: true, scale: 1.0 },
+  { name: 'Problem Solving', tilt: 6, shift: 10, spin: -16, direction: 'bottom', color: 'slate', outline: false, scale: 0.95 },
+  { name: 'Interface Design', tilt: -10, shift: 6, spin: 22, direction: 'left', color: 'mauve', outline: true, scale: 0.85 },
+  { name: 'User flow', tilt: 9, shift: -8, spin: -20, direction: 'top', color: 'olive', outline: true, scale: 1.05 },
+  { name: 'UI UX', tilt: -6, shift: 9, spin: 19, direction: 'right', color: 'sand', outline: false, scale: 1.2 },
 ]
 
 const PILLS_START = 450
@@ -165,7 +171,7 @@ function Hero() {
         {SKILLS.map((skill, i) => (
           <Pill
             key={skill.name}
-            className={`hero-pill pill--${skill.direction} hero-pill--${skill.color}`}
+            className={`hero-pill pill--${skill.direction} hero-pill--${skill.color}${skill.outline ? ' hero-pill--outline' : ''}`}
             ref={(el) => {
               pillsRef.current[i] = el
             }}
@@ -174,6 +180,7 @@ function Hero() {
                 '--rot': `${skill.tilt}deg`,
                 '--shift': `${skill.shift}px`,
                 '--spin': `${skill.spin}deg`,
+                '--scale': skill.scale,
                 animationDelay: `${PILLS_START + i * PILL_STAGGER}ms`,
               } as CSSProperties
             }
