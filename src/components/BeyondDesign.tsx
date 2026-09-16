@@ -112,10 +112,25 @@ const COLUMN_PULL = 110 // px each column is dragged toward centre at rest
 const ROW_DROP = 90 // extra px a higher row starts below its final spot
 const FAN_ROTATE = 9 // deg each column-step fans the pile out
 
+// Below this width, 3 or 2 columns push the grid to 5-8 rows - too tall to
+// pin inside one screen, so that layout falls back to a plain in-flow
+// reveal instead of pretending everything is visible at once.
+const PIN_MIN_WIDTH = 901
+
+// Which tile settles at which moment, independent of where it sits in the
+// grid. A row-by-row order reads as a clean deterministic wipe; this fixed
+// shuffle makes arrival feel scattered/abstract, the way the reference
+// does, while COLUMN_PULL/ROW_DROP above still shape *where* each tile
+// starts from.
+const ARRIVAL_ORDER = [11, 2, 8, 14, 0, 6, 13, 4, 9, 1, 12, 5, 10, 3, 7]
+const ARRIVAL_RANK = TILES.map((_, i) => ARRIVAL_ORDER.indexOf(i))
+const STAGGER_SPAN = 0.6 // fraction of the scroll range spent staggering starts; the rest overlaps
+
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
 
 function BeyondDesign() {
+  const wrapRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const tileRefs = useRef<(HTMLDivElement | null)[]>([])
   const [reduceMotion] = useState(
@@ -125,23 +140,37 @@ function BeyondDesign() {
   useEffect(() => {
     if (reduceMotion) return
 
+    const wrap = wrapRef.current
     const grid = gridRef.current
-    if (!grid) return
+    if (!wrap || !grid) return
+
+    const pinnedQuery = window.matchMedia(`(min-width: ${PIN_MIN_WIDTH}px)`)
 
     let frame = 0
     let active = false
 
     const applyScrollProgress = () => {
       frame = 0
-      const rect = grid.getBoundingClientRect()
+      const pinned = pinnedQuery.matches
       const vh = window.innerHeight
-      // 0 while the grid's top is still at the bottom of the viewport,
-      // 1 once it has scrolled up to ~20% from the top - the whole reveal
-      // is a direct function of current scroll position, so it runs
-      // forward and backward exactly as the user scrolls either way.
-      const start = vh * 1.1
-      const end = vh * 0.05
-      const overall = clamp((start - rect.top) / (start - end), 0, 1)
+      let overall: number
+
+      if (pinned) {
+        // While pinned, the whole grid stays on screen and "overall" is
+        // just how far the user has scrolled through the runway - a
+        // little lead-in as it approaches, then the full pinned range.
+        const rect = wrap.getBoundingClientRect()
+        const lead = vh * 0.7
+        const scrollable = Math.max(rect.height - vh, 1)
+        overall = clamp((lead - rect.top) / (lead + scrollable), 0, 1)
+      } else {
+        // Narrower layouts aren't pinned, so the grid just scrolls past
+        // normally - progress tracks the grid's own position instead.
+        const rect = grid.getBoundingClientRect()
+        const start = vh * 1.1
+        const end = vh * 0.05
+        overall = clamp((start - rect.top) / (start - end), 0, 1)
+      }
 
       tileRefs.current.forEach((tile, i) => {
         if (!tile) return
@@ -150,9 +179,9 @@ function BeyondDesign() {
         const row = Math.floor(i / COLS)
         const colDist = col - CENTER_COL
 
-        // Bottom row starts first (it's "closest" to the entry edge), top
-        // row last - a gentle bottom-to-top settle rather than lockstep.
-        const tileStart = ((TILES.length - 1 - i) / (TILES.length - 1)) * 0.4
+        const tileStart = pinned
+          ? (ARRIVAL_RANK[i] / (TILES.length - 1)) * STAGGER_SPAN
+          : ((TILES.length - 1 - i) / (TILES.length - 1)) * 0.4
         const local = clamp((overall - tileStart) / (1 - tileStart), 0, 1)
         const eased = easeOutCubic(local)
         const inv = 1 - eased
@@ -183,7 +212,7 @@ function BeyondDesign() {
       },
       { rootMargin: '200px 0px 200px 0px', threshold: 0 },
     )
-    observer.observe(grid)
+    observer.observe(wrap)
 
     return () => {
       observer.disconnect()
@@ -192,19 +221,23 @@ function BeyondDesign() {
   }, [reduceMotion])
 
   return (
-    <div className="beyond-grid" ref={gridRef}>
-      {TILES.map((tile, i) => (
-        <div
-          key={tile.id}
-          className="beyond-tile"
-          role="img"
-          aria-label={tile.alt}
-          ref={(el) => {
-            tileRefs.current[i] = el
-          }}
-          style={{ background: tile.gradient, zIndex: Math.floor(i / COLS) + 1 }}
-        />
-      ))}
+    <div className="beyond-pin-wrap" ref={wrapRef}>
+      <div className="beyond-pin">
+        <div className="beyond-grid" ref={gridRef}>
+          {TILES.map((tile, i) => (
+            <div
+              key={tile.id}
+              className="beyond-tile"
+              role="img"
+              aria-label={tile.alt}
+              ref={(el) => {
+                tileRefs.current[i] = el
+              }}
+              style={{ background: tile.gradient, zIndex: Math.floor(i / COLS) + 1 }}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
