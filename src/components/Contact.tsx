@@ -6,6 +6,14 @@ const EMAIL = 'hello@nimratkaur.com'
 const LINKEDIN_URL = 'https://www.linkedin.com/in/nimratkaur'
 const NAME = 'Nimrat Kaur'
 
+const READING = {
+  title: 'The Emperor of Gladness',
+  author: 'Ocean Vuong',
+  pagesRead: 68,
+  pagesTotal: 402,
+}
+const READING_PERCENT = Math.round((READING.pagesRead / READING.pagesTotal) * 100)
+
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 
 function Contact() {
@@ -111,39 +119,70 @@ function Contact() {
       <div className="contact-panel">
         <div className="contact-surface" ref={surfaceRef}>
           <div className="contact-top">
-            <p className="contact-kicker">Get in touch</p>
-            <h2 className="contact-heading">
-              Have a project or design challenge in mind? Let's work together.
-            </h2>
-          </div>
+            <div className="contact-intro">
+              <p className="contact-kicker">Get in touch</p>
+              <h2 className="contact-heading">
+                Have a project or design challenge in mind? Let's work together.
+              </h2>
 
-          <ul className="contact-links">
-            <li>
-              <a className="contact-link" href={`mailto:${EMAIL}`}>
-                Email
-              </a>
-            </li>
-            <li>
-              <a
-                className="contact-link"
-                href={LINKEDIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-            </li>
-            <li>
-              <a
-                className="contact-link"
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Resume
-              </a>
-            </li>
-          </ul>
+              <ul className="contact-links">
+                <li>
+                  <a className="contact-link" href={`mailto:${EMAIL}`}>
+                    Email
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="contact-link"
+                    href={LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="contact-link"
+                    href="/resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Resume
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <aside className="contact-reading" aria-label="Currently reading">
+              <p className="contact-reading__label">Currently reading</p>
+              <div className="contact-reading__card">
+                <div className="contact-reading__cover" aria-hidden="true">
+                  <span className="contact-reading__cover-label">cover</span>
+                </div>
+                <div className="contact-reading__info">
+                  <h3 className="contact-reading__title">{READING.title}</h3>
+                  <p className="contact-reading__author">{READING.author}</p>
+                  <div
+                    className="contact-reading__bar"
+                    role="progressbar"
+                    aria-label={`Reading progress for ${READING.title}`}
+                    aria-valuenow={READING_PERCENT}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                  >
+                    <div
+                      className="contact-reading__bar-fill"
+                      style={{ width: `${(READING.pagesRead / READING.pagesTotal) * 100}%` }}
+                    />
+                  </div>
+                  <p className="contact-reading__stats">
+                    {READING_PERCENT}% · {READING.pagesRead}/{READING.pagesTotal} pages
+                  </p>
+                </div>
+              </div>
+            </aside>
+          </div>
 
           <div className="contact-footer" ref={footerRef}>
             <button

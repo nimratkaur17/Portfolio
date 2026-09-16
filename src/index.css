@@ -4,6 +4,7 @@
   --color-text: #241a16; /* espresso — primary text */
   --color-primary: #4a1625; /* merlot — brand, CTAs, links */
   --color-primary-h: #662c3c; /* mauve — hover/active on merlot */
+  --color-primary-d: #450b15; /* dark merlot — body text on the contact section's slate */
   --color-accent: #5b5a3a; /* olive — tags, category labels */
   --color-contrast: #1b2a3d; /* navy — one distinct section or case study */
   --color-muted: #6b7884; /* slate — borders, captions, disabled */
