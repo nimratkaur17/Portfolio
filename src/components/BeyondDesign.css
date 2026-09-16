@@ -8,8 +8,8 @@
   left: 50%;
   width: 100vw;
   margin-left: -50vw;
-  margin-top: 10vh;
-  margin-bottom: 8vh;
+  margin-top: 18vh;
+  margin-bottom: 14vh;
   perspective: 1800px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -39,8 +39,8 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 0 12px;
-    margin-top: 6vh;
-    margin-bottom: 5vh;
+    margin-top: 12vh;
+    margin-bottom: 8vh;
   }
 }
 

@@ -92,16 +92,25 @@ interface Scatter {
   ty: number
 }
 
-// Every vector points "up and out of the floor" - large positive ty and a
-// strong positive rx, like a tile lying tilted toward the viewer below the
-// frame. rotateY and depth vary a little per vector, cycled, so neighbours
-// don't move identically.
+// Base "floor tilt" per tile - depth and 3D lean, cycled so neighbours
+// don't move identically. Combined below with per-column/per-row offsets
+// that pull the whole group into a diamond-shaped pile: edge columns are
+// dragged toward the centre, top rows dropped further down, so the final
+// grid reads as having "spread apart" from a bunched stack near the
+// bottom rather than each tile just rising straight up in its own cell.
 const SCATTER: Scatter[] = [
-  { rx: 38, ry: -10, tz: -200, ty: 260 },
-  { rx: 44, ry: 8, tz: -260, ty: 320 },
-  { rx: 34, ry: -6, tz: -160, ty: 220 },
-  { rx: 42, ry: 12, tz: -230, ty: 290 },
+  { rx: 36, ry: -8, tz: -180, ty: 150 },
+  { rx: 42, ry: 8, tz: -220, ty: 190 },
+  { rx: 32, ry: -6, tz: -150, ty: 130 },
+  { rx: 40, ry: 10, tz: -200, ty: 170 },
 ]
+
+const COLS = 5
+const ROWS = Math.ceil(TILES.length / COLS)
+const CENTER_COL = (COLS - 1) / 2
+const COLUMN_PULL = 110 // px each column is dragged toward centre at rest
+const ROW_DROP = 90 // extra px a higher row starts below its final spot
+const FAN_ROTATE = 9 // deg each column-step fans the pile out
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
@@ -130,13 +139,17 @@ function BeyondDesign() {
       // 1 once it has scrolled up to ~20% from the top - the whole reveal
       // is a direct function of current scroll position, so it runs
       // forward and backward exactly as the user scrolls either way.
-      const start = vh
-      const end = vh * 0.2
+      const start = vh * 1.1
+      const end = vh * 0.05
       const overall = clamp((start - rect.top) / (start - end), 0, 1)
 
       tileRefs.current.forEach((tile, i) => {
         if (!tile) return
         const scatter = SCATTER[i % SCATTER.length]
+        const col = i % COLS
+        const row = Math.floor(i / COLS)
+        const colDist = col - CENTER_COL
+
         // Bottom row starts first (it's "closest" to the entry edge), top
         // row last - a gentle bottom-to-top settle rather than lockstep.
         const tileStart = ((TILES.length - 1 - i) / (TILES.length - 1)) * 0.4
@@ -144,7 +157,15 @@ function BeyondDesign() {
         const eased = easeOutCubic(local)
         const inv = 1 - eased
 
-        tile.style.transform = `translate3d(0, ${scatter.ty * inv}px, ${scatter.tz * inv}px) rotateX(${scatter.rx * inv}deg) rotateY(${scatter.ry * inv}deg)`
+        const dx = -colDist * COLUMN_PULL * inv
+        const dy = (scatter.ty + (ROWS - 1 - row) * ROW_DROP) * inv
+        const dz = scatter.tz * inv
+        const rx = scatter.rx * inv
+        const ry = scatter.ry * inv
+        const fan = colDist * FAN_ROTATE * inv
+        const scale = 1 - 0.15 * inv
+
+        tile.style.transform = `translate3d(${dx}px, ${dy}px, ${dz}px) rotateX(${rx}deg) rotateY(${ry}deg) rotate(${fan}deg) scale(${scale})`
         tile.style.opacity = String(eased)
       })
 
@@ -181,7 +202,7 @@ function BeyondDesign() {
           ref={(el) => {
             tileRefs.current[i] = el
           }}
-          style={{ background: tile.gradient }}
+          style={{ background: tile.gradient, zIndex: Math.floor(i / COLS) + 1 }}
         />
       ))}
     </div>
