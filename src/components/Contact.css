@@ -85,15 +85,24 @@
 
 .contact-name {
   position: relative;
-  align-self: flex-start;
+  display: block;
+  width: 100%;
   border: none;
   background: none;
   padding: 0;
   cursor: pointer;
+  text-align: left;
+}
+
+/* Sized in JS to fill the row's width (see Contact.tsx) - this is just
+   the pre-measurement fallback for a no-JS render. */
+.contact-name__text {
+  display: inline-block;
   font-family: 'Figtree', sans-serif;
   font-weight: 500;
   font-size: clamp(3rem, 12vw, 9rem);
   line-height: 1;
+  white-space: nowrap;
   color: var(--color-text);
 }
 
@@ -156,10 +165,6 @@
   .contact-links {
     position: static;
     align-items: flex-start;
-  }
-
-  .contact-name {
-    font-size: clamp(2.5rem, 14vw, 4rem);
   }
 }
 

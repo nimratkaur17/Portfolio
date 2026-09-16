@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './Contact.css'
 
 // TODO: swap in your real contact details.
@@ -11,10 +11,47 @@ const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(mi
 function Contact() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const surfaceRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLDivElement>(null)
+  const nameTextRef = useRef<HTMLSpanElement>(null)
   const [reduceMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
   const [copied, setCopied] = useState(false)
+
+  // Fits the name to the row's width (rather than guessing a viewport-unit
+  // size) so it reads as one deliberate edge-to-edge mark at any width,
+  // the way the reference does, instead of a font-size that happens to
+  // look right at one screen size and not another. Measures against the
+  // footer (a flex item that stretches to the surface's width) rather
+  // than the button/text themselves - observing an element while also
+  // resizing it via its own font-size creates a ResizeObserver feedback
+  // loop that lands on the wrong size.
+  useLayoutEffect(() => {
+    const footer = footerRef.current
+    const text = nameTextRef.current
+    if (!footer || !text) return
+
+    const BASE_SIZE = 100
+    const FILL = 0.97 // leave a hair of margin rather than touching the edges exactly
+
+    const fit = () => {
+      const rowWidth = footer.clientWidth
+      if (!rowWidth) return
+      text.style.fontSize = `${BASE_SIZE}px`
+      const naturalWidth = text.scrollWidth
+      if (!naturalWidth) return
+      const size = ((rowWidth * FILL) / naturalWidth) * BASE_SIZE
+      text.style.fontSize = `${size}px`
+    }
+
+    fit()
+    document.fonts?.ready?.then(fit).catch(() => {})
+
+    const resizeObserver = new ResizeObserver(fit)
+    resizeObserver.observe(footer)
+
+    return () => resizeObserver.disconnect()
+  }, [])
 
   useEffect(() => {
     if (reduceMotion) return
@@ -108,21 +145,21 @@ function Contact() {
             </li>
           </ul>
 
-          <div className="contact-footer">
+          <div className="contact-footer" ref={footerRef}>
             <button
               type="button"
               className="contact-name"
               onClick={handleCopyEmail}
               aria-label={copied ? 'Email address copied' : 'Click to copy email address'}
             >
-              {NAME}
+              <span className="contact-name__text" ref={nameTextRef}>
+                {NAME}
+              </span>
               <span className="contact-name__pill" aria-hidden="true">
                 {copied ? 'Copied!' : 'Click to copy email'}
               </span>
             </button>
-            <p className="contact-copyright">
-              © {new Date().getFullYear()} {NAME}
-            </p>
+            <p className="contact-copyright">Made with love</p>
           </div>
         </div>
       </div>
