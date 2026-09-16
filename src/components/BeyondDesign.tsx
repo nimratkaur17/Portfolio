@@ -4,86 +4,18 @@ import './BeyondDesign.css'
 interface Tile {
   id: string
   alt: string
-  gradient: string
+  image: string
 }
 
-const TILES: Tile[] = [
-  {
-    id: 'work-1',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-surface), var(--color-muted))',
-  },
-  {
-    id: 'life-1',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-muted))',
-  },
-  {
-    id: 'work-2',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-accent), var(--color-surface))',
-  },
-  {
-    id: 'life-2',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-muted), var(--color-contrast))',
-  },
-  {
-    id: 'work-3',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-surface), var(--color-contrast))',
-  },
-  {
-    id: 'life-3',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-accent), var(--color-muted))',
-  },
-  {
-    id: 'work-4',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-accent))',
-  },
-  {
-    id: 'life-4',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-surface), var(--color-muted))',
-  },
-  {
-    id: 'work-5',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-primary), var(--color-contrast))',
-  },
-  {
-    id: 'life-5',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-muted), var(--color-surface))',
-  },
-  {
-    id: 'work-6',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-surface))',
-  },
-  {
-    id: 'life-6',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-accent), var(--color-contrast))',
-  },
-  {
-    id: 'work-7',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-muted), var(--color-accent))',
-  },
-  {
-    id: 'life-7',
-    alt: 'Placeholder — photograph taken',
-    gradient: 'linear-gradient(155deg, var(--color-surface), var(--color-primary))',
-  },
-  {
-    id: 'work-8',
-    alt: 'Placeholder — work sample',
-    gradient: 'linear-gradient(155deg, var(--color-contrast), var(--color-muted))',
-  },
-]
+const TILE_COUNT = 15
+const TILES: Tile[] = Array.from({ length: TILE_COUNT }, (_, i) => {
+  const n = i + 1
+  return {
+    id: `photo-${n}`,
+    alt: `Photograph ${n}`,
+    image: `/beyond/photo-${n}.jpg`,
+  }
+})
 
 interface Scatter {
   rx: number
@@ -239,7 +171,7 @@ function BeyondDesign() {
               ref={(el) => {
                 tileRefs.current[i] = el
               }}
-              style={{ background: tile.gradient, zIndex: Math.floor(i / COLS) + 1 }}
+              style={{ backgroundImage: `url(${tile.image})`, zIndex: Math.floor(i / COLS) + 1 }}
             />
           ))}
         </div>
