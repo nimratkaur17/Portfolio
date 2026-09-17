@@ -78,7 +78,7 @@ function Hero() {
         letter.style.transform = `translateY(${-20 * k}px) scale(${1 + 0.16 * k})`
         letter.style.color =
           tint > 0
-            ? `color-mix(in srgb, var(--color-peach), var(--color-primary-h) ${tint * 100}%)`
+            ? `color-mix(in srgb, var(--color-text), var(--color-primary-h) ${tint * 100}%)`
             : ''
       }
     }
@@ -150,7 +150,7 @@ function Hero() {
   }, [])
 
   return (
-    <section className="hero" ref={heroRef} data-nav-theme="light">
+    <section className="hero" ref={heroRef}>
       <div className="hero__intro">
         <h1 className="hero__name" aria-label={NAME}>
           {NAME.split('').map((char, i) => (
