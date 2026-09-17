@@ -52,7 +52,9 @@
 .project-card {
   position: sticky;
   top: 88px;
-  width: 96%;
+  width: 90%;
+  max-width: 960px;
+  margin-inline: auto;
   transform: scale(1) translateY(0);
   --overlay-o: 0;
   --shadow-t: 0;
@@ -114,9 +116,8 @@
 
 /* Three-phone mockup used in place of .project-card__media for case studies
    that show real product screens. Upright (no rotation), staggered in an
-   ascending staircase left-to-right - each later frame overlaps and sits in
-   front of the one before it via DOM order + z-index, matching a real
-   phone-mockup photo rather than a fanned illustration. */
+   ascending staircase left-to-right, spaced apart (not overlapping) so
+   each frame reads as its own screen. */
 .project-card__phones {
   --phone-w: 96px;
   --phone-h: 200px;
@@ -128,7 +129,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 300px;
+  gap: 16px;
+  flex: 0 0 360px;
 }
 
 .phone-frame {
@@ -139,10 +141,6 @@
   border-radius: 30px;
   background: var(--color-text);
   box-shadow: 0 18px 34px rgba(36, 26, 22, 0.28);
-}
-
-.phone-frame + .phone-frame {
-  margin-left: -26px;
 }
 
 .phone-frame--left {
@@ -399,6 +397,7 @@
     --phone-h-mid: 146px;
     --phone-w-lg: 78px;
     --phone-h-lg: 162px;
+    gap: 10px;
     flex: none;
     width: 100%;
     height: 200px;
