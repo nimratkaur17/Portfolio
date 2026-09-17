@@ -9,15 +9,21 @@ interface CaseStudy {
   title: string
   copy: string
   tags: string[]
+  // Phone mockup screens for this case study's media slot, in left/center/right
+  // order - present (even with every entry null) means "render the phone
+  // frames," absent means the plain gradient placeholder. null entries render
+  // an empty frame until a real screenshot path is supplied.
+  screens?: (string | null)[]
 }
 
 const CASE_STUDIES: CaseStudy[] = [
   {
-    slug: 'wayfinding-for-a-hospital-network',
+    slug: 'schneider-freightpower-owner-operator-app',
     kicker: 'Case study 01',
-    title: 'Wayfinding for a hospital network',
-    copy: 'Redesigning signage and a companion app so patients stop asking strangers for directions.',
-    tags: ['UX research', 'Wayfinding', 'Mobile'],
+    title: 'Schneider FreightPower Owner Operator App',
+    copy: 'Redesigned load search and booking workflows for owner-operators to simplify high-stakes freight decisions.',
+    tags: ['UX Research', 'Search Optimization', 'Frontend Development'],
+    screens: [null, null, null],
   },
   {
     slug: 'checkout-for-a-small-grocer',
@@ -147,7 +153,7 @@ function ProjectStack() {
 
   return (
     <div id="projects" className="project-stack">
-      <h2 className="project-stack__heading">Projects</h2>
+      <h2 className="project-stack__heading">Selected works</h2>
       {CASE_STUDIES.map((study, i) => (
         <Fragment key={study.title}>
           {i > 0 && <div className="project-spacer" aria-hidden="true" />}
@@ -159,7 +165,24 @@ function ProjectStack() {
             }}
           >
             <div className="project-card__surface">
-              <div className="project-card__media" aria-hidden="true" />
+              {study.screens ? (
+                <div className="project-card__phones" aria-hidden="true">
+                  {(['left', 'center', 'right'] as const).map((position, slotIndex) => {
+                    const src = study.screens?.[slotIndex] ?? null
+                    return (
+                      <div key={position} className={`phone-frame phone-frame--${position}`}>
+                        <div className="phone-frame__notch" />
+                        <div
+                          className="phone-frame__screen"
+                          style={src ? { backgroundImage: `url(${src})` } : undefined}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="project-card__media" aria-hidden="true" />
+              )}
               <div className={`project-card__body${revealed[i] ? ' is-revealed' : ''}`}>
                 <p className="project-card__kicker">{study.kicker}</p>
                 <h3 className="project-card__title">{study.title}</h3>
