@@ -78,7 +78,7 @@ function Hero() {
         letter.style.transform = `translateY(${-20 * k}px) scale(${1 + 0.16 * k})`
         letter.style.color =
           tint > 0
-            ? `color-mix(in srgb, var(--color-bg), var(--color-primary-h) ${tint * 100}%)`
+            ? `color-mix(in srgb, var(--color-peach), var(--color-primary-h) ${tint * 100}%)`
             : ''
       }
     }

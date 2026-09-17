@@ -10,14 +10,10 @@
   initial-value: 0;
 }
 
-/* The one deliberately distinct section on the site (per the colour
-   convention) - navy for the full scroll-runway height of the stack, so
-   the ivory cards read as objects sitting on it rather than just text on
-   the same page background as everything else. */
 .project-stack {
   position: relative;
   padding: 0 var(--gutter) 120px;
-  background: var(--color-contrast);
+  background: var(--color-cream);
   scroll-margin-top: 88px;
 }
 
@@ -26,7 +22,7 @@
   padding-top: 64px;
   font-size: 1.5rem;
   font-weight: 500;
-  color: var(--color-bg);
+  color: var(--color-text);
 }
 
 /* Pure scroll-runway spacer between cards. Deliberately a sibling of
