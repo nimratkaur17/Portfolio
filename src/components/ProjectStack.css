@@ -25,15 +25,27 @@
   color: var(--color-text);
 }
 
-/* Pure scroll-runway spacer between cards. Deliberately a sibling of
+/* Scroll-runway spacer between cards. Deliberately a sibling of
    .project-card, not a wrapper around it - if a card's sticky containing
    block were its own small per-card box, it would unstick and scroll
    fully off-screen before the next card arrives, leaving a dead gap
    where neither card is visible. As direct children of .project-stack,
    every card shares ONE large containing block, so an earlier card stays
    pinned at top:88 - covered, not gone - until a later one truly needs
-   the space. */
+   the space.
+
+   Kept deliberately small (not a full 100dvh) so the next card's own
+   height supplies the cover-transition runway instead of an empty
+   screen of blank space: arriving at the section should show the
+   current card AND the top of the next one already, the way the
+   reference stack does, not a dead gap under the first card. Only the
+   trailing spacer after the last card needs to be a full viewport, since
+   nothing follows it in the stack to supply that runway itself. */
 .project-spacer {
+  min-height: 64px;
+}
+
+.project-spacer--trailing {
   min-height: 100dvh;
 }
 

@@ -203,7 +203,7 @@ function ProjectStack() {
       ))}
       {/* Trailing runway so the last card has room to fully reach top:88
           before the document runs out of scroll height. */}
-      <div className="project-spacer" aria-hidden="true" />
+      <div className="project-spacer project-spacer--trailing" aria-hidden="true" />
     </div>
   )
 }
