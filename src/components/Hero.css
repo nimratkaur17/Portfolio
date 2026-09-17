@@ -59,10 +59,25 @@
   right: var(--gutter);
   bottom: 15px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 18px 14px;
+  flex-direction: column;
+  gap: 18px;
   padding-top: 26px;
+}
+
+/* Each row is its own flex line (a single flex-wrap flow would let a wide
+   viewport cram most pills into line one and strand the rest - see the
+   comment in Hero.tsx). Centered with a fixed gap rather than
+   space-between - at only 5-6 pills a row, stretching to fill the full
+   width left huge gaps on wide screens; centering keeps them close
+   together like the reference and just leaves even margins on both
+   sides instead. nowrap keeps the two-row split deterministic on
+   desktop; the mobile breakpoint below allows wrapping again once a
+   fixed six-or-five-per-row split no longer fits one line. */
+.hero__pills-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 14px;
 }
 
 .hero-pill {
@@ -115,66 +130,17 @@
   opacity: 1;
 }
 
-/* Four-colour set, each paired with a readable foreground - overridden
-   with a two-class selector so it reliably beats .pill's own
-   background/colour regardless of stylesheet import order. */
-.hero-pill.hero-pill--mauve {
-  background: var(--color-primary-h);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--olive {
-  background: var(--color-accent);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--sand {
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.hero-pill.hero-pill--slate {
+/* Just two colours everywhere: slate as the one fill/ring colour, ivory
+   for text (and, on outline pills, transparent fill so the hero's own
+   dark background shows through the ring). */
+.hero-pill:not(.hero-pill--outline) {
   background: var(--color-muted);
   color: var(--color-bg);
 }
 
-.hero-pill.hero-pill--green {
-  background: var(--color-green);
-  color: var(--color-bg);
-}
-
-/* Outline variants (three-class selector for the same specificity
-   reason) - transparent fill with the colour as a ring instead. Text
-   stays ivory across all five regardless of ring colour, since it's
-   sitting on the transparent hero background, not the pill's own
-   colour - readability doesn't depend on which ring you get. */
-.hero-pill.hero-pill--outline.hero-pill--mauve {
-  background: transparent;
-  border-color: var(--color-primary-h);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--outline.hero-pill--olive {
-  background: transparent;
-  border-color: var(--color-accent);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--outline.hero-pill--sand {
-  background: transparent;
-  border-color: var(--color-surface);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--outline.hero-pill--slate {
+.hero-pill.hero-pill--outline {
   background: transparent;
   border-color: var(--color-muted);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--outline.hero-pill--green {
-  background: transparent;
-  border-color: var(--color-green);
   color: var(--color-bg);
 }
 
@@ -226,7 +192,17 @@
   }
 
   .hero__pills {
-    gap: 12px 8px;
+    gap: 12px;
+  }
+
+  .hero__pills-row {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* Extra row-gap (not just column-gap) - rotated pills' painted
+       corners extend past their layout box, and wrapped lines sit close
+       enough on mobile that tilt alone caused visible overlap between
+       lines without the extra clearance. */
+    gap: 34px 8px;
   }
 
   .hero-pill {

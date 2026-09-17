@@ -4,7 +4,6 @@ import Pill from './Pill'
 import './Hero.css'
 
 type Direction = 'left' | 'top' | 'right' | 'bottom'
-type PillColor = 'mauve' | 'olive' | 'sand' | 'slate' | 'green'
 
 interface Skill {
   name: string
@@ -12,37 +11,37 @@ interface Skill {
   shift: number
   spin: number
   direction: Direction
-  color: PillColor
   outline: boolean
   scale: number
 }
 
-// Direction, colour, outline/filled and size are all hand-sequenced (not a
-// plain i % n cycle) so that no two pills next to each other share a
-// fly-in direction or a colour, and filled pills (used sparingly, like the
-// reference's bolded concepts) never sit adjacent to another filled one.
-// Tilt/shift are wide enough to read as scattered rather than a tidy grid;
-// size varies through font-size (not a transform scale) so flex-wrap still
-// reflows around each pill's real footprint instead of letting a visually
-// bigger pill overlap its neighbours. Sizes are kept modest overall so the
-// full set fills two rows across the width instead of leaving the right
-// side empty.
+// Direction, outline/filled and size are all hand-sequenced (not a plain
+// i % n cycle) so that no two pills next to each other share a fly-in
+// direction, and filled pills (used sparingly, like the reference's
+// bolded concepts) never sit adjacent to another filled one. Two pills
+// get a dramatic bookend tilt (Collaboration, User flow) the way the
+// reference's own Empathy/Collaboration do; the rest stay more moderate.
+// Size varies through font-size (not a transform scale) so flex-wrap
+// still reflows around each pill's real footprint instead of letting a
+// visually bigger pill overlap its neighbours, and everything is sized
+// to hold at exactly two rows.
 const SKILLS: Skill[] = [
-  { name: 'Critical Thinking', tilt: -8, shift: 7, spin: 20, direction: 'left', color: 'mauve', outline: false, scale: 1.15 },
-  { name: 'Collaboration', tilt: 7, shift: -9, spin: -18, direction: 'top', color: 'olive', outline: true, scale: 1.0 },
-  { name: 'Build', tilt: -12, shift: 9, spin: 23, direction: 'right', color: 'sand', outline: true, scale: 0.75 },
-  { name: 'Creativity', tilt: 10, shift: -7, spin: -17, direction: 'bottom', color: 'slate', outline: false, scale: 0.95 },
-  { name: 'Design Principles', tilt: -5, shift: -10, spin: 21, direction: 'left', color: 'mauve', outline: true, scale: 0.85 },
-  { name: 'Testing', tilt: 8, shift: 8, spin: -19, direction: 'top', color: 'green', outline: false, scale: 0.85 },
-  { name: 'Prototyping', tilt: -9, shift: -6, spin: 24, direction: 'right', color: 'sand', outline: true, scale: 0.95 },
-  { name: 'Problem Solving', tilt: 6, shift: 10, spin: -16, direction: 'bottom', color: 'slate', outline: false, scale: 0.9 },
-  { name: 'Interface Design', tilt: -10, shift: 6, spin: 22, direction: 'left', color: 'mauve', outline: true, scale: 0.8 },
-  { name: 'User flow', tilt: 9, shift: -8, spin: -20, direction: 'top', color: 'olive', outline: true, scale: 1.0 },
-  { name: 'UI UX', tilt: -6, shift: 9, spin: 19, direction: 'right', color: 'sand', outline: false, scale: 1.1 },
+  { name: 'Critical Thinking', tilt: -8, shift: 7, spin: 20, direction: 'left', outline: false, scale: 1.15 },
+  { name: 'Collaboration', tilt: 22, shift: -9, spin: -18, direction: 'top', outline: true, scale: 1.0 },
+  { name: 'Build', tilt: -12, shift: 9, spin: 23, direction: 'right', outline: true, scale: 0.75 },
+  { name: 'Creativity', tilt: 10, shift: -7, spin: -17, direction: 'bottom', outline: false, scale: 0.95 },
+  { name: 'Design Principles', tilt: -5, shift: -10, spin: 21, direction: 'left', outline: true, scale: 0.85 },
+  { name: 'Testing', tilt: 8, shift: 8, spin: -19, direction: 'top', outline: false, scale: 0.85 },
+  { name: 'Prototyping', tilt: -9, shift: -6, spin: 24, direction: 'right', outline: true, scale: 0.95 },
+  { name: 'Problem Solving', tilt: 6, shift: 10, spin: -16, direction: 'bottom', outline: false, scale: 0.9 },
+  { name: 'Interface Design', tilt: -10, shift: 6, spin: 22, direction: 'left', outline: true, scale: 0.8 },
+  { name: 'User flow', tilt: -20, shift: -8, spin: -20, direction: 'top', outline: true, scale: 1.0 },
+  { name: 'UI UX', tilt: -6, shift: 9, spin: 19, direction: 'right', outline: false, scale: 1.1 },
 ]
 
 const PILLS_START = 450
 const PILL_STAGGER = 135
+const ROW_SPLIT = 6 // first 6 pills on row one, remaining 5 on row two
 
 const NAME = 'Nimrat Kaur'
 const NAME_RADIUS = 190
@@ -170,25 +169,36 @@ function Hero() {
         <p className="hero__tagline">Product designer who codes her own prototypes</p>
       </div>
       <div className="hero__pills">
-        {SKILLS.map((skill, i) => (
-          <Pill
-            key={skill.name}
-            className={`hero-pill pill--${skill.direction} hero-pill--${skill.color}${skill.outline ? ' hero-pill--outline' : ''}`}
-            ref={(el) => {
-              pillsRef.current[i] = el
-            }}
-            style={
-              {
-                '--rot': `${skill.tilt}deg`,
-                '--shift': `${skill.shift}px`,
-                '--spin': `${skill.spin}deg`,
-                '--scale': skill.scale,
-                animationDelay: `${PILLS_START + i * PILL_STAGGER}ms`,
-              } as CSSProperties
-            }
-          >
-            {skill.name}
-          </Pill>
+        {/* Two explicit rows (6 + 5) rather than one flex-wrap flow left to
+            find its own break point - at wide viewports, flex-wrap let 10
+            of 11 pills crowd into the first line and stranded the rest,
+            which this split fixes regardless of viewport width. */}
+        {[SKILLS.slice(0, ROW_SPLIT), SKILLS.slice(ROW_SPLIT)].map((row, rowIndex) => (
+          <div className="hero__pills-row" key={rowIndex}>
+            {row.map((skill, i) => {
+              const index = rowIndex === 0 ? i : i + ROW_SPLIT
+              return (
+                <Pill
+                  key={skill.name}
+                  className={`hero-pill pill--${skill.direction}${skill.outline ? ' hero-pill--outline' : ''}`}
+                  ref={(el) => {
+                    pillsRef.current[index] = el
+                  }}
+                  style={
+                    {
+                      '--rot': `${skill.tilt}deg`,
+                      '--shift': `${skill.shift}px`,
+                      '--spin': `${skill.spin}deg`,
+                      '--scale': skill.scale,
+                      animationDelay: `${PILLS_START + index * PILL_STAGGER}ms`,
+                    } as CSSProperties
+                  }
+                >
+                  {skill.name}
+                </Pill>
+              )
+            })}
+          </div>
         ))}
       </div>
     </section>
