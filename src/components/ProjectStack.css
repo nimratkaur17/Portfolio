@@ -100,36 +100,63 @@
   background: linear-gradient(155deg, var(--color-surface), var(--color-muted));
 }
 
-/* Fanned three-phone mockup used in place of .project-card__media for case
-   studies that show real product screens. Center frame sits in front and
-   above the two angled side frames, all absolutely positioned within a
-   fixed-size slot so the fan composition holds regardless of card height. */
+/* Three-phone mockup used in place of .project-card__media for case studies
+   that show real product screens. Upright (no rotation), staggered in an
+   ascending staircase left-to-right - each later frame overlaps and sits in
+   front of the one before it via DOM order + z-index, matching a real
+   phone-mockup photo rather than a fanned illustration. */
 .project-card__phones {
-  --phone-w: 118px;
-  --phone-h: 240px;
-  --phone-w-lg: 132px;
-  --phone-h-lg: 266px;
+  --phone-w: 96px;
+  --phone-h: 200px;
+  --phone-w-mid: 106px;
+  --phone-h-mid: 220px;
+  --phone-w-lg: 118px;
+  --phone-h-lg: 244px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 300px;
 }
 
 .phone-frame {
-  position: absolute;
-  top: 50%;
+  position: relative;
   width: var(--phone-w);
   height: var(--phone-h);
-  padding: 8px;
-  border-radius: 26px;
+  padding: 9px;
+  border-radius: 30px;
   background: var(--color-text);
-  box-shadow: 0 16px 32px rgba(36, 26, 22, 0.25);
+  box-shadow: 0 18px 34px rgba(36, 26, 22, 0.28);
+}
+
+.phone-frame + .phone-frame {
+  margin-left: -26px;
+}
+
+.phone-frame--left {
+  z-index: 1;
+  transform: translateY(28px);
+}
+
+.phone-frame--center {
+  z-index: 2;
+  width: var(--phone-w-mid);
+  height: var(--phone-h-mid);
+  transform: translateY(10px);
+}
+
+.phone-frame--right {
+  z-index: 3;
+  width: var(--phone-w-lg);
+  height: var(--phone-h-lg);
 }
 
 .phone-frame__notch {
   position: absolute;
-  top: 8px;
+  top: 9px;
   left: 50%;
-  width: 34px;
-  height: 6px;
+  width: 36%;
+  height: 7px;
   border-radius: 4px;
   background: var(--color-text);
   transform: translateX(-50%);
@@ -138,31 +165,11 @@
 .phone-frame__screen {
   width: 100%;
   height: 100%;
-  border-radius: 18px;
+  border-radius: 21px;
   background: var(--color-surface);
   background-size: cover;
   background-position: center;
   overflow: hidden;
-}
-
-.phone-frame--left {
-  left: 14px;
-  z-index: 1;
-  transform: translateY(-50%) rotate(-10deg);
-}
-
-.phone-frame--right {
-  right: 14px;
-  z-index: 2;
-  transform: translateY(-50%) rotate(10deg);
-}
-
-.phone-frame--center {
-  left: 50%;
-  z-index: 3;
-  width: var(--phone-w-lg);
-  height: var(--phone-h-lg);
-  transform: translate(-50%, -50%);
 }
 
 .project-card__body {
@@ -374,10 +381,12 @@
   }
 
   .project-card__phones {
-    --phone-w: 78px;
-    --phone-h: 158px;
-    --phone-w-lg: 88px;
-    --phone-h-lg: 176px;
+    --phone-w: 64px;
+    --phone-h: 132px;
+    --phone-w-mid: 70px;
+    --phone-h-mid: 146px;
+    --phone-w-lg: 78px;
+    --phone-h-lg: 162px;
     flex: none;
     width: 100%;
     height: 200px;
