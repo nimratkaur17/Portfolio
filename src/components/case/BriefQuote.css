@@ -5,7 +5,8 @@
   padding: 28px 24px 56px;
   border: 1px solid color-mix(in srgb, var(--color-contrast), transparent 70%);
   border-radius: 20px;
-  background: var(--color-bg);
+  background: var(--color-muted-l);
+  color: var(--color-text);
   scroll-margin-top: 88px;
   transition:
     transform 250ms cubic-bezier(0.25, 0.85, 0.3, 1),
@@ -38,8 +39,9 @@
 
 .case-study__section .brief-quote p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1875rem;
   line-height: 1.5;
+  color: var(--color-text);
 }
 
 .case-study__section .brief-quote__face--front p {
@@ -53,7 +55,7 @@
   display: block;
   margin-bottom: 4px;
   font-weight: 500;
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .brief-quote__toggle {
