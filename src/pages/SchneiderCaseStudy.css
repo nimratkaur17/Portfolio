@@ -47,6 +47,22 @@
   margin-top: 48px;
 }
 
+.cs-figure + .cs-prose {
+  margin-top: 48px;
+}
+
+/* Screenshots are small, portrait captures: cap the width so they never
+   scale past their native size, and centre them in the wide column. */
+.cs-figure--slider {
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+.cs-figure--tall {
+  max-width: 380px;
+  margin-inline: auto;
+}
+
 /* Overview */
 .cs-hero-visual {
   display: grid;

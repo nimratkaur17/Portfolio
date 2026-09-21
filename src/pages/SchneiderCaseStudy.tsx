@@ -6,6 +6,9 @@ import BriefQuote from '../components/case/BriefQuote'
 import DeviceFrame from '../components/case/DeviceFrame'
 import ImageSlot from '../components/case/ImageSlot'
 import SpokenQuote from '../components/case/SpokenQuote'
+import cardAfter from '../card-after.png'
+import cardBefore from '../card-before.png'
+import compareScreen from '../compare.png'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
 import './SchneiderCaseStudy.css'
@@ -14,9 +17,9 @@ import './SchneiderCaseStudy.css'
 // a neutral placeholder panel that holds the layout.
 const IMAGES = {
   hero: null as string | null,
-  originalCard: null as string | null,
-  redesignedCard: null as string | null,
-  compare: null as string | null,
+  originalCard: cardBefore as string | null,
+  redesignedCard: cardAfter as string | null,
+  compare: compareScreen as string | null,
 }
 
 const SECTIONS = [
@@ -36,38 +39,38 @@ const CARD_CHANGES: Annotation[] = [
   {
     title: 'Answer the first question first.',
     body: 'The original led with a price in a grey sidebar, with nothing saying whether $477 was the total or a rate. The redesign puts the total at the top in a full-width band, labeled as a total, with per-mile rate, distance and weight directly beneath.',
-    x: 50,
-    y: 12,
+    x: 52,
+    y: 7,
   },
   {
     title: 'Empty miles belong next to the pay.',
     body: 'Deadhead was buried as small grey text inside the route, one figure under the pickup and another under the drop. Deadhead is unpaid driving, so it now sits in one of three equal-weight tiles beside loaded and total rate per mile.',
-    x: 50,
-    y: 30,
+    x: 93,
+    y: 31,
   },
   {
     title: 'Is it still there?',
     body: 'We heard it plainly: "No updates on if a load gets taken, it just vanishes. Save something and on the next check it\'s just gone." Every card now shows whether the load is available and how long ago it was posted. A saved load that\'s been taken no longer disappears. It stays, turns fully grey, and is marked unavailable. On a small screen a colored tag alone is easy to miss, so the whole card changes.',
-    x: 90,
-    y: 4,
+    x: 95,
+    y: 5,
   },
   {
     title: 'Read it in the order you decide.',
     body: 'The original split numbers on the left and route on the right, so the eye zigzagged across the card. The redesign is one column: price, key numbers, route, action.',
     x: 8,
-    y: 50,
+    y: 60,
   },
   {
     title: 'A clear next step.',
     body: 'The original offered Reload and an eye icon, with no way to book from the card. The redesign has a primary Book Now, a secondary Reload, and a bookmark in place of the eye, so saving is unmistakable.',
     x: 50,
-    y: 92,
+    y: 91.5,
   },
   {
     title: 'Less to parse.',
     body: 'Pickup and drop windows went from two bold lines with weekdays to one line each. Shipper and consignee got labels. The unexplained red warning corner is gone, replaced by a named status badge.',
-    x: 50,
-    y: 68,
+    x: 44,
+    y: 56,
   },
 ]
 
@@ -232,7 +235,7 @@ function SchneiderCaseStudy() {
                 on the card, so that's where most of the work had to land.
               </p>
             </div>
-            <div className="cs-figure">
+            <div className="cs-figure cs-figure--slider">
               <BeforeAfterSlider
                 before={IMAGES.originalCard}
                 after={IMAGES.redesignedCard}
@@ -240,12 +243,13 @@ function SchneiderCaseStudy() {
                 afterAlt="The redesigned load card"
                 beforeLabel="Original"
                 afterLabel="Redesign"
-                ratio="16 / 10"
+                ratio="560 / 602"
               />
             </div>
             <AnnotatedCard
               src={IMAGES.redesignedCard}
               alt="The redesigned load card"
+              ratio="524 / 670"
               items={CARD_CHANGES}
             />
           </section>
@@ -270,8 +274,12 @@ function SchneiderCaseStudy() {
                 a few loads and see them together without leaving the flow they're in.
               </p>
             </div>
-            <div className="cs-figure">
-              <ImageSlot src={IMAGES.compare} alt="The side-by-side compare feature" ratio="16 / 10" />
+            <div className="cs-figure cs-figure--tall">
+              <ImageSlot
+                src={IMAGES.compare}
+                alt="The compare screen: Load A and Load B side by side, with a Quicklook table below"
+                ratio="804 / 1282"
+              />
             </div>
             <div className="cs-prose">
               <p>

@@ -29,6 +29,10 @@
   border-radius: inherit;
 }
 
+.ba-slider__layer--after:has(img) {
+  border: none;
+}
+
 .ba-slider__layer--before {
   background: color-mix(in srgb, var(--color-surface), var(--color-muted) 30%);
   clip-path: inset(0 calc(100% - var(--pos)) 0 0);

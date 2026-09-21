@@ -1,6 +1,6 @@
 .annotated {
   display: grid;
-  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
   gap: 48px;
   align-items: start;
   margin-top: 40px;
@@ -97,7 +97,7 @@
   .annotated__figure {
     position: relative;
     top: 0;
-    width: min(100%, 300px);
+    width: min(100%, 340px);
     margin: 0 auto;
   }
 }
