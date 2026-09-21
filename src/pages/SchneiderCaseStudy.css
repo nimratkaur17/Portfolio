@@ -1,0 +1,203 @@
+/* Wider column than the generic template so figures can breathe; prose stays
+   at a readable measure via .cs-prose. */
+.cs-schneider .case-study__content {
+  max-width: none;
+}
+
+.cs-schneider .case-study__section {
+  padding-top: 112px;
+}
+
+.cs-schneider .case-study__section:first-of-type {
+  padding-top: 0;
+}
+
+.cs-schneider .case-study__section h2 {
+  margin: 0 0 24px;
+  max-width: 680px;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.15;
+}
+
+.cs-prose {
+  max-width: 680px;
+}
+
+.cs-schneider .case-study__section .cs-prose p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.cs-prose > p + p {
+  margin-top: 1.1em;
+}
+
+.cs-prose strong {
+  font-weight: 500;
+}
+
+.cs-prose--after-quote {
+  margin-top: 48px;
+}
+
+.cs-figure {
+  margin-top: 48px;
+}
+
+/* Overview */
+.cs-hero-visual {
+  display: grid;
+  place-items: center;
+  margin-bottom: 56px;
+  padding: 56px 24px;
+  border-radius: 20px;
+  background: var(--color-surface);
+}
+
+.cs-schneider .case-study__section .cs-meta {
+  margin-bottom: 28px;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+.cs-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 32px;
+  max-width: 680px;
+  margin: 0 0 40px;
+  padding: 20px 0;
+  border-block: 1px solid var(--color-muted);
+}
+
+.cs-facts dt {
+  margin-bottom: 4px;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.cs-facts dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+/* Restructure comparison grid */
+.cs-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 56px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-compare__row {
+  display: grid;
+  grid-template-columns: 120px repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.cs-schneider .case-study__section .cs-compare__label {
+  margin: 0;
+  padding-top: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.cs-compare__cell {
+  margin: 0;
+}
+
+.cs-compare__cell figcaption {
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+/* Turning point: full-bleed navy, ivory text. The article column starts at
+   the layout gutter, so pulling back by --gutter and spanning 100vw reaches
+   both browser edges (the rail sits above it, see z-index below). */
+.cs-turning {
+  position: relative;
+  width: 100vw;
+  margin: 112px 0 0 calc(var(--gutter) * -1);
+  padding: 112px var(--gutter);
+  background: var(--color-contrast);
+}
+
+.cs-schneider .case-study__section.cs-turning:first-of-type {
+  padding-top: 112px;
+}
+
+.cs-schneider .cs-turning h2,
+.cs-schneider .case-study__section.cs-turning p {
+  color: var(--color-bg);
+}
+
+.cs-turning__inner {
+  max-width: 680px;
+}
+
+.cs-turning + .case-study__section {
+  padding-top: 112px;
+}
+
+/* Rail: sits above the full-bleed section and flips to ivory over it */
+.cs-schneider .case-study__rail {
+  z-index: 1;
+}
+
+.case-study__rail--on-dark ul {
+  border-left-color: color-mix(in srgb, var(--color-bg), transparent 60%);
+}
+
+.case-study__rail--on-dark a {
+  color: color-mix(in srgb, var(--color-bg), transparent 30%);
+}
+
+.case-study__rail--on-dark a:hover,
+.case-study__rail--on-dark a.is-active {
+  color: var(--color-bg);
+}
+
+.case-study__rail--on-dark a.is-active::before {
+  background: var(--color-bg);
+}
+
+.case-study__rail--on-dark a:focus-visible {
+  outline-color: var(--color-bg);
+}
+
+@media (max-width: 760px) {
+  .cs-facts {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cs-compare__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .cs-compare__label {
+    grid-column: 1 / -1;
+  }
+
+  .cs-hero-visual {
+    padding: 40px 16px;
+  }
+
+  .cs-schneider .case-study__section {
+    padding-top: 80px;
+  }
+
+  .cs-turning,
+  .cs-schneider .case-study__section.cs-turning:first-of-type {
+    margin-top: 80px;
+    padding-block: 80px;
+  }
+}

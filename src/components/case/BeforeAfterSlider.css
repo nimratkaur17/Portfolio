@@ -1,0 +1,121 @@
+.ba-slider {
+  --pos: 50%;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-surface);
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.ba-slider__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.ba-slider__layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.ba-slider__layer--after {
+  background: var(--color-bg);
+  border: 1px dashed var(--color-muted);
+  border-radius: inherit;
+}
+
+.ba-slider__layer--before {
+  background: color-mix(in srgb, var(--color-surface), var(--color-muted) 30%);
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.ba-slider__chip {
+  position: absolute;
+  top: 14px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--color-text);
+  font-size: 0.8125rem;
+  color: var(--color-bg);
+}
+
+.ba-slider__chip--before {
+  left: 14px;
+}
+
+.ba-slider__chip--after {
+  right: 14px;
+}
+
+.ba-slider__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 44px;
+  margin-left: -22px;
+  cursor: ew-resize;
+}
+
+.ba-slider__handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-bg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-text), transparent 75%);
+}
+
+.ba-slider__grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-text), transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: transform 200ms cubic-bezier(0.25, 0.85, 0.3, 1);
+}
+
+.ba-slider__grip::before {
+  content: '\2039  \203A';
+  font-size: 1.25rem;
+  line-height: 1;
+  white-space: pre;
+  color: var(--color-text);
+}
+
+.ba-slider__handle:hover .ba-slider__grip {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.ba-slider__handle:focus-visible {
+  outline: none;
+}
+
+.ba-slider__handle:focus-visible .ba-slider__grip {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ba-slider__grip {
+    transition: none;
+  }
+
+  .ba-slider__handle:hover .ba-slider__grip {
+    transform: translate(-50%, -50%);
+  }
+}

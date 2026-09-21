@@ -1,0 +1,115 @@
+.annotated {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.annotated__figure {
+  position: sticky;
+  top: 120px;
+}
+
+.annotated__pin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+  background: var(--color-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-bg);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text), transparent 70%);
+  transition:
+    transform 200ms cubic-bezier(0.25, 0.85, 0.3, 1),
+    background-color 200ms ease;
+}
+
+.annotated__pin:hover,
+.annotated__pin.is-active {
+  background: var(--color-primary-h);
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.annotated__pin:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.annotated__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.annotated__item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  scroll-margin-top: 88px;
+  transition: background-color 250ms ease;
+}
+
+.annotated__item.is-active {
+  background: color-mix(in srgb, var(--color-surface), transparent 45%);
+}
+
+.annotated__num {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-bg);
+}
+
+.case-study__section .annotated__item p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.annotated__item strong {
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .annotated {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .annotated__figure {
+    position: relative;
+    top: 0;
+    width: min(100%, 300px);
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .annotated__pin,
+  .annotated__item {
+    transition: none;
+  }
+
+  .annotated__pin:hover,
+  .annotated__pin.is-active {
+    transform: translate(-50%, -50%);
+  }
+}

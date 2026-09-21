@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import SchneiderCaseStudy from './SchneiderCaseStudy'
+import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
 
 interface Section {
@@ -41,38 +42,17 @@ const SECTIONS: Section[] = [
   },
 ]
 
+const SECTION_IDS = SECTIONS.map((section) => section.id)
+
 function slugToTitle(slug: string | undefined) {
   if (!slug) return 'Case study'
   const words = slug.replace(/-/g, ' ')
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
-function CaseStudy() {
+function PlaceholderCaseStudy() {
   const { slug } = useParams<{ slug: string }>()
-  const [activeId, setActiveId] = useState(SECTIONS[0].id)
-  const sectionRefs = useRef<(HTMLElement | null)[]>([])
-
-  useEffect(() => {
-    const intersecting = new Set<string>()
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) intersecting.add(entry.target.id)
-          else intersecting.delete(entry.target.id)
-        }
-        const next = SECTIONS.find((section) => intersecting.has(section.id))
-        if (next) setActiveId(next.id)
-      },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
-    )
-
-    for (const el of sectionRefs.current) {
-      if (el) observer.observe(el)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const activeId = useScrollSpy(SECTION_IDS)
 
   return (
     <main className="case-study">
@@ -85,14 +65,11 @@ function CaseStudy() {
 
       <div className="case-study__layout">
         <article className="case-study__content">
-          {SECTIONS.map((section, i) => (
+          {SECTIONS.map((section) => (
             <section
               key={section.id}
               id={section.id}
               className="case-study__section"
-              ref={(el) => {
-                sectionRefs.current[i] = el
-              }}
             >
               <h2>{section.heading}</h2>
               <p>{section.placeholder}</p>
@@ -116,6 +93,15 @@ function CaseStudy() {
         </nav>
       </div>
     </main>
+  )
+}
+
+function CaseStudy() {
+  const { slug } = useParams<{ slug: string }>()
+  return slug === 'schneider-freightpower-owner-operator-app' ? (
+    <SchneiderCaseStudy />
+  ) : (
+    <PlaceholderCaseStudy />
   )
 }
 
