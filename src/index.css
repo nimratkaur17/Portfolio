@@ -9,7 +9,8 @@
   --color-contrast: #1b2a3d; /* navy — one distinct section or case study */
   --color-muted: #6b7884; /* slate — borders, captions, disabled */
   --color-muted-l: #93a7ba; /* light slate — contact section background */
-  --color-cream: #f7ecdc; /* warm cream — hero and projects section background */
+  --color-cream: #f7ecdc; /* warm cream — hero, projects and case study page background */
+  --color-pine: #42503e; /* dark pine green — case study turning-point section */
 
   /* Shared edge margin so full-width sections still leave a slight, even
      gutter rather than running content flush to the browser frame. */

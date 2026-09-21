@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import AnnotatedCard from '../components/case/AnnotatedCard'
 import type { Annotation } from '../components/case/AnnotatedCard'
 import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
+import BriefQuote from '../components/case/BriefQuote'
 import DeviceFrame from '../components/case/DeviceFrame'
 import ImageSlot from '../components/case/ImageSlot'
-import PullQuote from '../components/case/PullQuote'
+import SpokenQuote from '../components/case/SpokenQuote'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
 import './SchneiderCaseStudy.css'
@@ -16,11 +17,6 @@ const IMAGES = {
   originalCard: null as string | null,
   redesignedCard: null as string | null,
   compare: null as string | null,
-  restructure: {
-    typeScale: { before: null as string | null, after: null as string | null },
-    spacing: { before: null as string | null, after: null as string | null },
-    cardAnatomy: { before: null as string | null, after: null as string | null },
-  },
 }
 
 const SECTIONS = [
@@ -35,12 +31,6 @@ const SECTIONS = [
 ] as const
 
 const SECTION_IDS = SECTIONS.map((section) => section.id)
-
-const RESTRUCTURE_ROWS = [
-  { label: 'Type scale', images: IMAGES.restructure.typeScale },
-  { label: 'Spacing', images: IMAGES.restructure.spacing },
-  { label: 'Card anatomy', images: IMAGES.restructure.cardAnatomy },
-]
 
 const CARD_CHANGES: Annotation[] = [
   {
@@ -196,29 +186,6 @@ function SchneiderCaseStudy() {
                 I was the one making the components agree.
               </p>
             </div>
-            <ul className="cs-compare">
-              {RESTRUCTURE_ROWS.map((row) => (
-                <li key={row.label} className="cs-compare__row">
-                  <h3 className="cs-compare__label">{row.label}</h3>
-                  <figure className="cs-compare__cell">
-                    <ImageSlot
-                      src={row.images.before}
-                      alt={`${row.label}, before the restructure`}
-                      ratio="16 / 10"
-                    />
-                    <figcaption>Before</figcaption>
-                  </figure>
-                  <figure className="cs-compare__cell">
-                    <ImageSlot
-                      src={row.images.after}
-                      alt={`${row.label}, after the restructure`}
-                      ratio="16 / 10"
-                    />
-                    <figcaption>After</figcaption>
-                  </figure>
-                </li>
-              ))}
-            </ul>
           </section>
 
           <section id="brief" className="case-study__section">
@@ -230,26 +197,30 @@ function SchneiderCaseStudy() {
                 said ended up shaping almost every decision that followed.
               </p>
             </div>
-            <PullQuote
-              id="quote-1"
-              quote={
-                '"Takes too long to put in what I want, the rate, distance and what not, and then go through lists on lists to find a load I can work with."'
-              }
-              problem="Every search started from zero, and the numbers that decide a load were hard to pick out."
-              became="Saved preferences, recommended loads, and a rebuilt load card."
-            />
-            <PullQuote
-              id="quote-2"
-              quote={'"Have to remember information to compare loads. There isn\'t anything reliable and quick."'}
-              problem="Weighing two loads meant holding one in your head while looking at the other."
-              became="Side-by-side comparison."
-            />
-            <PullQuote
-              id="quote-3"
-              quote={'"Say going from Chicago to Ohio, they\'ll want to pick up stuff on their way home."'}
-              problem="Drivers plan trips, but the app only understood single loads."
-              became="Multi-load booking on a route map."
-            />
+            <div className="brief-quotes">
+              <BriefQuote
+                id="quote-1"
+                quote={
+                  '"Takes too long to put in what I want, the rate, distance and what not, and then go through lists on lists to find a load I can work with."'
+                }
+                problem="Every search started from zero, and the numbers that decide a load were hard to pick out."
+                became="Saved preferences, recommended loads, and a rebuilt load card."
+              />
+              <BriefQuote
+                id="quote-2"
+                quote={
+                  '"Have to remember information to compare loads. There isn\'t anything reliable and quick."'
+                }
+                problem="Weighing two loads meant holding one in your head while looking at the other."
+                became="Side-by-side comparison."
+              />
+              <BriefQuote
+                id="quote-3"
+                quote={'"Say going from Chicago to Ohio, they\'ll want to pick up stuff on their way home."'}
+                problem="Drivers plan trips, but the app only understood single loads."
+                became="Multi-load booking on a route map."
+              />
+            </div>
           </section>
 
           <section id="card" className="case-study__section">
@@ -355,8 +326,12 @@ function SchneiderCaseStudy() {
                 complaints and walk them through problems every day.
               </p>
             </div>
-            <PullQuote quote={'"Search feels so much more straightforward than what drivers currently use."'} />
-            <PullQuote
+            <SpokenQuote
+              speaker="girl"
+              quote={'"Search feels so much more straightforward than what drivers currently use."'}
+            />
+            <SpokenQuote
+              speaker="guy"
               quote={
                 '"I like how you can compare loads without switching between screens to remember the information."'
               }

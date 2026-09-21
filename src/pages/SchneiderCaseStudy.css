@@ -1,5 +1,12 @@
-/* Wider column than the generic template so figures can breathe; prose stays
-   at a readable measure via .cs-prose. */
+/* Whole page sits on cream with espresso text; headings pick up navy. The
+   column is wider than the generic template so text fills the space up to
+   the index rail instead of stopping short of it. */
+.cs-schneider {
+  min-height: 100dvh;
+  background: var(--color-cream);
+  color: var(--color-text);
+}
+
 .cs-schneider .case-study__content {
   max-width: none;
 }
@@ -14,18 +21,14 @@
 
 .cs-schneider .case-study__section h2 {
   margin: 0 0 24px;
-  max-width: 680px;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   line-height: 1.15;
-}
-
-.cs-prose {
-  max-width: 680px;
+  color: var(--color-contrast);
 }
 
 .cs-schneider .case-study__section .cs-prose p {
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: 1.1875rem;
+  line-height: 1.7;
 }
 
 .cs-prose > p + p {
@@ -64,7 +67,6 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px 32px;
-  max-width: 680px;
   margin: 0 0 40px;
   padding: 20px 0;
   border-block: 1px solid var(--color-muted);
@@ -83,42 +85,15 @@
   color: var(--color-text);
 }
 
-/* Restructure comparison grid */
-.cs-compare {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin: 56px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.cs-compare__row {
+/* The brief: three quote cards side by side */
+.brief-quotes {
   display: grid;
-  grid-template-columns: 120px repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  align-items: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
 }
 
-.cs-schneider .case-study__section .cs-compare__label {
-  margin: 0;
-  padding-top: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.cs-compare__cell {
-  margin: 0;
-}
-
-.cs-compare__cell figcaption {
-  margin-top: 8px;
-  font-size: 0.8125rem;
-  color: var(--color-muted);
-}
-
-/* Turning point: full-bleed navy, ivory text. The article column starts at
+/* Turning point: full-bleed pine green, ivory text. The article column starts at
    the layout gutter, so pulling back by --gutter and spanning 100vw reaches
    both browser edges (the rail sits above it, see z-index below). */
 .cs-turning {
@@ -126,20 +101,23 @@
   width: 100vw;
   margin: 112px 0 0 calc(var(--gutter) * -1);
   padding: 112px var(--gutter);
-  background: var(--color-contrast);
+  background: var(--color-pine);
 }
 
 .cs-schneider .case-study__section.cs-turning:first-of-type {
   padding-top: 112px;
 }
 
-.cs-schneider .cs-turning h2,
+.cs-schneider .case-study__section.cs-turning h2,
 .cs-schneider .case-study__section.cs-turning p {
   color: var(--color-bg);
 }
 
-.cs-turning__inner {
-  max-width: 680px;
+@media (min-width: 1101px) {
+  /* Keep the text out from under the index rail (220px + 64px gap) */
+  .cs-turning__inner {
+    max-width: calc(100vw - 2 * var(--gutter) - 284px);
+  }
 }
 
 .cs-turning + .case-study__section {
@@ -173,18 +151,13 @@
 }
 
 @media (max-width: 760px) {
+  .brief-quotes {
+    grid-template-columns: 1fr;
+  }
+
   .cs-facts {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .cs-compare__row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .cs-compare__label {
-    grid-column: 1 / -1;
   }
 
   .cs-hero-visual {

@@ -1,0 +1,126 @@
+.spoken {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  margin: 48px 0 0;
+}
+
+.spoken--guy {
+  flex-direction: row-reverse;
+}
+
+.spoken__head {
+  flex: none;
+  width: 112px;
+  height: auto;
+  color: var(--color-contrast);
+}
+
+.spoken__bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  margin-top: 14px;
+  padding: 24px 28px;
+  border: 1.5px solid var(--color-contrast);
+  border-radius: 22px;
+  background: var(--color-bg);
+}
+
+/* Tail pointing back at whoever is speaking */
+.spoken__bubble::before {
+  content: '';
+  position: absolute;
+  top: 34px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-bg);
+}
+
+.spoken--girl .spoken__bubble::before {
+  left: -9px;
+  border-bottom: 1.5px solid var(--color-contrast);
+  border-left: 1.5px solid var(--color-contrast);
+  transform: rotate(45deg);
+}
+
+.spoken--guy .spoken__bubble::before {
+  right: -9px;
+  border-top: 1.5px solid var(--color-contrast);
+  border-right: 1.5px solid var(--color-contrast);
+  transform: rotate(45deg);
+}
+
+.spoken blockquote {
+  margin: 0;
+}
+
+.case-study__section .spoken__bubble p {
+  font-size: clamp(1.1875rem, 2vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.spoken__echo {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 12px;
+  border: 1px solid var(--color-muted);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition:
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.spoken__echo::before {
+  content: '\2191';
+  margin-right: 6px;
+}
+
+.spoken__echo:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.spoken__echo:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .spoken,
+  .spoken--guy {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .spoken__head {
+    width: 84px;
+  }
+
+  .spoken__bubble {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .spoken--girl .spoken__bubble::before,
+  .spoken--guy .spoken__bubble::before {
+    top: -9px;
+    right: auto;
+    left: 34px;
+    border: 1.5px solid var(--color-contrast);
+    border-right: none;
+    border-bottom: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spoken__echo {
+    transition: none;
+  }
+}

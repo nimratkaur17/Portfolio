@@ -1,0 +1,159 @@
+.brief-quote {
+  position: relative;
+  display: grid;
+  min-height: 300px;
+  padding: 28px 24px 56px;
+  border: 1px solid color-mix(in srgb, var(--color-contrast), transparent 70%);
+  border-radius: 20px;
+  background: var(--color-bg);
+  scroll-margin-top: 88px;
+  transition:
+    transform 250ms cubic-bezier(0.25, 0.85, 0.3, 1),
+    border-color 250ms ease;
+}
+
+.brief-quote:target {
+  border-color: var(--color-primary);
+}
+
+.brief-quote__face {
+  grid-area: 1 / 1;
+  transition:
+    opacity 300ms cubic-bezier(0.22, 0.9, 0.25, 1),
+    transform 300ms cubic-bezier(0.22, 0.9, 0.25, 1);
+}
+
+.brief-quote__face--back {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.brief-quote blockquote {
+  margin: 0;
+}
+
+.case-study__section .brief-quote p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.case-study__section .brief-quote__face--front p {
+  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.brief-quote__label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.brief-quote__toggle {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.brief-quote__toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.brief-quote__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Plus that turns to a cross when the back face is showing */
+.brief-quote__hint {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--color-contrast);
+  border-radius: 50%;
+  transition: transform 300ms cubic-bezier(0.22, 0.9, 0.25, 1);
+}
+
+.brief-quote__hint::before,
+.brief-quote__hint::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -5px;
+  background: var(--color-contrast);
+}
+
+.brief-quote__hint::after {
+  transform: rotate(90deg);
+}
+
+/* Reveal: tap (is-open), keyboard focus, and pointer hover on hover devices */
+.brief-quote.is-open .brief-quote__face--front,
+.brief-quote:has(.brief-quote__toggle:focus-visible) .brief-quote__face--front {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.brief-quote.is-open .brief-quote__face--back,
+.brief-quote:has(.brief-quote__toggle:focus-visible) .brief-quote__face--back {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.brief-quote.is-open .brief-quote__hint,
+.brief-quote:has(.brief-quote__toggle:focus-visible) .brief-quote__hint {
+  transform: rotate(45deg);
+}
+
+@media (hover: hover) {
+  .brief-quote:hover {
+    transform: translateY(-4px);
+  }
+
+  .brief-quote:hover .brief-quote__face--front {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .brief-quote:hover .brief-quote__face--back {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .brief-quote:hover .brief-quote__hint {
+    transform: rotate(45deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brief-quote,
+  .brief-quote__face,
+  .brief-quote__hint {
+    transition: none;
+  }
+
+  .brief-quote:hover {
+    transform: none;
+  }
+}
