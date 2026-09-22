@@ -26,11 +26,11 @@ const CASE_STUDIES: CaseStudy[] = [
     screens: [null, null, null],
   },
   {
-    slug: 'checkout-for-a-small-grocer',
+    slug: 'wisconsin-conservation-voices-native-vote',
     kicker: 'Case study 02',
-    title: 'Checkout for a small grocer',
-    copy: 'A point-of-sale rebuild that trims a six-step checkout down to two taps.',
-    tags: ['Product design', 'React', 'POS'],
+    title: 'Wisconsin Conservation Voices, Native Vote',
+    copy: 'Redesigned a nonpartisan voter site so the two minutes people spend on it actually get them to the door.',
+    tags: ['UX Research', 'Web Design', 'Usability Testing'],
   },
   {
     slug: 'onboarding-for-a-fintech-app',
