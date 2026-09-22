@@ -1,0 +1,153 @@
+.color-demo {
+  position: relative;
+  height: 400vh;
+  margin-top: 48px;
+}
+
+.color-demo__panel {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--color-contrast);
+  color: var(--color-bg);
+  transition: color 400ms ease;
+}
+
+.color-demo__panel[data-band='3'] {
+  color: var(--color-text);
+}
+
+.color-demo__bands {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.color-demo__band {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.color-demo__band p {
+  margin: 0;
+  padding: 0 var(--gutter);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 500;
+  text-align: center;
+}
+
+.color-demo__band--connect {
+  background: var(--color-contrast);
+}
+
+.color-demo__band--impact {
+  background: var(--color-primary);
+}
+
+.color-demo__band--forward {
+  background: var(--color-text);
+}
+
+.color-demo__band--partnership {
+  background: var(--color-bg);
+}
+
+.color-demo__floral {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: clamp(48px, 8vw, 96px);
+  height: auto;
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateY(-50%);
+}
+
+.color-demo__floral path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--draw, 0));
+}
+
+.color-demo__floral--left {
+  left: clamp(8px, 3vw, 40px);
+}
+
+.color-demo__floral--right {
+  right: clamp(8px, 3vw, 40px);
+  transform: translateY(-50%) scaleX(-1);
+}
+
+@media (max-width: 760px) {
+  .color-demo__floral {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-demo {
+    height: auto;
+  }
+
+  .color-demo__panel {
+    position: static;
+    height: auto;
+    overflow: visible;
+    background: none;
+    color: var(--color-text);
+  }
+
+  .color-demo__bands {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .color-demo__band {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 64px var(--gutter);
+    border-radius: 20px;
+    opacity: 1 !important;
+  }
+
+  .color-demo__band--connect,
+  .color-demo__band--impact,
+  .color-demo__band--forward {
+    color: var(--color-bg);
+  }
+
+  .color-demo__band--partnership {
+    color: var(--color-text);
+  }
+
+  .color-demo__floral {
+    display: block;
+    position: static;
+    transform: none;
+    margin: 0 auto 16px;
+  }
+
+  .color-demo__floral--right {
+    transform: scaleX(-1);
+  }
+
+  .color-demo__floral path {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,31 @@
+/* Full-bleed red band; the page-level .cs-turning-style breakout is applied
+   by the page, this file only styles the content inside it. */
+.impact-band__heading {
+  margin: 0 0 32px;
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  color: var(--color-bg);
+}
+
+.impact-band__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.impact-band__value {
+  margin: 0;
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-bg);
+  font-variant-numeric: tabular-nums;
+}
+
+.impact-band__label {
+  margin: 8px 0 0;
+  font-size: 0.9375rem;
+  color: color-mix(in srgb, var(--color-bg), transparent 20%);
+}

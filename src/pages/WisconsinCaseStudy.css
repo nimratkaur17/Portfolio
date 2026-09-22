@@ -1,0 +1,154 @@
+/* Same shell pattern as the Schneider case study: cream page, espresso
+   text, navy headings, a wide column that fills the space up to the rail. */
+.cs-wcv {
+  min-height: 100dvh;
+  background: var(--color-cream);
+  color: var(--color-text);
+}
+
+.cs-wcv .case-study__content {
+  max-width: none;
+}
+
+.cs-wcv .case-study__section {
+  padding-top: 112px;
+}
+
+.cs-wcv .case-study__section:first-of-type {
+  padding-top: 0;
+}
+
+.cs-wcv .case-study__section h2 {
+  margin: 0 0 24px;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.15;
+  color: var(--color-contrast);
+}
+
+.cs-wcv .case-study__section .cs-prose p {
+  font-size: 1.1875rem;
+  line-height: 1.7;
+}
+
+.cs-prose > p + p {
+  margin-top: 1.1em;
+}
+
+.cs-prose strong {
+  font-weight: 500;
+}
+
+.cs-prose--after-figure {
+  margin-top: 48px;
+}
+
+.cs-hero-visual {
+  margin-bottom: 56px;
+}
+
+.cs-wcv .case-study__section .cs-meta {
+  margin-bottom: 28px;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+.cs-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 32px;
+  margin: 0 0 40px;
+  padding: 20px 0;
+  border-block: 1px solid var(--color-muted);
+}
+
+.cs-facts dt {
+  margin-bottom: 4px;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.cs-facts dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+/* Impact band: full-bleed red, ivory text - same breakout technique as the
+   Schneider case study's turning-point section. */
+.wcv-band {
+  position: relative;
+  width: 100vw;
+  margin: 48px 0 0 calc(var(--gutter) * -1);
+  padding: 80px var(--gutter);
+  background: var(--color-primary);
+}
+
+@media (min-width: 1101px) {
+  .wcv-band__inner {
+    max-width: calc(100vw - 2 * var(--gutter) - 284px);
+  }
+}
+
+.wcv-live-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 32px;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.wcv-live-link:hover {
+  background: var(--color-primary-h);
+}
+
+.wcv-live-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Rail: sits above the full-bleed band and flips to ivory over it */
+.cs-wcv .case-study__rail {
+  z-index: 1;
+}
+
+.case-study__rail--on-dark ul {
+  border-left-color: color-mix(in srgb, var(--color-bg), transparent 60%);
+}
+
+.case-study__rail--on-dark a {
+  color: color-mix(in srgb, var(--color-bg), transparent 30%);
+}
+
+.case-study__rail--on-dark a:hover,
+.case-study__rail--on-dark a.is-active {
+  color: var(--color-bg);
+}
+
+.case-study__rail--on-dark a.is-active::before {
+  background: var(--color-bg);
+}
+
+.case-study__rail--on-dark a:focus-visible {
+  outline-color: var(--color-bg);
+}
+
+@media (max-width: 760px) {
+  .cs-facts {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cs-wcv .case-study__section {
+    padding-top: 80px;
+  }
+
+  .wcv-band {
+    padding: 56px var(--gutter);
+  }
+}

@@ -1,0 +1,52 @@
+.laptop {
+  width: min(100%, 820px);
+  margin: 0 auto;
+}
+
+.laptop__lid {
+  padding: 14px 14px 0;
+  border-radius: 14px 14px 0 0;
+  background: var(--color-text);
+}
+
+.laptop__bezel {
+  padding: 3px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-text), black 20%);
+}
+
+.laptop__screen {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  overflow-y: auto;
+  border-radius: 2px;
+  background: var(--color-surface);
+}
+
+.laptop__screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.laptop__base {
+  position: relative;
+  height: 16px;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-text), black 10%),
+    var(--color-text)
+  );
+}
+
+.laptop__notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 90px;
+  height: 6px;
+  border-radius: 0 0 8px 8px;
+  background: color-mix(in srgb, var(--color-text), black 30%);
+  transform: translateX(-50%);
+}

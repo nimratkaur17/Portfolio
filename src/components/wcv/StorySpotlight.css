@@ -1,0 +1,97 @@
+.spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: stretch;
+  margin-top: 40px;
+}
+
+.spotlight__frame {
+  padding: 32px;
+  border: 1.5px solid var(--color-gold);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--color-gold), var(--color-bg) 90%);
+}
+
+.spotlight__kicker {
+  margin: 0 0 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.case-study__section .spotlight__question {
+  margin: 0 0 14px;
+  font-size: 1.375rem;
+}
+
+.spotlight__placeholder {
+  color: var(--color-muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.case-study__section .spotlight__body {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.spotlight__carousel {
+  position: relative;
+}
+
+.spotlight__track {
+  display: flex;
+  gap: 12px;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  border-radius: 16px;
+  scrollbar-width: none;
+}
+
+.spotlight__track::-webkit-scrollbar {
+  display: none;
+}
+
+.spotlight__slide {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+}
+
+.spotlight__controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.spotlight__controls button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-text);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.spotlight__controls button:hover {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.spotlight__controls button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .spotlight {
+    grid-template-columns: 1fr;
+  }
+}

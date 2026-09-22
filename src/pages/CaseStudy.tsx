@@ -1,6 +1,8 @@
+import type { ReactElement } from 'react'
 import { useParams } from 'react-router-dom'
 import SchneiderCaseStudy from './SchneiderCaseStudy'
 import { useScrollSpy } from './useScrollSpy'
+import WisconsinCaseStudy from './WisconsinCaseStudy'
 import './CaseStudy.css'
 
 interface Section {
@@ -96,13 +98,15 @@ function PlaceholderCaseStudy() {
   )
 }
 
+const BESPOKE_PAGES: Record<string, () => ReactElement> = {
+  'schneider-freightpower-owner-operator-app': SchneiderCaseStudy,
+  'wisconsin-conservation-voices-native-vote': WisconsinCaseStudy,
+}
+
 function CaseStudy() {
   const { slug } = useParams<{ slug: string }>()
-  return slug === 'schneider-freightpower-owner-operator-app' ? (
-    <SchneiderCaseStudy />
-  ) : (
-    <PlaceholderCaseStudy />
-  )
+  const Bespoke = slug ? BESPOKE_PAGES[slug] : undefined
+  return Bespoke ? <Bespoke /> : <PlaceholderCaseStudy />
 }
 
 export default CaseStudy
