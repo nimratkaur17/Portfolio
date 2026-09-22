@@ -5,6 +5,7 @@ interface Evidence {
   src?: string | null
   alt: string
   caption: string
+  ratio?: string
   annotation: { label: string; x: number; y: number }
 }
 
@@ -20,7 +21,7 @@ function DashboardEvidence({ items }: DashboardEvidenceProps) {
       {items.map((item) => (
         <figure key={item.caption} className="dashboard-evidence__item">
           <div className="dashboard-evidence__frame">
-            <ImageSlot src={item.src} alt={item.alt} ratio="16 / 10" />
+            <ImageSlot src={item.src} alt={item.alt} ratio={item.ratio ?? '16 / 10'} />
             <span
               className="dashboard-evidence__tag"
               style={{ left: `${item.annotation.x}%`, top: `${item.annotation.y}%` }}

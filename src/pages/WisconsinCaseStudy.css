@@ -44,6 +44,12 @@
 
 .cs-hero-visual {
   margin-bottom: 56px;
+  background: none;
+}
+
+.wcv-slider {
+  max-width: 560px;
+  margin: 40px auto 0;
 }
 
 .cs-wcv .case-study__section .cs-meta {

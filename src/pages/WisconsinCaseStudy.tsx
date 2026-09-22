@@ -1,14 +1,23 @@
+import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
 import ColorFloralScrollDemo from '../components/wcv/ColorFloralScrollDemo'
 import DashboardEvidence from '../components/wcv/DashboardEvidence'
 import ImpactStatsBand from '../components/wcv/ImpactStatsBand'
 import LaptopFrame from '../components/wcv/LaptopFrame'
+import type { PageNote } from '../components/wcv/OldPageNotes'
+import OldPageNotes from '../components/wcv/OldPageNotes'
 import SkimBeforeAfter from '../components/wcv/SkimBeforeAfter'
-import type { StickyNote } from '../components/wcv/StickyNoteBoard'
-import StickyNoteBoard from '../components/wcv/StickyNoteBoard'
 import StorySpotlight from '../components/wcv/StorySpotlight'
 import TurnoutExtraction from '../components/wcv/TurnoutExtraction'
 import UsabilityStatCards from '../components/wcv/UsabilityStatCards'
-import XrayToggle from '../components/wcv/XrayToggle'
+import buttonsAnalytics from '../buttons-analytics.png'
+import impactNumbers from '../impact-numbers.png'
+import note1 from '../note1.png'
+import note2 from '../note2.png'
+import note3 from '../note3.png'
+import note5 from '../note5.png'
+import oldDesign1 from '../old-design1.png'
+import oldDesign2 from '../old-design2.png'
+import votingAnalytics from '../voting-analytics.png'
 import { useRailOnDark } from './useRailOnDark'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
@@ -18,11 +27,16 @@ import './WisconsinCaseStudy.css'
 // arrive. null renders a neutral placeholder panel that holds the layout.
 const IMAGES = {
   hero: null as string | null,
-  pageviewsChart: null as string | null,
-  conversionChart: null as string | null,
-  oldPage: null as string | null,
-  oldPageActions: null as string | null,
-  newPageActions: null as string | null,
+  pageviewsChart: votingAnalytics as string | null,
+  conversionChart: buttonsAnalytics as string | null,
+  oldPage1: oldDesign1 as string | null,
+  oldPage2: oldDesign2 as string | null,
+  // The old page's actions sidebar. No screenshot of the redesigned
+  // "Connect with Us" band exists yet, so the slider's after side is a
+  // placeholder until that arrives.
+  nextStepBefore: oldDesign2 as string | null,
+  nextStepAfter: null as string | null,
+  turnoutGraphic: impactNumbers as string | null,
   spotlightPhotos: [null, null, null, null] as (string | null)[],
 }
 
@@ -39,34 +53,38 @@ const SECTIONS = [
 
 const SECTION_IDS = SECTIONS.map((section) => section.id)
 
-const STICKY_NOTES: StickyNote[] = [
+const PAGE_NOTES: PageNote[] = [
   {
     id: 'dense',
-    note: 'Text too dense to scan.',
-    x: 28,
-    y: 18,
-    region: { x: 8, y: 8, w: 84, h: 16 },
+    label: 'Text too dense to scan.',
+    page: 0,
+    x: 50,
+    y: 30,
+    noteImage: note5,
   },
   {
     id: 'light',
-    note: 'Type too light to read.',
-    x: 72,
-    y: 34,
-    region: { x: 8, y: 28, w: 84, h: 12 },
+    label: 'Type too light to read.',
+    page: 1,
+    x: 30,
+    y: 8,
+    noteImage: note2,
   },
   {
     id: 'actions',
-    note: "Actions that didn't look like actions.",
-    x: 24,
-    y: 56,
-    region: { x: 8, y: 48, w: 34, h: 20 },
+    label: "Actions that didn't look like actions.",
+    page: 1,
+    x: 18,
+    y: 30,
+    noteImage: note3,
   },
   {
     id: 'evidence',
-    note: "The page's strongest evidence sat inside paragraphs, where nobody skimming would ever find it.",
-    x: 68,
-    y: 78,
-    region: { x: 8, y: 68, w: 84, h: 24 },
+    label: "The page's strongest evidence sat inside paragraphs, where nobody skimming would ever find it.",
+    page: 1,
+    x: 60,
+    y: 92,
+    noteImage: note1,
   },
 ]
 
@@ -150,13 +168,15 @@ function WisconsinCaseStudy() {
                   src: IMAGES.pageviewsChart,
                   alt: 'Squarespace top pageviews by page, with Voting Info far ahead of every other page',
                   caption: 'Top pageviews by page',
-                  annotation: { label: '5,212 views, Voting Info', x: 50, y: 22 },
+                  ratio: '1576 / 1028',
+                  annotation: { label: '5,212 views, Voting Info', x: 10, y: 34 },
                 },
                 {
                   src: IMAGES.conversionChart,
                   alt: 'Squarespace button conversions by button, with the Pledge to Vote pop-up ahead of Register to Vote',
                   caption: 'Button conversions by button',
-                  annotation: { label: '3.0% vs 1.0%', x: 50, y: 22 },
+                  ratio: '1572 / 1028',
+                  annotation: { label: '3.0% vs 1.0%', x: 84, y: 86 },
                 },
               ]}
             />
@@ -174,7 +194,13 @@ function WisconsinCaseStudy() {
               </p>
             </div>
 
-            <StickyNoteBoard src={IMAGES.oldPage} alt="The old Native Vote page" notes={STICKY_NOTES} />
+            <OldPageNotes
+              pages={[
+                { src: IMAGES.oldPage1, alt: 'The old Voting Info page' },
+                { src: IMAGES.oldPage2, alt: 'The old Native Vote page' },
+              ]}
+              notes={PAGE_NOTES}
+            />
           </section>
 
           <section id="next-step" className="case-study__section">
@@ -198,25 +224,17 @@ function WisconsinCaseStudy() {
               </p>
             </div>
 
-            <XrayToggle
-              oldSrc={IMAGES.oldPageActions}
-              newSrc={IMAGES.newPageActions}
-              oldActions={[
-                { label: 'Register to Vote', x: 8, y: 40, w: 32 },
-                { label: 'Donate', x: 8, y: 50, w: 32 },
-                { label: 'Contact', x: 8, y: 90, w: 32 },
-              ]}
-              newActions={[
-                { label: 'Donate', x: 6, y: 14, w: 27, emphasis: true },
-                { label: 'Contact', x: 36, y: 14, w: 27, emphasis: true },
-                { label: 'Follow', x: 66, y: 14, w: 27, emphasis: true },
-                { label: "Governor's Proclamation", x: 6, y: 28, w: 88 },
-                { label: 'Thank You Letter', x: 6, y: 36, w: 88 },
-                { label: 'About', x: 6, y: 88, w: 27 },
-                { label: 'Get in Touch', x: 36, y: 88, w: 27 },
-                { label: 'Take Action', x: 66, y: 88, w: 27 },
-              ]}
-            />
+            <div className="wcv-slider">
+              <BeforeAfterSlider
+                before={IMAGES.nextStepBefore}
+                after={IMAGES.nextStepAfter}
+                beforeAlt="The old Native Vote page, with its actions in a narrow sidebar"
+                afterAlt="The redesigned Native Vote page, with a full-width Connect with Us band"
+                beforeLabel="Original"
+                afterLabel="Redesign"
+                ratio="1146 / 1084"
+              />
+            </div>
           </section>
 
           <section id="numbers" className="case-study__section">
@@ -234,7 +252,7 @@ function WisconsinCaseStudy() {
               </p>
             </div>
 
-            <TurnoutExtraction />
+            <TurnoutExtraction graphic={IMAGES.turnoutGraphic} />
 
             <div className="wcv-band" data-nav-theme="light" data-rail-theme="dark">
               <div className="wcv-band__inner">

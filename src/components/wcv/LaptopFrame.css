@@ -15,12 +15,35 @@
   background: color-mix(in srgb, var(--color-text), black 20%);
 }
 
+.laptop__chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: color-mix(in srgb, var(--color-text), black 12%);
+}
+
+.laptop__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-bg), transparent 55%);
+}
+
+.laptop__url {
+  margin-left: 8px;
+  padding: 3px 14px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-bg), transparent 85%);
+  font-size: 0.6875rem;
+  color: color-mix(in srgb, var(--color-bg), transparent 25%);
+}
+
 .laptop__screen {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   overflow-y: auto;
-  border-radius: 2px;
-  background: var(--color-surface);
+  background: var(--color-bg);
 }
 
 .laptop__screen img {

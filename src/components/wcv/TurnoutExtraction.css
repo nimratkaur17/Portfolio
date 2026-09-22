@@ -1,137 +1,46 @@
 .extraction {
-  position: relative;
   margin-top: 40px;
 }
 
-.extraction__paragraph {
-  margin: 0;
-  font-size: 1.1875rem;
-  line-height: 1.7;
-  color: var(--color-text);
-  transition: color 500ms ease;
+.extraction__old {
+  padding: 24px 28px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--color-muted), transparent 55%);
+  background: color-mix(in srgb, var(--color-surface), transparent 45%);
 }
 
-.extraction__paragraph.is-settled {
+.extraction__kicker {
+  margin: 0 0 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.extraction__figure {
-  font-weight: 500;
-  color: var(--color-primary);
-  transition: opacity 300ms ease;
+.case-study__section .extraction__paragraph {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text);
 }
 
-.extraction__figure.is-lifted {
+.extraction__reveal {
+  margin-top: 32px;
   opacity: 0;
-}
-
-.extraction__flyer {
-  position: absolute;
-  z-index: 2;
-  font-weight: 500;
-  font-size: 1.1875rem;
-  color: var(--color-primary);
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.extraction__result {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: 32px;
-  align-items: center;
-  margin-top: 40px;
-  opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(16px);
   transition:
-    opacity 500ms cubic-bezier(0.22, 0.9, 0.25, 1),
-    transform 500ms cubic-bezier(0.22, 0.9, 0.25, 1);
+    opacity 550ms cubic-bezier(0.22, 0.9, 0.25, 1),
+    transform 550ms cubic-bezier(0.22, 0.9, 0.25, 1);
 }
 
-.extraction__result.is-visible {
+.extraction__reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
-.extraction__map {
-  border-radius: 16px;
-  background: var(--color-surface);
-  padding: 24px;
-}
-
-.extraction__map svg {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-}
-
-.extraction__circle {
-  fill: var(--color-primary);
-  fill-opacity: 0.85;
-}
-
-.extraction__list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.extraction__list li {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.extraction__list-value {
-  font-size: 1.375rem;
-  font-weight: 500;
-  color: var(--color-primary);
-}
-
-.extraction__list-label {
-  font-size: 0.9375rem;
-  color: var(--color-text);
-}
-
-@media (max-width: 640px) {
-  .extraction__result {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* A reduced-motion visitor never gets the "armed" hidden state from JS in
-   the first place, but this guarantees the readable, static, side-by-side
-   layout the spec calls for even if that ever changes. */
 @media (prefers-reduced-motion: reduce) {
-  .extraction {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px;
-    align-items: start;
-  }
-
-  .extraction__paragraph,
-  .extraction__paragraph.is-settled {
-    color: var(--color-text);
-  }
-
-  .extraction__figure,
-  .extraction__figure.is-lifted {
-    opacity: 1;
-  }
-
-  .extraction__result,
-  .extraction__result.is-visible {
-    margin-top: 0;
-    opacity: 1;
-    transform: none;
+  .extraction__reveal {
     transition: none;
-  }
-
-  .extraction__flyer {
-    display: none;
   }
 }
