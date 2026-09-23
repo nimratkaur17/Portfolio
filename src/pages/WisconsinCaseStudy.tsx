@@ -17,6 +17,7 @@ import grid3 from '../grid3.png'
 import grid4 from '../grid4.png'
 import grid5 from '../grid5.png'
 import grid6 from '../grid6.png'
+import heroWcv from '../hero-wcv.jpg'
 import impactBand from '../impact-band.png'
 import impactNumbers from '../impact-numbers.png'
 import oldDesign1 from '../old-design1.png'
@@ -29,7 +30,7 @@ import './WisconsinCaseStudy.css'
 // Drop image paths (from /public or a local import) in here as the assets
 // arrive. null renders a neutral placeholder panel that holds the layout.
 const IMAGES = {
-  hero: null as string | null,
+  hero: heroWcv as string | null,
   pageviewsChart: votingAnalytics as string | null,
   conversionChart: buttonsAnalytics as string | null,
   oldPage1: oldDesign1 as string | null,
@@ -384,8 +385,12 @@ function WisconsinCaseStudy() {
               </p>
             </div>
 
-            {/* TODO: point this at the live Native Vote page once the URL is confirmed. */}
-            <a className="wcv-live-link" href="#">
+            <a
+              className="wcv-live-link"
+              href="https://www.conservationvoices.org/nativevote"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               View the live Native Vote page
             </a>
           </section>

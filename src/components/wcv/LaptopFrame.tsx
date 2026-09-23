@@ -26,7 +26,7 @@ function LaptopFrame({ src, alt, children, scrollable }: LaptopFrameProps) {
             className={`laptop__screen${scrollable ? ' laptop__screen--scrollable' : ''}`}
             aria-hidden={children || src ? undefined : true}
           >
-            {children ?? (src ? <img src={src} alt={alt} loading="lazy" decoding="async" /> : null)}
+            {children ?? (src ? <img src={src} alt={alt} decoding="async" /> : null)}
           </div>
         </div>
       </div>
