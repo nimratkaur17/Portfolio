@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
+import PhoneTrio from './PhoneTrio'
 import './ProjectStack.css'
 import schneiderCard1 from '../schneider-card1.png'
 import schneiderCard2 from '../schneider-card2.png'
@@ -179,21 +180,12 @@ function ProjectStack() {
           >
             <div className="project-card__surface">
               {study.phones ? (
-                <div
+                <PhoneTrio
                   className="project-card__phones"
-                  style={{ '--phone-ratio': study.phones.ratio } as CSSProperties}
-                  aria-hidden="true"
-                >
-                  {study.phones.screens.map((src, slotIndex) => (
-                    <div
-                      key={src}
-                      className={`phone${study.phones?.island ? ' phone--island' : ''}`}
-                      style={{ '--phone-lift': `${(2 - slotIndex) * 10}px` } as CSSProperties}
-                    >
-                      <img src={src} alt="" decoding="async" />
-                    </div>
-                  ))}
-                </div>
+                  screens={study.phones.screens}
+                  ratio={study.phones.ratio}
+                  island={study.phones.island}
+                />
               ) : study.laptops ? (
                 <div className="project-card__laptops" aria-hidden="true">
                   {study.laptops.map((src) => (

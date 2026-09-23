@@ -1,0 +1,56 @@
+/* Three same-size phones in a gentle ascending staircase. Each frame is
+   sized by its own screenshot (aspect-ratio comes from --phone-ratio), so the
+   bezel always hugs the image with no gap. Set --phone-w on the wrapper (or a
+   parent) to resize the whole trio. */
+.phone-trio {
+  --phone-w: 158px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+/* One slim bezel for every phone. Literal device material, like the laptop
+   chrome, so it uses a plain near-black rather than a palette token. */
+.phone {
+  --phone-pad: 5px;
+  --phone-radius: calc((var(--phone-w) - var(--phone-pad) * 2) * 0.125);
+  position: relative;
+  box-sizing: border-box;
+  width: var(--phone-w);
+  padding: var(--phone-pad);
+  border-radius: calc(var(--phone-radius) + var(--phone-pad));
+  background: #1a1b1d;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 16px 26px rgba(36, 26, 22, 0.26);
+  transform: translateY(var(--phone-lift, 0));
+}
+
+.phone img {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--phone-ratio);
+  object-fit: cover;
+  object-position: top;
+  border-radius: var(--phone-radius);
+}
+
+.phone--island::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--phone-pad) + 6px);
+  left: 50%;
+  width: 26%;
+  height: 6px;
+  border-radius: 3px;
+  background: #1a1b1d;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 760px) {
+  .phone-trio {
+    --phone-w: 92px;
+    gap: 10px;
+  }
+}

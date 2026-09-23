@@ -2,12 +2,15 @@ import AnnotatedCard from '../components/case/AnnotatedCard'
 import type { Annotation } from '../components/case/AnnotatedCard'
 import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
 import BriefQuote from '../components/case/BriefQuote'
-import DeviceFrame from '../components/case/DeviceFrame'
 import ImageSlot from '../components/case/ImageSlot'
 import SpokenQuote from '../components/case/SpokenQuote'
+import PhoneTrio from '../components/PhoneTrio'
 import cardAfter from '../card-after.png'
 import cardBefore from '../card-before.png'
 import compareScreen from '../compare.png'
+import schneiderCard1 from '../schneider-card1.png'
+import schneiderCard2 from '../schneider-card2.png'
+import schneiderCard3 from '../schneider-card3.png'
 import { useRailOnDark } from './useRailOnDark'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
@@ -16,7 +19,7 @@ import './SchneiderCaseStudy.css'
 // Drop image paths (from /public) in here as the assets arrive. null renders
 // a neutral placeholder panel that holds the layout.
 const IMAGES = {
-  hero: null as string | null,
+  heroPhones: [schneiderCard1, schneiderCard2, schneiderCard3],
   originalCard: cardBefore as string | null,
   redesignedCard: cardAfter as string | null,
   compare: compareScreen as string | null,
@@ -91,10 +94,7 @@ function SchneiderCaseStudy() {
         <article className="case-study__content">
           <section id="overview" className="case-study__section">
             <div className="cs-hero-visual">
-              <DeviceFrame
-                src={IMAGES.hero}
-                alt="The final load board in dark mode, shown on a phone"
-              />
+              <PhoneTrio screens={IMAGES.heroPhones} ratio="420 / 763" island />
             </div>
             <h2>Drivers were doing the app's job</h2>
             <p className="cs-meta">Schneider · Capstone collaboration · 7 weeks</p>

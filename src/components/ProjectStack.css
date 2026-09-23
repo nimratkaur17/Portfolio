@@ -110,60 +110,9 @@
   background: linear-gradient(155deg, var(--color-surface), var(--color-muted));
 }
 
-/* Three same-size phones in a gentle ascending staircase. Each frame is
-   sized by its own screenshot (aspect-ratio comes from --phone-ratio), so the
-   bezel always hugs the image with no gap. */
+/* Slot for the shared PhoneTrio (see PhoneTrio.css). */
 .project-card__phones {
-  --phone-w: 158px;
   flex: 0 0 calc(var(--phone-w) * 3 + 36px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.phone {
-  box-sizing: border-box;
-  width: var(--phone-w);
-  transform: translateY(var(--phone-lift, 0));
-}
-
-.phone img {
-  display: block;
-  width: 100%;
-  aspect-ratio: var(--phone-ratio);
-  object-fit: cover;
-  object-position: top;
-}
-
-/* Screenshots that already carry a device bezel: just lift them off the page. */
-/* One slim bezel for every phone. Literal device material, like the laptop
-   chrome, so it uses a plain near-black rather than a palette token. */
-.phone {
-  --phone-pad: 5px;
-  --phone-radius: calc((var(--phone-w) - var(--phone-pad) * 2) * 0.125);
-  position: relative;
-  padding: var(--phone-pad);
-  border-radius: calc(var(--phone-radius) + var(--phone-pad));
-  background: #1a1b1d;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 16px 26px rgba(36, 26, 22, 0.26);
-}
-
-.phone img {
-  border-radius: var(--phone-radius);
-}
-
-.phone--island::after {
-  content: '';
-  position: absolute;
-  top: calc(var(--phone-pad) + 6px);
-  left: 50%;
-  width: 26%;
-  height: 6px;
-  border-radius: 3px;
-  background: #1a1b1d;
-  transform: translateX(-50%);
 }
 
 /* Two overlapping laptops: the first sits top-left, the second bottom-right.
