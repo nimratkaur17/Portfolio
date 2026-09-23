@@ -19,10 +19,10 @@ interface CaseStudy {
   title: string
   copy: string
   tags: string[]
-  // Three same-size phones. `framed: false` means the screenshots already
-  // include a device bezel, so they render as-is instead of inside the CSS
-  // frame. `ratio` is the shared width / height of the screenshots.
-  phones?: { screens: string[]; framed: boolean; ratio: string }
+  // Three same-size phones in one shared CSS frame. `ratio` is the screenshots'
+  // width / height; `island` adds the camera pill for screenshots that don't
+  // already include one.
+  phones?: { screens: string[]; island: boolean; ratio: string }
   laptops?: string[]
 }
 
@@ -35,7 +35,7 @@ const CASE_STUDIES: CaseStudy[] = [
     tags: ['UX Research', 'Search Optimization', 'Frontend Development'],
     phones: {
       screens: [schneiderCard1, schneiderCard2, schneiderCard3],
-      framed: true,
+      island: true,
       ratio: '420 / 763',
     },
   },
@@ -55,8 +55,8 @@ const CASE_STUDIES: CaseStudy[] = [
     tags: ['UX Research', 'Interaction Design', 'Prototyping'],
     phones: {
       screens: [tetherCard1, tetherCard2, tetherCard3],
-      framed: false,
-      ratio: '420 / 838',
+      island: false,
+      ratio: '360 / 780',
     },
   },
 ]
@@ -187,7 +187,7 @@ function ProjectStack() {
                   {study.phones.screens.map((src, slotIndex) => (
                     <div
                       key={src}
-                      className={`phone${study.phones?.framed ? ' phone--framed' : ''}`}
+                      className={`phone${study.phones?.island ? ' phone--island' : ''}`}
                       style={{ '--phone-lift': `${(2 - slotIndex) * 10}px` } as CSSProperties}
                     >
                       <img src={src} alt="" decoding="async" />

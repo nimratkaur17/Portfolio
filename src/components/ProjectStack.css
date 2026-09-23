@@ -49,7 +49,7 @@
   position: sticky;
   top: 88px;
   width: 90%;
-  max-width: 960px;
+  max-width: 1080px;
   margin-inline: auto;
   transform: scale(1) translateY(0);
   --overlay-o: 0;
@@ -60,11 +60,11 @@
   position: relative;
   isolation: isolate;
   display: flex;
-  gap: 40px;
-  min-height: 440px;
+  gap: 48px;
+  min-height: 520px;
   background: var(--color-bg);
   border-radius: 20px;
-  padding: 48px;
+  padding: 56px;
   transition: transform 250ms cubic-bezier(0.25, 0.85, 0.3, 1);
 }
 
@@ -114,14 +114,15 @@
    sized by its own screenshot (aspect-ratio comes from --phone-ratio), so the
    bezel always hugs the image with no gap. */
 .project-card__phones {
-  --phone-w: 132px;
-  flex: 0 0 calc(var(--phone-w) * 3 + 32px);
+  --phone-w: 158px;
+  flex: 0 0 calc(var(--phone-w) * 3 + 36px);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .phone {
+  box-sizing: border-box;
   width: var(--phone-w);
   transform: translateY(var(--phone-lift, 0));
 }
@@ -135,48 +136,46 @@
 }
 
 /* Screenshots that already carry a device bezel: just lift them off the page. */
-.phone:not(.phone--framed) img {
-  filter: drop-shadow(0 14px 18px rgba(36, 26, 22, 0.28));
-}
-
-/* Slim CSS bezel for flat screenshots. Literal device material, like the
-   laptop chrome, so it uses a plain near-black rather than a palette token. */
-.phone--framed {
+/* One slim bezel for every phone. Literal device material, like the laptop
+   chrome, so it uses a plain near-black rather than a palette token. */
+.phone {
+  --phone-pad: 5px;
+  --phone-radius: calc((var(--phone-w) - var(--phone-pad) * 2) * 0.125);
   position: relative;
-  padding: 4px;
-  border-radius: 24px;
+  padding: var(--phone-pad);
+  border-radius: calc(var(--phone-radius) + var(--phone-pad));
   background: #1a1b1d;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 14px 22px rgba(36, 26, 22, 0.26);
+    0 16px 26px rgba(36, 26, 22, 0.26);
 }
 
-.phone--framed::after {
+.phone img {
+  border-radius: var(--phone-radius);
+}
+
+.phone--island::after {
   content: '';
   position: absolute;
-  top: 9px;
+  top: calc(var(--phone-pad) + 6px);
   left: 50%;
   width: 26%;
-  height: 5px;
+  height: 6px;
   border-radius: 3px;
   background: #1a1b1d;
   transform: translateX(-50%);
 }
 
-.phone--framed img {
-  border-radius: 20px;
-}
-
 /* Two overlapping laptops: the first sits top-left, the second bottom-right.
    Each lid is exactly the screenshot plus a thin bezel. */
 .project-card__laptops {
-  --laptop-w: 300px;
+  --laptop-w: 360px;
   --laptop-silver-1: #eceef0;
   --laptop-silver-2: #c7c9cc;
   --laptop-silver-3: #a3a5a8;
   position: relative;
   flex: 0 0 calc(var(--laptop-w) * 1.4);
-  min-height: 300px;
+  min-height: 360px;
 }
 
 .mini-laptop {
@@ -280,13 +279,13 @@
 
 .project-card__title {
   font-weight: 500;
-  font-size: 1.75rem;
+  font-size: 2rem;
   color: var(--color-text);
 }
 
 .project-card__copy {
   max-width: 640px;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.5;
   color: var(--color-text);
 }
