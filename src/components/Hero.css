@@ -92,7 +92,6 @@
 
 .hero__line {
   margin: 0;
-  max-width: 40ch;
   opacity: 1;
 }
 
@@ -100,6 +99,7 @@
   grid-column: 4 / span 7;
   grid-row: 1;
   align-self: start;
+  max-width: 24ch;
   font-size: clamp(1.5rem, 2.6vw, 2.375rem);
   font-weight: 400;
   line-height: 1.2;
@@ -111,6 +111,7 @@
   grid-column: 7 / -1;
   grid-row: 3;
   justify-self: end;
+  max-width: 28ch;
   text-align: right;
   font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
   line-height: 1.45;
