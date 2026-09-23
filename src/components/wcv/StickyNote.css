@@ -1,0 +1,64 @@
+.sticky-note {
+  width: 190px;
+  padding: 16px 18px;
+  border-radius: 3px;
+  box-shadow: 0 16px 32px color-mix(in srgb, var(--color-text), transparent 55%);
+}
+
+.case-study__section .sticky-note__line {
+  margin: 0 0 8px;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.sticky-note__line:last-of-type {
+  margin-bottom: 0;
+}
+
+.sticky-note__line.is-bullet {
+  position: relative;
+  padding-left: 13px;
+}
+
+.sticky-note__line.is-bullet::before {
+  content: '\2022';
+  position: absolute;
+  left: 0;
+}
+
+.sticky-note__line.is-indent {
+  padding-left: 26px;
+  font-size: 0.75rem;
+}
+
+.case-study__section .sticky-note__author {
+  margin: 12px 0 0;
+  font-size: 0.6875rem;
+  opacity: 0.55;
+}
+
+.sticky-note--blue {
+  background: #b2d9fb;
+  color: #1c2b3a;
+}
+
+.sticky-note--tan {
+  background: #fae3a2;
+  color: #3a2f14;
+}
+
+.sticky-note--salmon {
+  background: #f3b2a6;
+  color: #3a1712;
+}
+
+.sticky-note--purple {
+  background: #d7c8f2;
+  color: #2c2140;
+}
+
+.sticky-note--green {
+  background: #c4e1bd;
+  color: #1e3318;
+}

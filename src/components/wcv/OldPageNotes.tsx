@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react'
 import ImageSlot from '../case/ImageSlot'
+import StickyNote from './StickyNote'
+import type { StickyNoteData } from './StickyNote'
 import './OldPageNotes.css'
 
 export interface PageNote {
@@ -8,7 +10,7 @@ export interface PageNote {
   page: 0 | 1
   x: number
   y: number
-  noteImage?: string | null
+  note: StickyNoteData
 }
 
 interface OldPageNotesProps {
@@ -16,9 +18,9 @@ interface OldPageNotesProps {
   notes: PageNote[]
 }
 
-// Two real screenshots of the old page with highlight dots. The photo of the
-// physical sticky note each dot describes pops up right above it on hover or
-// focus - pure CSS, no separate panel.
+// Two real screenshots of the old page with highlight dots. The sticky note
+// each dot describes pops up beside it on hover or focus - pure CSS, no
+// separate panel or card wrapping it.
 function OldPageNotes({ pages, notes }: OldPageNotesProps) {
   return (
     <div className="old-notes">
@@ -30,14 +32,14 @@ function OldPageNotes({ pages, notes }: OldPageNotesProps) {
             .map((note) => (
               <div
                 key={note.id}
-                className={`old-notes__spot${note.x > 55 ? ' opens-left' : ''}${note.y < 20 ? ' opens-down' : ''}`}
+                className={`old-notes__spot${note.x > 50 ? ' opens-left' : ''}`}
                 style={{ left: `${note.x}%`, top: `${note.y}%` } as CSSProperties}
               >
                 <button type="button" className="old-notes__dot" aria-label={note.label}>
                   <span aria-hidden="true" />
                 </button>
                 <div className="old-notes__popup">
-                  <ImageSlot src={note.noteImage} alt={`Sticky note: ${note.label}`} ratio="1 / 1" />
+                  <StickyNote {...note.note} />
                 </div>
               </div>
             ))}

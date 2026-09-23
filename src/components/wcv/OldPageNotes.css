@@ -1,24 +1,33 @@
 .old-notes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
   margin-top: 40px;
 }
 
 .old-notes__page {
   position: relative;
+  flex: 0 0 260px;
+  width: 260px;
 }
 
 .old-notes__spot {
   position: absolute;
   transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.old-notes__spot:hover,
+.old-notes__spot:focus-within {
+  z-index: 2;
 }
 
 .old-notes__dot {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -27,8 +36,8 @@
 }
 
 .old-notes__dot span {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border: 2px solid var(--color-bg);
   border-radius: 50%;
   background: var(--color-gold);
@@ -50,12 +59,14 @@
   outline-offset: 2px;
 }
 
+/* Popups open sideways - to the right of the dot by default, or to the left
+   when the dot sits in the right half of its screenshot - so they never
+   collide with the nav above, regardless of where the dot sits vertically. */
 .old-notes__popup {
   position: absolute;
-  bottom: calc(100% + 12px);
-  left: 50%;
-  width: 150px;
-  transform: translateX(-50%) translateY(6px);
+  top: 50%;
+  left: calc(100% + 14px);
+  transform: translateY(-50%) translateX(-6px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -63,46 +74,45 @@
     opacity 180ms cubic-bezier(0.22, 0.9, 0.25, 1),
     transform 180ms cubic-bezier(0.22, 0.9, 0.25, 1),
     visibility 0s linear 180ms;
-  filter: drop-shadow(0 10px 22px color-mix(in srgb, var(--color-text), transparent 65%));
 }
 
 .old-notes__spot.opens-left .old-notes__popup {
   left: auto;
-  right: 0;
-}
-
-.old-notes__spot.opens-down .old-notes__popup {
-  top: calc(100% + 12px);
-  bottom: auto;
-  transform: translateX(-50%) translateY(-6px);
-}
-
-.old-notes__spot.opens-left.opens-down .old-notes__popup {
-  left: auto;
-  right: 0;
-  transform: translateY(-6px);
+  right: calc(100% + 14px);
+  transform: translateY(-50%) translateX(6px);
 }
 
 .old-notes__spot:hover .old-notes__popup,
 .old-notes__dot:focus-visible ~ .old-notes__popup {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(-50%) translateX(0);
   transition-delay: 0s;
-}
-
-.old-notes__spot.opens-left:hover .old-notes__popup,
-.old-notes__spot.opens-left .old-notes__dot:focus-visible ~ .old-notes__popup {
-  transform: translateY(0);
-}
-
-.old-notes__popup .image-slot {
-  border-radius: 8px;
 }
 
 @media (max-width: 600px) {
   .old-notes {
-    grid-template-columns: 1fr;
+    gap: 24px 16px;
+  }
+
+  .old-notes__page {
+    flex: 0 0 42vw;
+    width: 42vw;
+  }
+
+  .old-notes__popup {
+    transform: translateY(-50%) translateX(-6px) scale(0.85);
+    transform-origin: left center;
+  }
+
+  .old-notes__spot.opens-left .old-notes__popup {
+    transform: translateY(-50%) translateX(6px) scale(0.85);
+    transform-origin: right center;
+  }
+
+  .old-notes__spot:hover .old-notes__popup,
+  .old-notes__dot:focus-visible ~ .old-notes__popup {
+    transform: translateY(-50%) translateX(0) scale(0.85);
   }
 }
 

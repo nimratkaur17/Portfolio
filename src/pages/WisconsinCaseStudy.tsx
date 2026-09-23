@@ -13,10 +13,6 @@ import buttonsAnalytics from '../buttons-analytics.png'
 import floralArt from '../floral-art.png'
 import impactBand from '../impact-band.png'
 import impactNumbers from '../impact-numbers.png'
-import note1 from '../note1.png'
-import note2 from '../note2.png'
-import note3 from '../note3.png'
-import note5 from '../note5.png'
 import oldDesign1 from '../old-design1.png'
 import oldDesign2 from '../old-design2.png'
 import votingAnalytics from '../voting-analytics.png'
@@ -52,6 +48,8 @@ const SECTIONS = [
 
 const SECTION_IDS = SECTIONS.map((section) => section.id)
 
+// Recreated as real text from photos of the physical sticky notes - same
+// words, same color, same signature - so they're never blurry or cropped.
 const PAGE_NOTES: PageNote[] = [
   {
     id: 'dense',
@@ -59,7 +57,26 @@ const PAGE_NOTES: PageNote[] = [
     page: 0,
     x: 50,
     y: 30,
-    noteImage: note5,
+    note: {
+      color: 'salmon',
+      blocks: [
+        { text: 'how can we present this in a way that will prompt people to read it' },
+        { text: 'lwv example', bullet: true },
+      ],
+      author: 'Nimrat',
+    },
+  },
+  {
+    id: 'grouping',
+    label: 'Eleven documents in one list, nothing grouped.',
+    page: 0,
+    x: 75,
+    y: 68,
+    note: {
+      color: 'purple',
+      blocks: [{ text: 'Eleven documents in one list, nothing grouped or prioritized.' }],
+      author: 'Nimrat',
+    },
   },
   {
     id: 'light',
@@ -67,7 +84,14 @@ const PAGE_NOTES: PageNote[] = [
     page: 1,
     x: 30,
     y: 8,
-    noteImage: note2,
+    note: {
+      color: 'blue',
+      blocks: [
+        { text: 'increase contrast to meet WCAG standards' },
+        { text: 'or simplify section background colors' },
+      ],
+      author: 'Ingrid Rivera-Mendez',
+    },
   },
   {
     id: 'actions',
@@ -75,7 +99,27 @@ const PAGE_NOTES: PageNote[] = [
     page: 1,
     x: 18,
     y: 30,
-    noteImage: note3,
+    note: {
+      color: 'tan',
+      blocks: [
+        { text: "CTA buttons don't look clickable", bullet: true },
+        { text: 'interactive hover?', bullet: true, indent: true },
+        { text: 'scroll buttons feel out of place for the image carousel', bullet: true },
+      ],
+      author: 'shivani',
+    },
+  },
+  {
+    id: 'videos',
+    label: 'Five videos compete for attention.',
+    page: 1,
+    x: 70,
+    y: 58,
+    note: {
+      color: 'green',
+      blocks: [{ text: 'Five videos compete for attention. Which one matters?' }],
+      author: 'Nimrat',
+    },
   },
   {
     id: 'evidence',
@@ -83,7 +127,13 @@ const PAGE_NOTES: PageNote[] = [
     page: 1,
     x: 60,
     y: 92,
-    noteImage: note1,
+    note: {
+      color: 'blue',
+      blocks: [
+        { text: 'Highlight the quote and stats more by separating it from the rest of the paragraph text' },
+      ],
+      author: 'Nimrat',
+    },
   },
 ]
 
@@ -223,50 +273,54 @@ function WisconsinCaseStudy() {
             </div>
 
             <div className="wcv-slider">
-              <BeforeAfterSlider
-                before={IMAGES.nextStepBefore}
-                after={IMAGES.nextStepAfter}
-                beforeAlt="The old Native Vote page, with its actions in a narrow sidebar"
-                afterAlt="The redesigned Native Vote page, with a full-width Connect with Us band"
-                beforeLabel="Original"
-                afterLabel="Redesign"
-                ratio="564 / 1082"
-              />
+              <LaptopFrame scrollable>
+                <BeforeAfterSlider
+                  before={IMAGES.nextStepBefore}
+                  after={IMAGES.nextStepAfter}
+                  beforeAlt="The old Native Vote page, with its actions in a narrow sidebar"
+                  afterAlt="The redesigned Native Vote page, with a full-width Connect with Us band"
+                  beforeLabel="Original"
+                  afterLabel="Redesign"
+                  ratio="564 / 1082"
+                />
+              </LaptopFrame>
             </div>
           </section>
 
           <section id="numbers" className="case-study__section">
             <h2>The proof was hiding in the paragraphs</h2>
-            <div className="cs-prose">
-              <p>
-                Turnout rose in every tribal community Native Vote worked in. The program reached
-                23,000 households and knocked on 4,500 doors.
-              </p>
-              <p>
-                On the old page you would never know. The turnout figures were written into
-                sentences. The two infographics were flat images dropped into a narrow column, at a
-                size that made them close to unreadable. The strongest argument on the page was
-                also the hardest part to see.
-              </p>
-              <p>
-                I pulled all of it out. Turnout became a map of Wisconsin with a circle over each
-                community, sized to its increase, alongside the figures as a list you can read at a
-                glance. The program's totals became "Our Impact in Numbers", a full-width red band
-                with eight figures set large enough to read from across the room.
-              </p>
-            </div>
+            <div className="wcv-numbers">
+              <div className="cs-prose wcv-numbers__text">
+                <p>
+                  Turnout rose in every tribal community Native Vote worked in. The program reached
+                  23,000 households and knocked on 4,500 doors.
+                </p>
+                <p>
+                  On the old page you would never know. The turnout figures were written into
+                  sentences. The two infographics were flat images dropped into a narrow column, at
+                  a size that made them close to unreadable. The strongest argument on the page was
+                  also the hardest part to see.
+                </p>
+                <p>
+                  I pulled all of it out. Turnout became a map of Wisconsin with a circle over each
+                  community, sized to its increase, alongside the figures as a list you can read at
+                  a glance. The program's totals became "Our Impact in Numbers", a full-width red
+                  band with eight figures set large enough to read from across the room.
+                </p>
+              </div>
 
-            <div className="wcv-numbers-screens">
-              <ImageSlot
-                src={IMAGES.turnoutMap}
-                alt="Impacts on voter turnout: a list of turnout increases by community next to a map of Wisconsin with a circle sized to each one"
-                ratio="1314 / 914"
-              />
-              <ImageSlot
-                src={IMAGES.turnoutBand}
-                alt="Our Impact in Numbers: eight figures including 23,000 households reached and 4,500 doors knocked on"
-                ratio="447 / 164"
-              />
+              <div className="wcv-numbers__screens">
+                <ImageSlot
+                  src={IMAGES.turnoutMap}
+                  alt="Impacts on voter turnout: a list of turnout increases by community next to a map of Wisconsin with a circle sized to each one"
+                  ratio="1314 / 914"
+                />
+                <ImageSlot
+                  src={IMAGES.turnoutBand}
+                  alt="Our Impact in Numbers: eight figures including 23,000 households reached and 4,500 doors knocked on"
+                  ratio="447 / 164"
+                />
+              </div>
             </div>
           </section>
 

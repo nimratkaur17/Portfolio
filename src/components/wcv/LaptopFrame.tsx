@@ -1,11 +1,16 @@
+import type { ReactNode } from 'react'
 import './LaptopFrame.css'
 
 interface LaptopFrameProps {
   src?: string | null
-  alt: string
+  alt?: string
+  // For content taller than the screen (a slider showing the full page),
+  // pass children instead of src - the screen scrolls to reveal the rest.
+  children?: ReactNode
+  scrollable?: boolean
 }
 
-function LaptopFrame({ src, alt }: LaptopFrameProps) {
+function LaptopFrame({ src, alt, children, scrollable }: LaptopFrameProps) {
   return (
     <div className="laptop">
       <div className="laptop__lid">
@@ -16,8 +21,11 @@ function LaptopFrame({ src, alt }: LaptopFrameProps) {
             <span className="laptop__dot" />
             <span className="laptop__url">nativevote.org</span>
           </div>
-          <div className="laptop__screen" aria-hidden={src ? undefined : true}>
-            {src ? <img src={src} alt={alt} loading="lazy" decoding="async" /> : null}
+          <div
+            className={`laptop__screen${scrollable ? ' laptop__screen--scrollable' : ''}`}
+            aria-hidden={children || src ? undefined : true}
+          >
+            {children ?? (src ? <img src={src} alt={alt} loading="lazy" decoding="async" /> : null)}
           </div>
         </div>
       </div>

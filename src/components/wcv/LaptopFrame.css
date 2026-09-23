@@ -52,6 +52,29 @@
   height: auto;
 }
 
+.laptop__screen--scrollable {
+  position: relative;
+  scrollbar-width: thin;
+}
+
+.laptop__screen--scrollable::after {
+  content: 'Scroll for more \2193';
+  position: sticky;
+  display: block;
+  bottom: 8px;
+  left: 50%;
+  width: max-content;
+  margin: 0 auto -30px;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-text), transparent 15%);
+  color: var(--color-bg);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
 .laptop__base {
   position: relative;
   height: 16px;

@@ -80,15 +80,21 @@
   color: var(--color-text);
 }
 
-.wcv-numbers-screens {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 40px;
+.wcv-numbers {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 40px;
+  align-items: start;
 }
 
-.wcv-numbers-screens .image-slot {
-  max-width: 640px;
+.wcv-numbers__text {
+  max-width: 480px;
+}
+
+.wcv-numbers__screens {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .wcv-live-link {
@@ -121,5 +127,14 @@
 
   .cs-wcv .case-study__section {
     padding-top: 80px;
+  }
+
+  .wcv-numbers {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .wcv-numbers__text {
+    max-width: none;
   }
 }
