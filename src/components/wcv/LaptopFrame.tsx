@@ -14,6 +14,7 @@ function LaptopFrame({ src, alt, children, scrollable }: LaptopFrameProps) {
   return (
     <div className="laptop">
       <div className="laptop__lid">
+        <span className="laptop__camera" aria-hidden="true" />
         <div className="laptop__bezel">
           <div className="laptop__chrome" aria-hidden="true">
             <span className="laptop__dot" />
@@ -29,6 +30,7 @@ function LaptopFrame({ src, alt, children, scrollable }: LaptopFrameProps) {
           </div>
         </div>
       </div>
+      <div className="laptop__hinge" aria-hidden="true" />
       <div className="laptop__base" aria-hidden="true">
         <div className="laptop__notch" />
       </div>

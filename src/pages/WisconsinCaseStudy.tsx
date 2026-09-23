@@ -11,6 +11,12 @@ import afterDesign from '../after-design.png'
 import beforeDesign from '../before-design.png'
 import buttonsAnalytics from '../buttons-analytics.png'
 import floralArt from '../floral-art.png'
+import grid1 from '../grid1.png'
+import grid2 from '../grid2.png'
+import grid3 from '../grid3.png'
+import grid4 from '../grid4.png'
+import grid5 from '../grid5.png'
+import grid6 from '../grid6.png'
 import impactBand from '../impact-band.png'
 import impactNumbers from '../impact-numbers.png'
 import oldDesign1 from '../old-design1.png'
@@ -32,9 +38,16 @@ const IMAGES = {
   nextStepAfter: afterDesign as string | null,
   turnoutMap: impactNumbers as string | null,
   turnoutBand: impactBand as string | null,
-  // Community photos for the grid haven't been supplied yet.
-  communityPhotos: Array.from({ length: 8 }, () => null) as (string | null)[],
 }
+
+const COMMUNITY_PHOTOS = [
+  { src: grid2, alt: 'The redesigned Native Vote hero, with a man in traditional regalia', caption: 'Wisconsin Native Vote' },
+  { src: grid3, alt: 'A man in a patterned shirt speaking on video', caption: 'Protecting our power' },
+  { src: grid1, alt: 'A woman speaking on video, captioned Your Vote is Your Voice', caption: 'Your Vote is Your Voice' },
+  { src: grid6, alt: 'The Getting Started section, with buttons for registration and voting options', caption: 'Getting started' },
+  { src: grid4, alt: 'The early and absentee voting resources section', caption: 'Early and absentee voting' },
+  { src: grid5, alt: 'The Beyond the Numbers section with the Story Spotlight', caption: 'Beyond the numbers' },
+]
 
 const SECTIONS = [
   { id: 'overview', rail: 'Overview' },
@@ -340,12 +353,7 @@ function WisconsinCaseStudy() {
             </div>
 
             <FloralReveal src={floralArt} />
-            <PhotoGrid
-              photos={IMAGES.communityPhotos.map((src, i) => ({
-                src,
-                alt: `Photograph from the community, ${i + 1} of ${IMAGES.communityPhotos.length}`,
-              }))}
-            />
+            <PhotoGrid photos={COMMUNITY_PHOTOS} />
           </section>
 
           <section id="test" className="case-study__section">
