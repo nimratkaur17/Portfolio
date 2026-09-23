@@ -111,7 +111,8 @@
   grid-column: 7 / -1;
   grid-row: 3;
   justify-self: end;
-  max-width: 28ch;
+  max-width: 19ch;
+  text-wrap: balance;
   text-align: right;
   font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
   line-height: 1.45;
