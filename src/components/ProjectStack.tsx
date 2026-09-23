@@ -2,18 +2,28 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import './ProjectStack.css'
+import schneiderCard1 from '../schneider-card1.png'
+import schneiderCard2 from '../schneider-card2.png'
+import schneiderCard3 from '../schneider-card3.png'
+import tetherCard1 from '../tether-card1.png'
+import tetherCard2 from '../tether-card2.png'
+import tetherCard3 from '../tether-card3.png'
+import wcvCard1 from '../wcv-card1.jpg'
+import wcvCard2 from '../wcv-card2.jpg'
 
 interface CaseStudy {
-  slug: string
+  // Internal route slug, or an external href (opens in a new tab).
+  slug?: string
+  href?: string
   kicker: string
   title: string
   copy: string
   tags: string[]
-  // Phone mockup screens for this case study's media slot, in left/center/right
-  // order - present (even with every entry null) means "render the phone
-  // frames," absent means the plain gradient placeholder. null entries render
-  // an empty frame until a real screenshot path is supplied.
-  screens?: (string | null)[]
+  // Three same-size phones. `framed: false` means the screenshots already
+  // include a device bezel, so they render as-is instead of inside the CSS
+  // frame. `ratio` is the shared width / height of the screenshots.
+  phones?: { screens: string[]; framed: boolean; ratio: string }
+  laptops?: string[]
 }
 
 const CASE_STUDIES: CaseStudy[] = [
@@ -23,7 +33,11 @@ const CASE_STUDIES: CaseStudy[] = [
     title: 'Schneider FreightPower Owner Operator App',
     copy: 'Redesigned load search and booking workflows for owner-operators to simplify high-stakes freight decisions.',
     tags: ['UX Research', 'Search Optimization', 'Frontend Development'],
-    screens: [null, null, null],
+    phones: {
+      screens: [schneiderCard1, schneiderCard2, schneiderCard3],
+      framed: true,
+      ratio: '420 / 763',
+    },
   },
   {
     slug: 'wisconsin-conservation-voices-native-vote',
@@ -31,20 +45,19 @@ const CASE_STUDIES: CaseStudy[] = [
     title: 'Wisconsin Conservation Voices, Native Vote',
     copy: 'Redesigned a nonpartisan voter site so the two minutes people spend on it actually get them to the door.',
     tags: ['UX Research', 'Web Design', 'Usability Testing'],
+    laptops: [wcvCard1, wcvCard2],
   },
   {
-    slug: 'onboarding-for-a-fintech-app',
+    href: 'https://medium.com/@nkaur24/tether-025c69cc89f8',
     kicker: 'Case study 03',
-    title: 'Onboarding for a fintech app',
-    copy: 'Cutting first-session drop-off by rethinking what identity verification has to feel like.',
-    tags: ['Onboarding', 'Design systems'],
-  },
-  {
-    slug: 'dashboard-for-field-technicians',
-    kicker: 'Case study 04',
-    title: 'Dashboard for field technicians',
-    copy: 'Turning a spreadsheet-shaped workflow into something usable with gloves on.',
-    tags: ['B2B', 'Accessibility', 'Data viz'],
+    title: 'Tether App',
+    copy: 'Designed a student event discovery experience through user research, prototyping, and iterative testing.',
+    tags: ['UX Research', 'Interaction Design', 'Prototyping'],
+    phones: {
+      screens: [tetherCard1, tetherCard2, tetherCard3],
+      framed: false,
+      ratio: '420 / 838',
+    },
   },
 ]
 
@@ -165,20 +178,32 @@ function ProjectStack() {
             }}
           >
             <div className="project-card__surface">
-              {study.screens ? (
-                <div className="project-card__phones" aria-hidden="true">
-                  {(['left', 'center', 'right'] as const).map((position, slotIndex) => {
-                    const src = study.screens?.[slotIndex] ?? null
-                    return (
-                      <div key={position} className={`phone-frame phone-frame--${position}`}>
-                        <div className="phone-frame__notch" />
-                        <div
-                          className="phone-frame__screen"
-                          style={src ? { backgroundImage: `url(${src})` } : undefined}
-                        />
+              {study.phones ? (
+                <div
+                  className="project-card__phones"
+                  style={{ '--phone-ratio': study.phones.ratio } as CSSProperties}
+                  aria-hidden="true"
+                >
+                  {study.phones.screens.map((src, slotIndex) => (
+                    <div
+                      key={src}
+                      className={`phone${study.phones?.framed ? ' phone--framed' : ''}`}
+                      style={{ '--phone-lift': `${(2 - slotIndex) * 10}px` } as CSSProperties}
+                    >
+                      <img src={src} alt="" decoding="async" />
+                    </div>
+                  ))}
+                </div>
+              ) : study.laptops ? (
+                <div className="project-card__laptops" aria-hidden="true">
+                  {study.laptops.map((src) => (
+                    <div key={src} className="mini-laptop">
+                      <div className="mini-laptop__lid">
+                        <img src={src} alt="" decoding="async" />
                       </div>
-                    )
-                  })}
+                      <div className="mini-laptop__base" />
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className="project-card__media" aria-hidden="true" />
@@ -192,18 +217,27 @@ function ProjectStack() {
                     <li key={tag}>{tag}</li>
                   ))}
                 </ul>
-                <Link to={`/case/${study.slug}`} className="project-card__cta">
-                  View case study
-                </Link>
+                {study.href ? (
+                  <a
+                    href={study.href}
+                    className="project-card__cta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${study.title} case study (opens in a new tab)`}
+                  >
+                    View case study
+                  </a>
+                ) : (
+                  <Link to={`/case/${study.slug}`} className="project-card__cta">
+                    View case study
+                  </Link>
+                )}
               </div>
               <div className="project-card__overlay" aria-hidden="true" />
             </div>
           </article>
         </Fragment>
       ))}
-      {/* Trailing runway so the last card has room to fully reach top:88
-          before the document runs out of scroll height. */}
-      <div className="project-spacer project-spacer--trailing" aria-hidden="true" />
     </div>
   )
 }

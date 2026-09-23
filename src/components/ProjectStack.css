@@ -12,7 +12,7 @@
 
 .project-stack {
   position: relative;
-  padding: 0 var(--gutter) 120px;
+  padding: 0 var(--gutter) 40px;
   background: var(--color-cream);
   scroll-margin-top: 88px;
 }
@@ -43,10 +43,6 @@
    nothing follows it in the stack to supply that runway itself. */
 .project-spacer {
   min-height: 64px;
-}
-
-.project-spacer--trailing {
-  min-height: 100dvh;
 }
 
 .project-card {
@@ -114,72 +110,114 @@
   background: linear-gradient(155deg, var(--color-surface), var(--color-muted));
 }
 
-/* Three-phone mockup used in place of .project-card__media for case studies
-   that show real product screens. Upright (no rotation), staggered in an
-   ascending staircase left-to-right, spaced apart (not overlapping) so
-   each frame reads as its own screen. */
+/* Three same-size phones in a gentle ascending staircase. Each frame is
+   sized by its own screenshot (aspect-ratio comes from --phone-ratio), so the
+   bezel always hugs the image with no gap. */
 .project-card__phones {
-  --phone-w: 96px;
-  --phone-h: 200px;
-  --phone-w-mid: 106px;
-  --phone-h-mid: 220px;
-  --phone-w-lg: 118px;
-  --phone-h-lg: 244px;
-  position: relative;
+  --phone-w: 132px;
+  flex: 0 0 calc(var(--phone-w) * 3 + 32px);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex: 0 0 360px;
+  justify-content: space-between;
 }
 
-.phone-frame {
-  position: relative;
+.phone {
   width: var(--phone-w);
-  height: var(--phone-h);
-  padding: 9px;
-  border-radius: 30px;
-  background: var(--color-text);
-  box-shadow: 0 18px 34px rgba(36, 26, 22, 0.28);
+  transform: translateY(var(--phone-lift, 0));
 }
 
-.phone-frame--left {
-  z-index: 1;
-  transform: translateY(28px);
+.phone img {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--phone-ratio);
+  object-fit: cover;
+  object-position: top;
 }
 
-.phone-frame--center {
-  z-index: 2;
-  width: var(--phone-w-mid);
-  height: var(--phone-h-mid);
-  transform: translateY(10px);
+/* Screenshots that already carry a device bezel: just lift them off the page. */
+.phone:not(.phone--framed) img {
+  filter: drop-shadow(0 14px 18px rgba(36, 26, 22, 0.28));
 }
 
-.phone-frame--right {
-  z-index: 3;
-  width: var(--phone-w-lg);
-  height: var(--phone-h-lg);
+/* Slim CSS bezel for flat screenshots. Literal device material, like the
+   laptop chrome, so it uses a plain near-black rather than a palette token. */
+.phone--framed {
+  position: relative;
+  padding: 4px;
+  border-radius: 24px;
+  background: #1a1b1d;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 14px 22px rgba(36, 26, 22, 0.26);
 }
 
-.phone-frame__notch {
+.phone--framed::after {
+  content: '';
   position: absolute;
   top: 9px;
   left: 50%;
-  width: 36%;
-  height: 7px;
-  border-radius: 4px;
-  background: var(--color-text);
+  width: 26%;
+  height: 5px;
+  border-radius: 3px;
+  background: #1a1b1d;
   transform: translateX(-50%);
 }
 
-.phone-frame__screen {
+.phone--framed img {
+  border-radius: 20px;
+}
+
+/* Two overlapping laptops: the first sits top-left, the second bottom-right.
+   Each lid is exactly the screenshot plus a thin bezel. */
+.project-card__laptops {
+  --laptop-w: 300px;
+  --laptop-silver-1: #eceef0;
+  --laptop-silver-2: #c7c9cc;
+  --laptop-silver-3: #a3a5a8;
+  position: relative;
+  flex: 0 0 calc(var(--laptop-w) * 1.4);
+  min-height: 300px;
+}
+
+.mini-laptop {
+  position: absolute;
+  width: var(--laptop-w);
+  filter: drop-shadow(0 14px 18px rgba(36, 26, 22, 0.24));
+}
+
+.mini-laptop:first-child {
+  top: 12px;
+  left: 0;
+}
+
+.mini-laptop:last-child {
+  right: 0;
+  bottom: 12px;
+}
+
+.mini-laptop__lid {
+  padding: 5px 5px 4px;
+  border-radius: 9px 9px 2px 2px;
+  background: linear-gradient(152deg, var(--laptop-silver-1), var(--laptop-silver-2) 55%, var(--laptop-silver-3));
+}
+
+.mini-laptop__lid img {
+  display: block;
   width: 100%;
-  height: 100%;
-  border-radius: 21px;
-  background: var(--color-surface);
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
+  aspect-ratio: 1000 / 566;
+  object-fit: cover;
+  object-position: top;
+  border: 2px solid #1a1b1d;
+  border-radius: 3px;
+  background: #1a1b1d;
+}
+
+.mini-laptop__base {
+  width: 106%;
+  height: 7px;
+  margin-left: -3%;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, var(--laptop-silver-1), var(--laptop-silver-3));
 }
 
 .project-card__body {
@@ -303,7 +341,7 @@
    feature is unsupported. */
 @supports (animation-timeline: view()) and (timeline-scope: --x) {
   .project-stack {
-    timeline-scope: --card-1, --card-2, --card-3, --card-4;
+    timeline-scope: --card-1, --card-2, --card-3;
   }
 
   .project-card:nth-of-type(1) {
@@ -318,10 +356,6 @@
     view-timeline-name: --card-3;
   }
 
-  .project-card:nth-of-type(4) {
-    view-timeline-name: --card-4;
-  }
-
   .project-card:nth-of-type(1) {
     animation: card-recede linear both;
     animation-timeline: --card-2;
@@ -331,12 +365,6 @@
   .project-card:nth-of-type(2) {
     animation: card-recede linear both;
     animation-timeline: --card-3;
-    animation-range: cover 0% cover 100%;
-  }
-
-  .project-card:nth-of-type(3) {
-    animation: card-recede linear both;
-    animation-timeline: --card-4;
     animation-range: cover 0% cover 100%;
   }
 }
@@ -391,16 +419,20 @@
   }
 
   .project-card__phones {
-    --phone-w: 64px;
-    --phone-h: 132px;
-    --phone-w-mid: 70px;
-    --phone-h-mid: 146px;
-    --phone-w-lg: 78px;
-    --phone-h-lg: 162px;
-    gap: 10px;
+    --phone-w: 92px;
     flex: none;
     width: 100%;
-    height: 200px;
+    max-width: calc(var(--phone-w) * 3 + 24px);
+    margin-inline: auto;
+  }
+
+  .project-card__laptops {
+    --laptop-w: 200px;
+    flex: none;
+    width: 100%;
+    max-width: calc(var(--laptop-w) * 1.4);
+    min-height: 190px;
+    margin-inline: auto;
   }
 }
 

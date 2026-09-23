@@ -9,8 +9,20 @@
 .contact-panel {
   position: sticky;
   top: 0;
+  z-index: 10;
   height: 100dvh;
   overflow: hidden;
+  pointer-events: none;
+}
+
+/* With the reveal on, the wrap is pulled up one viewport so the surface's
+   top edge rises in step with the end of the project stack - no empty
+   stretch between the last card and this section. Reduced motion renders
+   the surface in place, so it keeps its natural position there. */
+@media (prefers-reduced-motion: no-preference) {
+  .contact-wrap {
+    margin-top: -100dvh;
+  }
 }
 
 .contact-surface {
@@ -22,6 +34,7 @@
   padding: 104px var(--gutter) 40px;
   background: var(--color-muted-l);
   color: var(--color-primary-d);
+  pointer-events: auto;
   will-change: transform;
 }
 
