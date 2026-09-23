@@ -80,20 +80,15 @@
   color: var(--color-text);
 }
 
-/* Impact band: full-bleed red, ivory text - same breakout technique as the
-   Schneider case study's turning-point section. */
-.wcv-band {
-  position: relative;
-  width: 100vw;
-  margin: 48px 0 0 calc(var(--gutter) * -1);
-  padding: 80px var(--gutter);
-  background: var(--color-primary);
+.wcv-numbers-screens {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 40px;
 }
 
-@media (min-width: 1101px) {
-  .wcv-band__inner {
-    max-width: calc(100vw - 2 * var(--gutter) - 284px);
-  }
+.wcv-numbers-screens .image-slot {
+  max-width: 640px;
 }
 
 .wcv-live-link {
@@ -118,32 +113,6 @@
   outline-offset: 2px;
 }
 
-/* Rail: sits above the full-bleed band and flips to ivory over it */
-.cs-wcv .case-study__rail {
-  z-index: 1;
-}
-
-.case-study__rail--on-dark ul {
-  border-left-color: color-mix(in srgb, var(--color-bg), transparent 60%);
-}
-
-.case-study__rail--on-dark a {
-  color: color-mix(in srgb, var(--color-bg), transparent 30%);
-}
-
-.case-study__rail--on-dark a:hover,
-.case-study__rail--on-dark a.is-active {
-  color: var(--color-bg);
-}
-
-.case-study__rail--on-dark a.is-active::before {
-  background: var(--color-bg);
-}
-
-.case-study__rail--on-dark a:focus-visible {
-  outline-color: var(--color-bg);
-}
-
 @media (max-width: 760px) {
   .cs-facts {
     grid-template-columns: 1fr;
@@ -152,9 +121,5 @@
 
   .cs-wcv .case-study__section {
     padding-top: 80px;
-  }
-
-  .wcv-band {
-    padding: 56px var(--gutter);
   }
 }

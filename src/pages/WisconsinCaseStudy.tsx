@@ -1,15 +1,17 @@
 import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
-import ColorFloralScrollDemo from '../components/wcv/ColorFloralScrollDemo'
+import ImageSlot from '../components/case/ImageSlot'
 import DashboardEvidence from '../components/wcv/DashboardEvidence'
-import ImpactStatsBand from '../components/wcv/ImpactStatsBand'
+import FloralReveal from '../components/wcv/FloralReveal'
 import LaptopFrame from '../components/wcv/LaptopFrame'
 import type { PageNote } from '../components/wcv/OldPageNotes'
 import OldPageNotes from '../components/wcv/OldPageNotes'
-import SkimBeforeAfter from '../components/wcv/SkimBeforeAfter'
-import StorySpotlight from '../components/wcv/StorySpotlight'
-import TurnoutExtraction from '../components/wcv/TurnoutExtraction'
+import PhotoGrid from '../components/wcv/PhotoGrid'
 import UsabilityStatCards from '../components/wcv/UsabilityStatCards'
+import afterDesign from '../after-design.png'
+import beforeDesign from '../before-design.png'
 import buttonsAnalytics from '../buttons-analytics.png'
+import floralArt from '../floral-art.png'
+import impactBand from '../impact-band.png'
 import impactNumbers from '../impact-numbers.png'
 import note1 from '../note1.png'
 import note2 from '../note2.png'
@@ -18,7 +20,6 @@ import note5 from '../note5.png'
 import oldDesign1 from '../old-design1.png'
 import oldDesign2 from '../old-design2.png'
 import votingAnalytics from '../voting-analytics.png'
-import { useRailOnDark } from './useRailOnDark'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
 import './WisconsinCaseStudy.css'
@@ -31,13 +32,12 @@ const IMAGES = {
   conversionChart: buttonsAnalytics as string | null,
   oldPage1: oldDesign1 as string | null,
   oldPage2: oldDesign2 as string | null,
-  // The old page's actions sidebar. No screenshot of the redesigned
-  // "Connect with Us" band exists yet, so the slider's after side is a
-  // placeholder until that arrives.
-  nextStepBefore: oldDesign2 as string | null,
-  nextStepAfter: null as string | null,
-  turnoutGraphic: impactNumbers as string | null,
-  spotlightPhotos: [null, null, null, null] as (string | null)[],
+  nextStepBefore: beforeDesign as string | null,
+  nextStepAfter: afterDesign as string | null,
+  turnoutMap: impactNumbers as string | null,
+  turnoutBand: impactBand as string | null,
+  // Community photos for the grid haven't been supplied yet.
+  communityPhotos: Array.from({ length: 8 }, () => null) as (string | null)[],
 }
 
 const SECTIONS = [
@@ -45,7 +45,6 @@ const SECTIONS = [
   { id: 'data', rail: 'The data' },
   { id: 'next-step', rail: 'The next step' },
   { id: 'numbers', rail: 'The numbers' },
-  { id: 'skim', rail: 'Built to skim' },
   { id: 'color', rail: 'Color and florals' },
   { id: 'test', rail: 'The test' },
   { id: 'reflections', rail: 'Reflections' },
@@ -90,7 +89,6 @@ const PAGE_NOTES: PageNote[] = [
 
 function WisconsinCaseStudy() {
   const activeId = useScrollSpy(SECTION_IDS)
-  const railOnDark = useRailOnDark()
 
   return (
     <main className="case-study cs-wcv">
@@ -232,7 +230,7 @@ function WisconsinCaseStudy() {
                 afterAlt="The redesigned Native Vote page, with a full-width Connect with Us band"
                 beforeLabel="Original"
                 afterLabel="Redesign"
-                ratio="1146 / 1084"
+                ratio="564 / 1082"
               />
             </div>
           </section>
@@ -250,61 +248,26 @@ function WisconsinCaseStudy() {
                 size that made them close to unreadable. The strongest argument on the page was
                 also the hardest part to see.
               </p>
-            </div>
-
-            <TurnoutExtraction graphic={IMAGES.turnoutGraphic} />
-
-            <div className="wcv-band" data-nav-theme="light" data-rail-theme="dark">
-              <div className="wcv-band__inner">
-                <ImpactStatsBand
-                  heading="Our Impact in Numbers"
-                  stats={[
-                    { value: 23000, label: 'Households reached' },
-                    { value: 4500, label: 'Doors knocked' },
-                  ]}
-                />
-              </div>
-            </div>
-
-            <div className="cs-prose cs-prose--after-figure">
               <p>
                 I pulled all of it out. Turnout became a map of Wisconsin with a circle over each
                 community, sized to its increase, alongside the figures as a list you can read at a
                 glance. The program's totals became "Our Impact in Numbers", a full-width red band
                 with eight figures set large enough to read from across the room.
               </p>
-              <p>
-                The story underneath the numbers got the same treatment. The account of Chief
-                Robert Buffalo casting his ballot had been four paragraphs deep in the text. It's
-                now a Story Spotlight with its own frame and its own question as a subheading, next
-                to a carousel of photographs from the community.
-              </p>
             </div>
 
-            <StorySpotlight
-              body="The account of Chief Robert Buffalo casting his ballot, told in his own words."
-              photos={IMAGES.spotlightPhotos}
-            />
-          </section>
-
-          <section id="skim" className="case-study__section">
-            <h2>Less wall, more path</h2>
-            <div className="cs-prose">
-              <p>Two minutes means most people skim. The old page asked them to read instead.</p>
-              <p>
-                Five YouTube embeds ran down the page in an uneven grid, each one competing with the
-                next. I kept one, and replaced the rest with a single button to the channel. Long
-                blocks of text were broken into shorter sections with headings worth scanning, and
-                on Voting Info, detail moved into accordions so it's there for anyone who wants it
-                without standing between everyone else and the next thing.
-              </p>
-              <p>
-                Low contrast was a recurring complaint about the old site, so text and background
-                pairings in the redesign were checked against WCAG contrast guidance.
-              </p>
+            <div className="wcv-numbers-screens">
+              <ImageSlot
+                src={IMAGES.turnoutMap}
+                alt="Impacts on voter turnout: a list of turnout increases by community next to a map of Wisconsin with a circle sized to each one"
+                ratio="1314 / 914"
+              />
+              <ImageSlot
+                src={IMAGES.turnoutBand}
+                alt="Our Impact in Numbers: eight figures including 23,000 households reached and 4,500 doors knocked on"
+                ratio="447 / 164"
+              />
             </div>
-
-            <SkimBeforeAfter />
           </section>
 
           <section id="color" className="case-study__section">
@@ -322,7 +285,13 @@ function WisconsinCaseStudy() {
               </p>
             </div>
 
-            <ColorFloralScrollDemo />
+            <FloralReveal src={floralArt} />
+            <PhotoGrid
+              photos={IMAGES.communityPhotos.map((src, i) => ({
+                src,
+                alt: `Photograph from the community, ${i + 1} of ${IMAGES.communityPhotos.length}`,
+              }))}
+            />
           </section>
 
           <section id="test" className="case-study__section">
@@ -379,10 +348,7 @@ function WisconsinCaseStudy() {
           </section>
         </article>
 
-        <nav
-          className={`case-study__rail${railOnDark ? ' case-study__rail--on-dark' : ''}`}
-          aria-label="Sections in this case study"
-        >
+        <nav className="case-study__rail" aria-label="Sections in this case study">
           <ul>
             {SECTIONS.map((section) => (
               <li key={section.id}>

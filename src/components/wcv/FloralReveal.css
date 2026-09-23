@@ -1,0 +1,25 @@
+.floral-reveal {
+  margin: 48px 0;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 0.9, 0.25, 1),
+    transform 700ms cubic-bezier(0.22, 0.9, 0.25, 1);
+}
+
+.floral-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.floral-reveal img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floral-reveal {
+    transition: none;
+  }
+}
