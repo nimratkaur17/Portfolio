@@ -47,10 +47,11 @@
   position: relative;
   flex: none;
   margin-left: 0.4em;
+  font-family: 'Architects Daughter', 'Figtree', cursive;
   font-size: calc(var(--name-size) * 0.25);
   font-weight: 400;
   line-height: 1.1;
-  color: var(--color-muted);
+  color: var(--color-pine);
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 250ms both;
 }
 

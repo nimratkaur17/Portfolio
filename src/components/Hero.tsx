@@ -5,7 +5,7 @@ const NAME = 'Nimrat Kaur'
 const WORDS = ['Product designer', 'Systems thinker', 'Design thinker', 'Collaborator', 'Endlessly curious']
 // The span is sized to the longest word so the layout never shifts on swap.
 const WIDEST_WORD = 'Endlessly curious'
-const WORD_INTERVAL = 2600
+const WORD_INTERVAL = 1700
 const WORD_FADE = 280
 const NAME_RADIUS = 190
 
