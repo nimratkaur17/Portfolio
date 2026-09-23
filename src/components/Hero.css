@@ -3,36 +3,119 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  padding: 128px 0 72px;
   background: var(--color-cream);
   overflow: hidden;
 }
 
-.hero__intro {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  align-self: stretch;
-  gap: 24px;
+/* 12-column composition, nothing centred: line one sits above the name from
+   column 4, the name drops lower, line two is right-aligned to column 12.
+   The empty space between them is deliberate. */
+.hero__grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto 1fr auto;
+  column-gap: 24px;
+  row-gap: 48px;
+  min-height: 380px;
   padding: 0 var(--gutter);
 }
 
-.hero__name {
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  font-weight: 500;
-  color: var(--color-text);
+.hero__heading {
+  --name-size: clamp(4rem, 11vw, 10.5rem);
+  grid-column: 1 / -1;
+  grid-row: 2;
+  align-self: center;
+  display: flex;
+  align-items: baseline;
+  gap: 0 0.3em;
   margin: 0;
+}
+
+.hero__name {
+  display: inline-block;
+  font-size: var(--name-size);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--color-text);
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 100ms both;
 }
 
-.hero__tagline {
-  max-width: 320px;
+.hero__word {
+  position: relative;
+  flex: none;
+  margin-left: 0.4em;
+  font-size: calc(var(--name-size) * 0.25);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-muted);
+  animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 250ms both;
+}
+
+.hero__word-sizer {
+  display: block;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.hero__word-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+
+.hero__word-text.is-entering {
+  animation: hero-word-in 280ms ease both;
+}
+
+.hero__word-text.is-leaving {
+  opacity: 0;
+  transform: translateY(-7px);
+}
+
+@keyframes hero-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__line {
   margin: 0;
-  font-size: 1.125rem;
+  max-width: 40ch;
+  opacity: 1;
+}
+
+.hero__line--one {
+  grid-column: 4 / span 7;
+  grid-row: 1;
+  align-self: start;
+  font-size: clamp(1.5rem, 2.6vw, 2.375rem);
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--color-text);
+  animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 450ms both;
+}
+
+.hero__line--two {
+  grid-column: 7 / -1;
+  grid-row: 3;
+  justify-self: end;
   text-align: right;
-  animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 350ms both;
+  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  line-height: 1.45;
+  color: var(--color-accent);
+  animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 650ms both;
 }
 
 @keyframes hero-rise {
@@ -53,202 +136,52 @@
     color 400ms cubic-bezier(0.25, 0.85, 0.3, 1);
 }
 
-.hero__pills {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding-top: 26px;
-}
-
-/* Each row is its own flex line (a single flex-wrap flow would let a wide
-   viewport cram most pills into line one and strand the rest - see the
-   comment in Hero.tsx). Centered with a fixed gap rather than
-   space-between - at only 5-6 pills a row, stretching to fill the full
-   width left huge gaps on wide screens; centering keeps them close
-   together like the reference and just leaves even margins on both
-   sides instead. nowrap keeps the two-row split deterministic on
-   desktop; the mobile breakpoint below allows wrapping again once a
-   fixed six-or-five-per-row split no longer fits one line. */
-.hero__pills-row {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  gap: 14px;
-}
-
-.hero-pill {
-  position: relative;
-  isolation: isolate;
-  font-weight: 500;
-  /* Padding in em (not px) so it scales with font-size below - size
-     variety comes from font-size, a real layout property flex-wrap
-     reflows around, rather than a transform: scale() that would let a
-     "bigger" pill visually overlap neighbours its box doesn't account
-     for. */
-  padding: 0.846em 1.077em;
-  font-size: calc(20px * var(--scale, 1));
-  border: 2px solid transparent;
-  transform: translateY(var(--shift, 0px)) rotate(var(--rot));
-  opacity: 0;
-  animation-name: pill-fly;
-  animation-duration: 950ms;
-  animation-timing-function: cubic-bezier(0.25, 0.85, 0.3, 1);
-  animation-fill-mode: both;
-  transition: transform 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
-}
-
-.hero-pill::before,
-.hero-pill::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  z-index: -1;
-  pointer-events: none;
-  transition: opacity 450ms cubic-bezier(0.25, 0.85, 0.3, 1);
-}
-
-.hero-pill::before {
-  opacity: 1;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-}
-
-.hero-pill::after {
-  opacity: 0;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.45);
-}
-
-.hero-pill.pill--raised::before {
-  opacity: 0;
-}
-
-.hero-pill.pill--raised::after {
-  opacity: 1;
-}
-
-/* Two colours everywhere: slate as the one fill/ring colour. Filled pills
-   keep ivory text since it sits on an opaque slate fill regardless of the
-   section background; outline pills are transparent so the hero's own
-   (now light) background shows through the ring, so their text stays
-   espresso to stay readable. */
-.hero-pill:not(.hero-pill--outline) {
-  background: var(--color-muted);
-  color: var(--color-bg);
-}
-
-.hero-pill.hero-pill--outline {
-  background: transparent;
-  border-color: var(--color-muted);
-  color: var(--color-text);
-}
-
-.pill--left {
-  --fly-x: -620px;
-  --fly-y: -150px;
-}
-
-.pill--top {
-  --fly-x: 40px;
-  --fly-y: -460px;
-}
-
-.pill--right {
-  --fly-x: 620px;
-  --fly-y: -140px;
-}
-
-.pill--bottom {
-  --fly-x: -30px;
-  --fly-y: 300px;
-}
-
-@keyframes pill-fly {
-  0% {
-    opacity: 0;
-    transform: translate(var(--fly-x), var(--fly-y)) scale(0.85)
-      rotate(calc(var(--rot) + var(--spin)));
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(var(--shift, 0px)) rotate(var(--rot));
-  }
-}
-
 @media (max-width: 760px) {
-  .hero__intro {
+  .hero {
+    padding-top: 112px;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: 40px;
+  }
+
+  .hero__heading {
+    --name-size: clamp(3.25rem, 15vw, 4.5rem);
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-  }
-
-  .hero__tagline {
-    max-width: none;
-    text-align: left;
-  }
-
-  .hero__pills {
     gap: 12px;
   }
 
-  .hero__pills-row {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    /* Extra row-gap (not just column-gap) - rotated pills' painted
-       corners extend past their layout box, and wrapped lines sit close
-       enough on mobile that tilt alone caused visible overlap between
-       lines without the extra clearance. */
-    gap: 34px 8px;
+  .hero__word {
+    margin-left: 0;
+    font-size: 1.5rem;
   }
 
-  .hero-pill {
-    font-size: calc(13px * var(--scale, 1));
-    padding: 0.875em 0.75em;
+  .hero__line {
+    grid-column: 1;
+    justify-self: start;
+    align-self: start;
+    text-align: left;
+    max-width: none;
   }
 
-  .pill--left {
-    --fly-x: -260px;
-    --fly-y: -63px;
+  .hero__line--one {
+    font-size: 1.5rem;
   }
 
-  .pill--top {
-    --fly-x: 23px;
-    --fly-y: -260px;
-  }
-
-  .pill--right {
-    --fly-x: 260px;
-    --fly-y: -59px;
-  }
-
-  .pill--bottom {
-    --fly-x: -26px;
-    --fly-y: 260px;
-  }
-}
-
-@media (pointer: coarse) {
-  .hero-pill:active {
-    transform: scale(0.96) rotate(var(--rot));
+  .hero__line--two {
+    font-size: 1.0625rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__name,
-  .hero__tagline {
+  .hero__word,
+  .hero__line {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .hero-pill {
-    animation: none;
-    opacity: 1;
   }
 }
