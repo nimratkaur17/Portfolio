@@ -12,9 +12,9 @@
   --color-cream: #f7ecdc; /* warm cream — hero, projects and case study page background */
   --color-pine: #42503e; /* dark pine green — case study turning-point section */
   --color-gold: #c9973b; /* warm gold — floral accent illustrations */
-  --color-rot-1: #42503e; /* rotating hero word, colour 1 of 3 */
-  --color-rot-2: #253654; /* rotating hero word, colour 2 of 3 */
-  --color-rot-3: #54182b; /* rotating hero word, colour 3 of 3 */
+  --color-rot-1: #4a6a3f; /* rotating hero word, colour 1 of 3 */
+  --color-rot-2: #2b4a80; /* rotating hero word, colour 2 of 3 */
+  --color-rot-3: #7a2141; /* rotating hero word, colour 3 of 3 */
 
   /* Shared edge margin so full-width sections still leave a slight, even
      gutter rather than running content flush to the browser frame. */
