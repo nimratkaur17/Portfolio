@@ -42,6 +42,10 @@ interface Layout {
   compact: boolean
   entries: Partial<Record<Side, Entry>>
   labelExtras: boolean
+  // Where the top and bottom labels sit so they stay on screen while the
+  // intro is pinned (clear of the fixed nav, above the bottom edge).
+  labelTop: number
+  labelBottom: number
   xMin: number
   xMax: number
 }
@@ -324,6 +328,8 @@ function measure(svg: SVGSVGElement): Measured | null {
         R: 54,
         compact,
         labelExtras: true,
+        labelTop: 22,
+        labelBottom: H - 16,
         xMin: 8,
         xMax: W - 8,
         entries: {
@@ -356,6 +362,8 @@ function measure(svg: SVGSVGElement): Measured | null {
       R,
       compact,
       labelExtras: false,
+      labelTop: 88 + Math.max(0, H - window.innerHeight) + 24,
+      labelBottom: Math.min(H - 16, window.innerHeight - 24),
       xMin: gapLeft + 14,
       xMax: gapRight - 14,
       entries: {
@@ -613,7 +621,7 @@ function Weave() {
           ))}
 
           {scene.strands.map((s) => {
-            const { W: w, H: h } = scene.layout
+            const { W: w, labelTop, labelBottom } = scene.layout
             const e = s.pts[0]
             const common = { className: 'weave__label', style: { fill: s.spec.color } } as const
             if (s.spec.side === 'left')
@@ -630,12 +638,12 @@ function Weave() {
               )
             if (s.spec.side === 'top')
               return (
-                <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={22} {...common}>
+                <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelTop} {...common}>
                   {s.spec.label}
                 </text>
               )
             return (
-              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={h - 16} {...common}>
+              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelBottom} {...common}>
                 {s.spec.label}
               </text>
             )
@@ -654,15 +662,12 @@ function Weave() {
 
           <text
             x={scene.layout.cx}
-            y={scene.layout.cy - 8}
+            y={scene.layout.cy - 3}
             textAnchor="middle"
             className="weave__word"
           >
-            <tspan x={scene.layout.cx}>PEOPLE-</tspan>
-            <tspan x={scene.layout.cx} dy="15">
-              CENTERED
-            </tspan>
-            <tspan x={scene.layout.cx} dy="15">
+            <tspan x={scene.layout.cx}>PEOPLE-CENTERED</tspan>
+            <tspan x={scene.layout.cx} dy="16">
               DESIGNER
             </tspan>
           </text>
