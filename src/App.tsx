@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import Cursor from './components/Cursor'
 import Nav from './components/Nav'
 import About from './pages/About'
 import CaseStudy from './pages/CaseStudy'
@@ -19,6 +20,7 @@ function App() {
   return (
     <div className="app">
       <ScrollToTop />
+      <Cursor />
       <Nav />
       <Routes>
         <Route path="/" element={<Landing />} />
