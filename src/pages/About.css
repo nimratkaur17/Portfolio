@@ -242,6 +242,10 @@
   color: var(--color-text);
 }
 
+.about__section p + p {
+  margin-top: 1.25em;
+}
+
 .about__reading-list {
   margin: 0;
   padding: 0;
@@ -258,19 +262,20 @@
   font-weight: 500;
 }
 
-/* Highlighter sweep — a solid-colour gradient so background-size stays
-   animatable (background-color has no size to animate). Kept low-opacity
-   so the text underneath stays readable. */
+/* Inline highlight sweep. A background-size transition on the inline span
+   (not a wrapping block), so the wipe follows the text across line breaks:
+   with the default box-decoration-break: slice, the gradient runs through the
+   line fragments in order. Accent tint keeps espresso text well above AA. */
 .highlight {
   background-image: linear-gradient(
     to right,
-    rgba(74, 22, 37, 0.16),
-    rgba(74, 22, 37, 0.16)
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    color-mix(in srgb, var(--color-accent) 30%, transparent)
   );
   background-repeat: no-repeat;
   background-size: 0% 100%;
   background-position: left center;
-  transition: background-size 700ms ease;
+  transition: background-size 500ms cubic-bezier(0.22, 0.9, 0.25, 1);
 }
 
 .highlight.is-swept {

@@ -1,31 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import BeyondDesign from '../components/BeyondDesign'
 import Contact from '../components/Contact'
+import Highlight from '../components/Highlight'
 import HowIThink from '../components/HowIThink'
 import './About.css'
 
 function About() {
   const [swapped, setSwapped] = useState(false)
-  const highlightRefs = useRef<(HTMLSpanElement | null)[]>([])
-
-  useEffect(() => {
-    const observers = highlightRefs.current.map((el) => {
-      if (!el) return null
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return
-          el.classList.add('is-swept')
-          observer.disconnect()
-        },
-        { threshold: 0.6 },
-      )
-      observer.observe(el)
-      return observer
-    })
-
-    return () => observers.forEach((o) => o?.disconnect())
-  }, [])
-
   return (
     <>
       <main className="about">
@@ -67,30 +48,29 @@ function About() {
           <section className="about__section thesis" aria-label="Thesis">
             <h2>Thesis</h2>
             <p>
-              I didn't set out to collect three degrees — psychology, data science, and
-              information science each answered a different half of the same question I kept
-              asking.{' '}
-              <span
-                className="highlight"
-                ref={(el) => {
-                  highlightRefs.current[0] = el
-                }}
-              >
-                Psychology gave me a working theory of why people do what they do; data science
-                gave me a way to check that theory against what they actually did.
-              </span>{' '}
-              Information science tied the two together, treating the systems people move through
-              as just as designable as the people themselves.{' '}
-              <span
-                className="highlight"
-                ref={(el) => {
-                  highlightRefs.current[1] = el
-                }}
-              >
-                By the time I got to product design, it stopped feeling like three fields and
-                started feeling like one method wearing three coats.
-              </span>{' '}
-              Design, to me, is just this method pointed at a screen.
+              <Highlight>Curiosity about people</Highlight> is the thread running through
+              everything I&rsquo;ve done, though it took me a while to figure out what to do with
+              it. That curiosity is what pulled me toward psychology and the social sciences
+              first, and then toward data, because I wanted the{' '}
+              <Highlight>numbers-backed reasoning</Highlight> behind why people do what they do,
+              not just a good theory about it.{' '}
+              <Highlight>Design is where the two finally came together</Highlight>. It&rsquo;s the
+              part where you stop observing and actually get to influence the experience,
+              tangibly, in something a person can use.
+            </p>
+            <p>
+              At UW-Madison I picked up the design way of thinking, which mostly means{' '}
+              <Highlight>asking better questions</Highlight>, understanding people more honestly,
+              and turning genuinely complicated ideas into something useful. I&rsquo;m drawn to
+              problems that are <Highlight delay={150}>messy underneath</Highlight>: business
+              problems, tangled data, AI systems whose reasoning you can&rsquo;t actually see.
+              Knowing how things get built keeps my designs{' '}
+              <Highlight>grounded in technical reality</Highlight>, so I&rsquo;m designing things
+              that can actually exist rather than things that look good in a file.
+            </p>
+            <p>
+              Outside of that, I read a lot, hike when I can, and am generally happiest exploring
+              somewhere I haven&rsquo;t been before.
             </p>
           </section>
         </div>
