@@ -48,7 +48,7 @@
   text-transform: lowercase;
   letter-spacing: -0.005em;
   line-height: 1;
-  color: var(--color-cream);
+  color: var(--color-blush);
   white-space: nowrap;
   opacity: 0;
   transform: translate(-50%, 6px);
