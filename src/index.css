@@ -19,6 +19,7 @@
 
   /* One typeface, Figtree, for everything. */
   --font-body: 'Figtree', sans-serif;
+  --font-name: 'Freeman', 'Figtree', sans-serif; /* hero name only */
 
   color-scheme: light;
 }
