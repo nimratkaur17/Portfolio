@@ -93,6 +93,7 @@ function Hero() {
       move.style.transform = `translate(${dx * t}px, ${y}px) scale(${1 + (scale - 1) * t})`
       move.style.opacity = String(1 - fade)
       root.style.setProperty('--logo-o', String(fade))
+      root.style.setProperty('--grain-f', String(Math.min(1, Math.max(0, 1 - (p - 0.3) / 0.7))))
     }
 
     let observer: IntersectionObserver | undefined
@@ -128,6 +129,7 @@ function Hero() {
       if (frame) cancelAnimationFrame(frame)
       root.style.removeProperty('--name-from')
       root.style.removeProperty('--logo-o')
+      root.style.removeProperty('--grain-f')
       move.style.transform = ''
       move.style.opacity = ''
     }

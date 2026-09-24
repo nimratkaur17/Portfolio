@@ -13,7 +13,6 @@
 .project-stack {
   position: relative;
   padding: 0 var(--gutter) 40px;
-  background: var(--color-cream);
   scroll-margin-top: 88px;
 }
 

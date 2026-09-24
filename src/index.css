@@ -68,6 +68,19 @@ body {
   min-height: 100dvh;
 }
 
+/* The landing page sits on cream. Its sections are transparent so the fixed
+   grain overlay (see Grain.css) shows over this colour, not under a section
+   background. */
+body:has(.hero) {
+  background: var(--color-cream);
+}
+
+/* Page content forms one layer above the grain overlay (z-index 0). */
+main {
+  position: relative;
+  z-index: 1;
+}
+
 h1,
 h2,
 h3,

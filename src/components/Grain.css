@@ -1,0 +1,38 @@
+/* One fixed, click-through overlay tiling a 128px noise PNG (no SVG turbulence
+   filter). It sits above the page background colour and below all content:
+   main is its own layer above it, so text is never covered. It fades out
+   while the reader scrolls from the hero into the projects, driven by the
+   hero's view timeline (see Hero.css); the rAF fallback in Hero.tsx sets
+   --grain-f instead. */
+.grain {
+  --grain-o: 0.035;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('../grain.png');
+  background-size: 128px 128px;
+  opacity: calc(var(--grain-o) * var(--grain-f, 1));
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) and (timeline-scope: --x) {
+    .grain {
+      animation: grain-fade linear both;
+      animation-timeline: --hero;
+      animation-range: cover var(--name-from, 50%) cover 100%;
+    }
+  }
+}
+
+/* Holds for the first third of the hero's exit, then fades to nothing. */
+@keyframes grain-fade {
+  0%,
+  30% {
+    opacity: var(--grain-o);
+  }
+  100% {
+    opacity: 0;
+  }
+}
