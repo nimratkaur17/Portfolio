@@ -230,6 +230,21 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  isolation: isolate;
+}
+
+/* The fixed page grain sits under this section's solid background, so the
+   section carries its own: a light speckle (the page one is dark), between the
+   background and the content. */
+.about__feature::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('../grain-light.png');
+  background-size: 128px 128px;
+  opacity: 0.05;
 }
 
 @media (max-width: 640px) {
