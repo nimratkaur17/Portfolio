@@ -343,13 +343,13 @@ function measure(svg: SVGSVGElement): Measured | null {
   const photoW = p.right - p.left
   const R = 64
   const cx = p.left + 0.85 * photoW
-  const cyPhoto = p.bottom + 12 + R
+  const cyPhoto = p.bottom + 4 + R
   // Two threads run in from the left under the last line of text, so the ring
   // never sits higher than that allows.
-  const cyText = t.bottom + 52
+  const cyText = t.bottom + 60
   const cy = Math.max(cyPhoto, cyText)
-  const psychologyY = cy + 14
-  const digitalY = cy + 58
+  const psychologyY = cy - 14
+  const digitalY = cy + 34
   return {
     count: 4,
     layout: {
@@ -368,11 +368,11 @@ function measure(svg: SVGSVGElement): Measured | null {
         // into the ring's underside.
         psychology: {
           E: { x: -80, y: psychologyY },
-          start: { theta0: Math.PI - 0.5, dir: -1 },
+          start: { theta0: Math.PI - 0.35, dir: -1 },
         },
         digital: {
           E: { x: -80, y: digitalY },
-          start: { theta0: Math.PI / 2, dir: -1 },
+          start: { theta0: Math.PI - 0.95, dir: -1 },
         },
         // Dives behind the portrait from the top edge and reappears below it.
         data: { E: { x: p.left + 0.62 * photoW, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
@@ -625,29 +625,28 @@ function Weave() {
 
           {scene.strands.map((s) => {
             const { W: w, labelTop } = scene.layout
-            const e = s.pts[0]
             const common = { className: 'weave__label', style: { fill: s.spec.color } } as const
-            if (s.spec.side === 'left')
-              // Above its thread, except the lower one, which sits below so
-              // the two left labels don't crowd each other.
+            // Each label is placed from the thread's own path, so it sits
+            // right beside the line rather than at a fixed corner.
+            if (s.spec.side === 'left') {
+              const at = s.pts.find((pt) => pt.x >= 60) ?? s.pts[0]
               return (
-                <text
-                  key={s.spec.id}
-                  x={16}
-                  y={Math.max(14, s.spec.id === 'digital' ? e.y + 20 : e.y - 9)}
-                  {...common}
-                >
+                <text key={s.spec.id} x={16} y={Math.max(14, at.y - 10)} {...common}>
                   {s.spec.label}
                 </text>
               )
-            if (s.spec.side === 'right')
+            }
+            if (s.spec.side === 'right') {
+              const at = s.pts.find((pt) => pt.x <= w - 60) ?? s.pts[0]
               return (
-                <text key={s.spec.id} x={w - 16} y={Math.max(14, e.y - 12)} textAnchor="end" {...common}>
+                <text key={s.spec.id} x={w - 16} y={Math.max(14, at.y - 12)} textAnchor="end" {...common}>
                   {s.spec.label}
                 </text>
               )
+            }
+            const at = s.pts.find((pt) => pt.y >= labelTop) ?? s.pts[0]
             return (
-              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelTop} {...common}>
+              <text key={s.spec.id} x={Math.min(w - 16, at.x + 14)} y={labelTop} {...common}>
                 {s.spec.label}
               </text>
             )
