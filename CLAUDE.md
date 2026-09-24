@@ -10,7 +10,7 @@ Personal portfolio for Nimrat Kaur, a product designer who also builds. The site
 
 ## Colour
 
-Use these as CSS custom properties. Never hardcode hex values in components.
+Use these as CSS custom properties. Never hardcode hex values in components. Never use black for text; the darkest text colour is espresso (`--color-text`, #241A16).
 
 ```css
 :root {
