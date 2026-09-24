@@ -8,6 +8,19 @@
   margin: 0 0 48px;
 }
 
+/* The woven threads (Weave.tsx) are a full-viewport-width layer behind the
+   title, text and portrait, which sit above it. */
+.about__weave-scope {
+  position: relative;
+  padding-bottom: 56px;
+}
+
+.about__title,
+.about__intro {
+  position: relative;
+  z-index: 1;
+}
+
 /* Photo + thesis sit side by side on wider screens - photo on the right,
    text on the left - via row-reverse, so the DOM can stay photo-then-
    thesis (which is also the order mobile wants, stacked). */
@@ -16,14 +29,14 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
-  margin-bottom: 56px;
+  margin-bottom: 0;
 }
 
 .about__intro .about__section {
   margin: 0;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 760px) {
   /* row-reverse puts the photo at the right end; space-between then pins the
      text to the left gutter instead of leaving a gap before it. */
   .about__intro {
@@ -42,7 +55,15 @@
   .about__intro .thesis {
     flex: 1 1 0;
     min-width: 0;
+    max-width: 520px;
     padding-top: 28px;
+  }
+}
+
+/* Narrow: no gap to weave in, so the smaller ring sits above the text. */
+@media (max-width: 759px) {
+  .about__intro .thesis {
+    margin-top: 230px;
   }
 }
 

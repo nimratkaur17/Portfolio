@@ -35,6 +35,7 @@ Tint and shade ramps are not defined yet. If a component needs a lighter or dark
 
 - Figtree throughout (headings, body, labels), via `--font-body`. The one exception is the hero name and the NK nav logo, set in Arima via `--font-name` (weight 500). Never use a raw family name.
 - Two weights only: 400 regular, 500 medium.
+- `--font-label`: Space Mono, only for the labels in the About page's woven-threads graphic (real SVG text, uppercase and letterspaced).
 - Body and headings are sentence case. Small labels (kickers, rail labels, stat captions, fact labels, tags) are uppercase and letterspaced, still in Figtree 500.
 
 ## Motion conventions

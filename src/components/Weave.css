@@ -1,0 +1,45 @@
+/* Sits behind the About intro: the text and portrait are a layer above it, so
+   a thread can pass behind the text but never over it. */
+.weave {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  height: 100%;
+  margin-left: -50vw;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.weave__cast {
+  fill: var(--color-text);
+  opacity: 0.32;
+}
+
+.weave__twist {
+  fill: none;
+  stroke: var(--color-cream);
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  opacity: 0.28;
+}
+
+.weave__label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.weave__extras text {
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  fill: var(--color-muted);
+}
+
+.weave__word {
+  font-family: var(--font-body);
+  font-weight: 500;
+  fill: var(--color-text);
+}

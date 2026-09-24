@@ -3,6 +3,7 @@ import BeyondDesign from '../components/BeyondDesign'
 import Contact from '../components/Contact'
 import Highlight from '../components/Highlight'
 import HowIThink from '../components/HowIThink'
+import Weave from '../components/Weave'
 import './About.css'
 
 function About() {
@@ -10,6 +11,8 @@ function About() {
   return (
     <>
       <main className="about">
+        <div className="about__weave-scope">
+        <Weave />
         <h1 className="about__title">A little bit about me</h1>
 
         <div className="about__intro">
@@ -72,6 +75,7 @@ function About() {
               somewhere I haven&rsquo;t been before.
             </p>
           </section>
+        </div>
         </div>
 
         <section

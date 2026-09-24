@@ -25,6 +25,7 @@
 
   /* One typeface, Figtree, for everything. */
   --font-body: 'Figtree', sans-serif;
+  --font-label: 'Space Mono', ui-monospace, monospace; /* About weave labels only */
   --font-name: 'Arima', 'Figtree', sans-serif; /* hero name and NK nav logo */
 
   color-scheme: light;
