@@ -21,7 +21,7 @@ const THREADS: ThreadSpec[] = [
   { id: 'psychology', label: 'PSYCHOLOGY', color: 'var(--color-primary)', side: 'left' },
   { id: 'data', label: 'DATA SCIENCE', color: 'var(--color-contrast)', side: 'top' },
   { id: 'information', label: 'INFORMATION SCIENCE', color: 'var(--color-muted)', side: 'right' },
-  { id: 'digital', label: 'DIGITAL STUDIES', color: 'var(--color-accent)', side: 'bottom' },
+  { id: 'digital', label: 'DIGITAL STUDIES', color: 'var(--color-accent)', side: 'left' },
 ]
 
 // Where a thread comes in from, and (optionally) a waypoint it must run
@@ -40,12 +40,11 @@ interface Layout {
   cy: number
   R: number
   compact: boolean
-  entries: Partial<Record<Side, Entry>>
+  entries: Record<string, Entry>
   labelExtras: boolean
   // Where the top and bottom labels sit so they stay on screen while the
   // intro is pinned (clear of the fixed nav, above the bottom edge).
   labelTop: number
-  labelBottom: number
   xMin: number
   xMax: number
 }
@@ -113,7 +112,7 @@ function buildStrands(layout: Layout, threads: ThreadSpec[]): Strand[] {
   return threads.map((spec, k) => {
     const phi = k * (n === 2 ? Math.PI : Math.PI / 2)
     const psi = k * 1.7 + 0.4
-    const entry = entries[spec.side] as Entry
+    const entry = entries[spec.id] as Entry
     const E = entry.E
     const source = entry.via ? entry.via.pt : E
     const radius = (theta: number) =>
@@ -328,12 +327,11 @@ function measure(svg: SVGSVGElement): Measured | null {
         compact,
         labelExtras: true,
         labelTop: 22,
-        labelBottom: H - 16,
         xMin: 8,
         xMax: W - 8,
         entries: {
-          left: { E: { x: -70, y: cy - 22 }, start: { theta0: Math.PI / 2, dir: -1 } },
-          right: { E: { x: W + 70, y: cy - 58 }, start: { theta0: 1.5 * Math.PI, dir: -1 } },
+          psychology: { E: { x: -70, y: cy - 22 }, start: { theta0: Math.PI / 2, dir: -1 } },
+          information: { E: { x: W + 70, y: cy - 58 }, start: { theta0: 1.5 * Math.PI, dir: -1 } },
         },
       },
     }
@@ -345,13 +343,13 @@ function measure(svg: SVGSVGElement): Measured | null {
   const photoW = p.right - p.left
   const R = 64
   const cx = p.left + 0.85 * photoW
-  const reach = 0.965 * (R + SPIRAL_DESKTOP + 3)
-  const cyPhoto = p.bottom + 26 + R
-  // The left thread must clear the last line of text, so the ring never sits
-  // higher than that allows.
-  const cyText = t.bottom + 26 - reach
+  const cyPhoto = p.bottom + 12 + R
+  // Two threads run in from the left under the last line of text, so the ring
+  // never sits higher than that allows.
+  const cyText = t.bottom + 52
   const cy = Math.max(cyPhoto, cyText)
-  const leftY = cy + reach
+  const psychologyY = cy + 14
+  const digitalY = cy + 58
   return {
     count: 4,
     layout: {
@@ -363,20 +361,27 @@ function measure(svg: SVGSVGElement): Measured | null {
       compact,
       labelExtras: false,
       labelTop: 88 + shift + 24,
-      labelBottom: Math.min(H - 16, window.innerHeight - 24),
       xMin: 0,
       xMax: W,
       entries: {
-        left: { E: { x: -80, y: leftY }, start: { theta0: Math.PI / 2 - 0.02, dir: -1 } },
+        // Both come in from the left edge, one above the other, and curl up
+        // into the ring's underside.
+        psychology: {
+          E: { x: -80, y: psychologyY },
+          start: { theta0: Math.PI - 0.5, dir: -1 },
+        },
+        digital: {
+          E: { x: -80, y: digitalY },
+          start: { theta0: Math.PI / 2, dir: -1 },
+        },
         // Dives behind the portrait from the top edge and reappears below it.
-        top: { E: { x: p.left + 0.62 * photoW, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
+        data: { E: { x: p.left + 0.62 * photoW, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
         // Down the right side, then curls left into the top of the ring.
-        right: {
+        information: {
           E: { x: W + 40, y: 88 + shift + 40 },
           via: { pt: { x: W - 80, y: cy - 150 }, dir: { x: 0, y: 1 } },
           start: { theta0: 1.5 * Math.PI, dir: -1 },
         },
-        bottom: { E: { x: cx + 120, y: H + 70 }, start: { theta0: 0, dir: -1 } },
       },
     },
   }
@@ -498,7 +503,7 @@ function Weave() {
     if (!measured) return null
     const { layout, count } = measured
     const threads =
-      count === 2 ? THREADS.filter((t) => t.side === 'left' || t.side === 'right') : THREADS
+      count === 2 ? THREADS.filter((t) => t.id === 'psychology' || t.id === 'information') : THREADS
     const strands = buildStrands(layout, threads)
     const crossings = findCrossings(strands)
     const masks: string[][] = strands.map(() => [])
@@ -619,12 +624,19 @@ function Weave() {
           ))}
 
           {scene.strands.map((s) => {
-            const { W: w, labelTop, labelBottom } = scene.layout
+            const { W: w, labelTop } = scene.layout
             const e = s.pts[0]
             const common = { className: 'weave__label', style: { fill: s.spec.color } } as const
             if (s.spec.side === 'left')
+              // Above its thread, except the lower one, which sits below so
+              // the two left labels don't crowd each other.
               return (
-                <text key={s.spec.id} x={16} y={Math.max(14, e.y - 9)} {...common}>
+                <text
+                  key={s.spec.id}
+                  x={16}
+                  y={Math.max(14, s.spec.id === 'digital' ? e.y + 20 : e.y - 9)}
+                  {...common}
+                >
                   {s.spec.label}
                 </text>
               )
@@ -634,14 +646,8 @@ function Weave() {
                   {s.spec.label}
                 </text>
               )
-            if (s.spec.side === 'top')
-              return (
-                <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelTop} {...common}>
-                  {s.spec.label}
-                </text>
-              )
             return (
-              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelBottom} {...common}>
+              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelTop} {...common}>
                 {s.spec.label}
               </text>
             )
