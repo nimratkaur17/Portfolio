@@ -111,7 +111,7 @@
   background: var(--color-primary-d);
   color: var(--color-muted-l);
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(36, 26, 22, 0.18);
+  box-shadow: 0 10px 24px rgba(48, 21, 14, 0.18);
 }
 
 .contact-link:hover .contact-link__arrow {
@@ -149,7 +149,7 @@
   aspect-ratio: 3 / 4;
   border-radius: 8px;
   object-fit: cover;
-  box-shadow: 0 8px 20px rgba(36, 26, 22, 0.25);
+  box-shadow: 0 8px 20px rgba(48, 21, 14, 0.25);
 }
 
 .contact-reading__info {

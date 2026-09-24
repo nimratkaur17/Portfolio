@@ -10,13 +10,13 @@ Personal portfolio for Nimrat Kaur, a product designer who also builds. The site
 
 ## Colour
 
-Use these as CSS custom properties. Never hardcode hex values in components. Never use black for text; the darkest text colour is espresso (`--color-text`, #241A16).
+Use these as CSS custom properties. Never hardcode hex values in components. Never use black for text; the darkest text colour is espresso (`--color-text`, #30150E).
 
 ```css
 :root {
   --color-bg:        #FAF6EE;  /* ivory — page background */
   --color-surface:   #DBC4A5;  /* sand — cards, alternate sections */
-  --color-text:      #241A16;  /* espresso — primary text */
+  --color-text:      #30150E;  /* espresso — primary text */
   --color-primary:   #4A1625;  /* merlot — brand, CTAs, links */
   --color-primary-h: #662C3C;  /* mauve — hover/active on merlot */
   --color-accent:    #5B5A3A;  /* olive — tags, category labels */

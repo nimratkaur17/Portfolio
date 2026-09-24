@@ -86,13 +86,13 @@
 .project-card__surface::before {
   opacity: calc(1 - var(--shadow-t));
   box-shadow:
-    0 24px 48px rgba(36, 26, 22, 0.16),
-    0 8px 20px rgba(36, 26, 22, 0.1);
+    0 24px 48px rgba(48, 21, 14, 0.16),
+    0 8px 20px rgba(48, 21, 14, 0.1);
 }
 
 .project-card__surface::after {
   opacity: var(--shadow-t);
-  box-shadow: 0 6px 14px rgba(36, 26, 22, 0.12);
+  box-shadow: 0 6px 14px rgba(48, 21, 14, 0.12);
 }
 
 .project-card__overlay {
@@ -130,7 +130,7 @@
 .mini-laptop {
   position: absolute;
   width: var(--laptop-w);
-  filter: drop-shadow(0 14px 18px rgba(36, 26, 22, 0.24));
+  filter: drop-shadow(0 14px 18px rgba(48, 21, 14, 0.24));
 }
 
 .mini-laptop:first-child {

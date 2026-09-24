@@ -23,7 +23,7 @@
   background: #1a1b1d;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 16px 26px rgba(36, 26, 22, 0.26);
+    0 16px 26px rgba(48, 21, 14, 0.26);
   transform: translateY(var(--phone-lift, 0));
 }
 

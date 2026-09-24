@@ -1,7 +1,7 @@
 :root {
   --color-bg: #faf6ee; /* ivory — page background */
   --color-surface: #dbc4a5; /* sand — cards, alternate sections */
-  --color-text: #241a16; /* espresso — primary text */
+  --color-text: #30150e; /* espresso — primary text */
   --color-primary: #4a1625; /* merlot — brand, CTAs, links */
   --color-primary-h: #662c3c; /* mauve — hover/active on merlot */
   --color-primary-d: #450b15; /* dark merlot — body text on the contact section's slate */
