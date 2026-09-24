@@ -55,7 +55,7 @@ function Nav() {
   return (
     <nav className={`nav${onDark ? ' nav--on-dark' : ''}`}>
       <Link to="/" className="nav__logo">
-        NK
+        Nimrat Kaur
       </Link>
       <ul className="nav__links">
         <li>

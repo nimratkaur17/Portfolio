@@ -13,9 +13,16 @@
 }
 
 .nav__logo {
+  display: inline-block;
   font-family: var(--font-name);
   font-weight: 500;
   font-size: 1.25rem;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Hero.tsx drives this while the hero name is shrinking into the nav (only
+     in browsers without scroll timelines); otherwise it is always visible. */
+  opacity: var(--logo-o, 1);
   color: var(--color-primary);
   text-decoration: none;
   transition: color 200ms ease;
@@ -69,5 +76,35 @@
 @media (max-width: 760px) {
   .nav__links {
     gap: 20px;
+  }
+}
+
+/* Keyboard focus must stay visible even while the logo is faded out. */
+.nav__logo:focus-visible {
+  opacity: 1 !important;
+}
+
+/* The hero name shrinks into this logo as the reader scrolls out of the hero.
+   Native scroll timeline: the nav sits outside the hero, so it reads the
+   hero's timeline through timeline-scope on .app (see Hero.css). The logo
+   stays a real link and is never pointer-events: none. On pages without a
+   hero the named timeline doesn't exist and the logo is simply visible. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) and (timeline-scope: --x) {
+    .nav__logo {
+      animation: nav-logo-in linear both;
+      animation-timeline: --hero;
+      animation-range: cover var(--name-from, 50%) cover 100%;
+    }
+  }
+}
+
+@keyframes nav-logo-in {
+  0%,
+  85% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
