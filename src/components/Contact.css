@@ -53,9 +53,8 @@
 }
 
 .contact-kicker {
-  font-family: var(--font-label);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0;
@@ -131,9 +130,8 @@
 }
 
 .contact-reading__label {
-  font-family: var(--font-label);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 17px;
@@ -191,9 +189,8 @@
 }
 
 .contact-reading__stats {
-  font-family: var(--font-label);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0;
@@ -222,8 +219,7 @@
    the pre-measurement fallback for a no-JS render. */
 .contact-name__text {
   display: inline-block;
-  font-family: var(--font-name);
-  font-weight: 400;
+  font-weight: 500;
   font-size: clamp(3rem, 12vw, 9rem);
   line-height: 1;
   white-space: nowrap;

@@ -35,9 +35,8 @@
 
 .hero__name {
   display: inline-block;
-  font-family: var(--font-name);
   font-size: var(--name-size);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1;
   white-space: nowrap;
   color: var(--color-text);

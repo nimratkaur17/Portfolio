@@ -30,9 +30,8 @@
 }
 
 .case-study__kicker {
-  font-family: var(--font-label);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 8px;
@@ -83,9 +82,8 @@
 }
 
 .case-study__rail a {
-  font-family: var(--font-label);
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   position: relative;

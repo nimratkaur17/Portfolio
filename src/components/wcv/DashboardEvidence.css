@@ -14,9 +14,8 @@
 }
 
 .dashboard-evidence__tag {
-  font-family: var(--font-label);
   font-size: 0.6875rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   position: absolute;

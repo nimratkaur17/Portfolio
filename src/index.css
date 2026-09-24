@@ -17,14 +17,8 @@
      gutter rather than running content flush to the browser frame. */
   --gutter: clamp(20px, 5vw, 72px);
 
-  /* Exactly three typefaces, one job each, no overlap:
-     name  - Cantora One, only the name "Nimrat Kaur"
-     body  - Figtree, every heading and all body copy
-     label - Space Mono, uppercase + letterspaced, small labels only
-             (kickers, rail labels, captions) */
-  --font-name: 'Cantora One', 'Figtree', sans-serif;
+  /* One typeface, Figtree, for everything. */
   --font-body: 'Figtree', sans-serif;
-  --font-label: 'Space Mono', ui-monospace, monospace;
 
   color-scheme: light;
 }

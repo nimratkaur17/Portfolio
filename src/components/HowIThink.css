@@ -54,9 +54,8 @@
 }
 
 .wave__label {
-  font-family: var(--font-label);
   font-size: 0.8125rem;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   position: absolute;
