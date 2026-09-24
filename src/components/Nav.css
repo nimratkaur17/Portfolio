@@ -13,6 +13,7 @@
 }
 
 .nav__logo {
+  font-family: var(--font-name);
   font-weight: 500;
   font-size: 1.25rem;
   color: var(--color-primary);

@@ -19,7 +19,7 @@
 
   /* One typeface, Figtree, for everything. */
   --font-body: 'Figtree', sans-serif;
-  --font-name: 'Arima', 'Figtree', sans-serif; /* hero name only */
+  --font-name: 'Arima', 'Figtree', sans-serif; /* hero name and NK nav logo */
 
   color-scheme: light;
 }
