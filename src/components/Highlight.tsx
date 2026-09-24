@@ -6,12 +6,14 @@ interface HighlightProps {
   // Extra wait before the sweep starts, so neighbouring phrases don't fire as
   // one block.
   delay?: number
+  // Which hand-drawn stroke to use (0-2), so repeated underlines don't look stamped.
+  variant?: number
 }
 
-// Sweeps a background in behind an inline phrase when it reaches ~75% of the
+// Draws a hand-drawn underline under an inline phrase when it reaches ~75% of the
 // viewport height, once. The reduced-motion case is handled in About.css
 // (final state, no transition).
-function Highlight({ children, delay = 0 }: HighlightProps) {
+function Highlight({ children, delay = 0, variant = 0 }: HighlightProps) {
   const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function Highlight({ children, delay = 0 }: HighlightProps) {
     <span
       ref={ref}
       className="highlight"
+      data-variant={variant % 3}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

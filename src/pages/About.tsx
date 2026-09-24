@@ -10,7 +10,7 @@ function About() {
   return (
     <>
       <main className="about">
-        <h1 className="about__title">About me</h1>
+        <h1 className="about__title">A little bit about me</h1>
 
         <div className="about__intro">
           <section className="hero-photo" aria-label="Portrait">
@@ -45,27 +45,26 @@ function About() {
             </button>
           </section>
 
-          <section className="about__section thesis" aria-label="Thesis">
-            <h2>Thesis</h2>
+          <section className="about__section thesis" aria-label="A little bit about me">
             <p>
-              <Highlight>Curiosity about people</Highlight> is the thread running through
+              <Highlight variant={0}>Curiosity about people</Highlight> is the thread running through
               everything I&rsquo;ve done, though it took me a while to figure out what to do with
               it. That curiosity is what pulled me toward psychology and the social sciences
               first, and then toward data, because I wanted the{' '}
-              <Highlight>numbers-backed reasoning</Highlight> behind why people do what they do,
+              <Highlight variant={1}>numbers-backed reasoning</Highlight> behind why people do what they do,
               not just a good theory about it.{' '}
-              <Highlight>Design is where the two finally came together</Highlight>. It&rsquo;s the
+              <Highlight variant={2}>Design is where the two finally came together</Highlight>. It&rsquo;s the
               part where you stop observing and actually get to influence the experience,
               tangibly, in something a person can use.
             </p>
             <p>
               At UW-Madison I picked up the design way of thinking, which mostly means{' '}
-              <Highlight>asking better questions</Highlight>, understanding people more honestly,
+              <Highlight variant={0}>asking better questions</Highlight>, understanding people more honestly,
               and turning genuinely complicated ideas into something useful. I&rsquo;m drawn to
-              problems that are <Highlight delay={150}>messy underneath</Highlight>: business
+              problems that are <Highlight variant={1} delay={150}>messy underneath</Highlight>: business
               problems, tangled data, AI systems whose reasoning you can&rsquo;t actually see.
               Knowing how things get built keeps my designs{' '}
-              <Highlight>grounded in technical reality</Highlight>, so I&rsquo;m designing things
+              <Highlight variant={2}>grounded in technical reality</Highlight>, so I&rsquo;m designing things
               that can actually exist rather than things that look good in a file.
             </p>
             <p>

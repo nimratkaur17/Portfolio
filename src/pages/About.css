@@ -36,6 +36,7 @@
   .about__intro .hero-photo {
     flex: 0 0 auto;
     width: min(460px, 46%);
+    margin-right: min(56px, 4vw);
   }
 
   .about__intro .thesis {
@@ -250,6 +251,10 @@
   margin-top: 1.25em;
 }
 
+.thesis p {
+  font-size: 1.125rem;
+}
+
 .about__reading-list {
   margin: 0;
   padding: 0;
@@ -266,24 +271,31 @@
   font-weight: 500;
 }
 
-/* Inline highlight sweep. A background-size transition on the inline span
-   (not a wrapping block), so the wipe follows the text across line breaks:
-   with the default box-decoration-break: slice, the gradient runs through the
-   line fragments in order. Accent tint keeps espresso text well above AA. */
+/* Hand-drawn underline that draws in left to right. A background-size
+   transition on the inline span (not a wrapping block), so it follows the
+   text across line breaks: with the default box-decoration-break: slice the
+   stroke runs through the line fragments in order. The stroke images are
+   olive (#5b5a3a, the --color-accent value); they stretch to the phrase width
+   with a non-scaling stroke, so the line weight stays constant. */
 .highlight {
-  background-image: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--color-accent) 30%, transparent),
-    color-mix(in srgb, var(--color-accent) 30%, transparent)
-  );
+  --underline: url('../underline-1.svg');
+  background-image: var(--underline);
   background-repeat: no-repeat;
-  background-size: 0% 100%;
-  background-position: left center;
+  background-size: 0% 0.55em;
+  background-position: left bottom;
   transition: background-size 500ms cubic-bezier(0.22, 0.9, 0.25, 1);
 }
 
+.highlight[data-variant='1'] {
+  --underline: url('../underline-2.svg');
+}
+
+.highlight[data-variant='2'] {
+  --underline: url('../underline-3.svg');
+}
+
 .highlight.is-swept {
-  background-size: 100% 100%;
+  background-size: 100% 0.55em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -292,7 +304,7 @@
   }
 
   .highlight {
-    background-size: 100% 100%;
+    background-size: 100% 0.55em;
     transition: none;
   }
 }
