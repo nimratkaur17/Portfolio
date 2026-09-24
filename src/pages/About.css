@@ -24,19 +24,23 @@
 }
 
 @media (min-width: 700px) {
+  /* row-reverse puts the photo at the right end; space-between then pins the
+     text to the left gutter instead of leaving a gap before it. */
   .about__intro {
     flex-direction: row-reverse;
+    justify-content: space-between;
     align-items: flex-start;
     gap: 56px;
   }
 
   .about__intro .hero-photo {
     flex: 0 0 auto;
-    width: min(320px, 40%);
+    width: min(460px, 46%);
   }
 
   .about__intro .thesis {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
     padding-top: 28px;
   }
 }
