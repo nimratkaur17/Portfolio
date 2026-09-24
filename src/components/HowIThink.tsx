@@ -64,7 +64,7 @@ const STEPS: Step[] = [
   },
 ]
 
-const DRAW_MS = 3200
+const DRAW_MS = 2400
 const CLOSE_DELAY = 160
 
 const SLOPE = 0.367 // rise / run of the diagonal

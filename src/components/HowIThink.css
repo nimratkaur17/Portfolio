@@ -24,7 +24,7 @@
   stroke-linejoin: round;
   stroke-dasharray: var(--path-length, 1000);
   stroke-dashoffset: var(--path-length, 1000);
-  transition: stroke-dashoffset var(--draw-ms, 3200ms) linear;
+  transition: stroke-dashoffset var(--draw-ms, 2400ms) linear;
 }
 
 .is-drawn .wave__path {
@@ -79,8 +79,8 @@
 }
 
 /* Quiet cue beside the first dot: small faint text and a hand-drawn arrow
-   pointing back at it. Fades in once the line has finished drawing and goes
-   away for good after the first hover or tap. */
+   pointing back at it. Fades in as the first dot appears and goes away for
+   good after the first hover or tap. */
 .wave__hint {
   position: absolute;
   top: 16px;
@@ -123,7 +123,7 @@
 }
 
 .is-drawn .wave__hint {
-  animation: wave-hint-in 700ms ease calc(var(--draw-ms, 3200ms) + 250ms) both;
+  animation: wave-hint-in 600ms ease calc(var(--pop-delay, 0ms) + 250ms) both;
 }
 
 .wave__hint.is-hidden {
