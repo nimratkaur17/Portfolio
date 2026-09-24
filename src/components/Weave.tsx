@@ -71,7 +71,7 @@ const SPIRAL_DESKTOP = 26
 const RING_SWEEP = 3.5 // radians of ring each thread wraps (about 200 degrees)
 const SPIRAL_COMPACT = 26
 const SIDE_ANGLE: Record<Side, number> = { left: Math.PI, top: 1.5 * Math.PI, right: 0, bottom: 0.5 * Math.PI }
-const SAG: Record<Side, number> = { left: 0.02, top: -0.07, right: 0.06, bottom: -0.06 }
+const SAG: Record<Side, number> = { left: 0.03, top: -0.03, right: 0.06, bottom: -0.04 }
 
 const dist = (a: Pt, b: Pt) => Math.hypot(a.x - b.x, a.y - b.y)
 const unit = (v: Pt): Pt => {
@@ -310,7 +310,6 @@ function measure(svg: SVGSVGElement): Measured | null {
   if (!thesis || !photo) return null
   const t = rel(thesis.getBoundingClientRect())
   const p = rel(photo.getBoundingClientRect())
-  const paras = Array.from(thesis.querySelectorAll('p')).map((el) => rel(el.getBoundingClientRect()))
   const W = c.width
   const H = c.height
   const compact = window.innerWidth < 760
@@ -340,18 +339,19 @@ function measure(svg: SVGSVGElement): Measured | null {
     }
   }
 
-  const gapLeft = t.right
-  const gapRight = p.left
-  const cx = (gapLeft + gapRight) / 2
-  const R = Math.max(44, Math.min(70, (gapRight - gapLeft) / 2 - 46))
-  // Vertical centre: the gap between the first two paragraphs. The left thread
-  // runs through that gap, clear of every line of text.
-  const gapY = paras.length > 1 ? (paras[0].bottom + paras[1].top) / 2 : (p.top + p.bottom) / 2
-  const leftY = gapY + 5
-  // The left thread runs straight through the paragraph gap and then curls up
-  // around the ring's underside, so the ring sits one radius (plus spiral) above it.
-  const cy = Math.max(R + 70, leftY - 0.965 * (R + SPIRAL_DESKTOP + 3))
-  const rightY = p.top - 34
+  // Per the sketch: the ring sits at the bottom right, below the portrait,
+  // and all four threads meet there. The left thread runs under the text.
+  const shift = Math.max(0, H - window.innerHeight)
+  const photoW = p.right - p.left
+  const R = 64
+  const cx = p.left + 0.85 * photoW
+  const reach = 0.965 * (R + SPIRAL_DESKTOP + 3)
+  const cyPhoto = p.bottom + 26 + R
+  // The left thread must clear the last line of text, so the ring never sits
+  // higher than that allows.
+  const cyText = t.bottom + 26 - reach
+  const cy = Math.max(cyPhoto, cyText)
+  const leftY = cy + reach
   return {
     count: 4,
     layout: {
@@ -362,23 +362,21 @@ function measure(svg: SVGSVGElement): Measured | null {
       R,
       compact,
       labelExtras: false,
-      labelTop: 88 + Math.max(0, H - window.innerHeight) + 24,
+      labelTop: 88 + shift + 24,
       labelBottom: Math.min(H - 16, window.innerHeight - 24),
-      xMin: gapLeft + 14,
-      xMax: gapRight - 14,
+      xMin: 0,
+      xMax: W,
       entries: {
-        left: {
-          E: { x: -80, y: leftY },
-          via: { pt: { x: gapLeft + 6, y: leftY }, dir: { x: 1, y: 0 } },
-          start: { theta0: Math.PI / 2 - 0.02, dir: -1 },
-        },
-        top: { E: { x: cx + 30, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
+        left: { E: { x: -80, y: leftY }, start: { theta0: Math.PI / 2 - 0.02, dir: -1 } },
+        // Dives behind the portrait from the top edge and reappears below it.
+        top: { E: { x: p.left + 0.62 * photoW, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
+        // Down the right side, then curls left into the top of the ring.
         right: {
-          E: { x: W + 80, y: rightY },
-          via: { pt: { x: gapRight - 30, y: rightY }, dir: { x: -1, y: 0 } },
+          E: { x: W + 40, y: 88 + shift + 40 },
+          via: { pt: { x: W - 80, y: cy - 150 }, dir: { x: 0, y: 1 } },
           start: { theta0: 1.5 * Math.PI, dir: -1 },
         },
-        bottom: { E: { x: cx - 24, y: H + 70 }, start: { theta0: 0, dir: -1 } },
+        bottom: { E: { x: cx + 120, y: H + 70 }, start: { theta0: 0, dir: -1 } },
       },
     },
   }
