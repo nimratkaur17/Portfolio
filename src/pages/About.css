@@ -1,6 +1,6 @@
 .about {
   min-height: 100dvh;
-  padding: 88px var(--gutter) 140px;
+  padding: 0 var(--gutter) 140px;
 }
 
 .about__title {
@@ -12,7 +12,25 @@
    title, text and portrait, which sit above it. */
 .about__weave-scope {
   position: relative;
-  padding-bottom: 56px;
+  view-timeline-name: --weave;
+}
+
+/* Clears the fixed nav, and holds the room below the portrait. */
+.about__weave-pin {
+  position: relative;
+  padding: 88px 0 56px;
+}
+
+/* Wide screens: the intro pins while the threads draw in (Weave.tsx sets the
+   scroll runway, --w-len, and where the pin holds, --pin-top). The next
+   section only arrives once the ring is tied and the word has faded in. */
+.about__weave-scope[data-mode='pinned'] {
+  height: calc(var(--pin-h) + var(--w-len));
+}
+
+.about__weave-scope[data-mode='pinned'] .about__weave-pin {
+  position: sticky;
+  top: var(--pin-top, 0px);
 }
 
 .about__title,

@@ -12,6 +12,7 @@ function About() {
     <>
       <main className="about">
         <div className="about__weave-scope">
+        <div className="about__weave-pin">
         <Weave />
         <h1 className="about__title">A little bit about me</h1>
 
@@ -75,6 +76,7 @@ function About() {
               somewhere I haven&rsquo;t been before.
             </p>
           </section>
+        </div>
         </div>
         </div>
 

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import './Weave.css'
 
 interface Pt {
@@ -62,7 +63,8 @@ interface Crossing {
 }
 
 const STEP = 2.5
-const SPIRAL_DESKTOP = 34
+const SPIRAL_DESKTOP = 26
+const RING_SWEEP = 3.5 // radians of ring each thread wraps (about 200 degrees)
 const SPIRAL_COMPACT = 26
 const SIDE_ANGLE: Record<Side, number> = { left: Math.PI, top: 1.5 * Math.PI, right: 0, bottom: 0.5 * Math.PI }
 const SAG: Record<Side, number> = { left: 0.02, top: -0.07, right: 0.06, bottom: -0.06 }
@@ -93,8 +95,8 @@ const shape = (theta: number) => 1 + 0.05 * Math.sin(theta + 0.8) + 0.03 * Math.
 
 function buildStrands(layout: Layout, threads: ThreadSpec[]): Strand[] {
   const { cx, cy, R, entries, compact } = layout
-  const wMax = compact ? 4.4 : 5.2
-  const amp = compact ? 8 : 11
+  const wMax = compact ? 1.3 : 1.5
+  const amp = compact ? 6 : 8
   const spiralR = compact ? SPIRAL_COMPACT : SPIRAL_DESKTOP
   const spiralSweep = 1.0
   const n = threads.length
@@ -137,7 +139,7 @@ function buildStrands(layout: Layout, threads: ThreadSpec[]): Strand[] {
     }
 
     // Ring part: spirals in from outside, then once around (short of closing).
-    const total = Math.PI * 2 - 0.4 + spiralSweep
+    const total = RING_SWEEP + spiralSweep
     const ring: Pt[] = []
     const dTau = STEP / (R * 0.98)
     for (let tau = 0; tau <= total; tau += dTau) {
@@ -324,7 +326,10 @@ function measure(svg: SVGSVGElement): Measured | null {
         labelExtras: true,
         xMin: 8,
         xMax: W - 8,
-        entries: { left: { E: { x: -70, y: cy - 22 } }, right: { E: { x: W + 70, y: cy - 58 } } },
+        entries: {
+          left: { E: { x: -70, y: cy - 22 }, start: { theta0: Math.PI / 2, dir: -1 } },
+          right: { E: { x: W + 70, y: cy - 58 }, start: { theta0: 1.5 * Math.PI, dir: -1 } },
+        },
       },
     }
   }
@@ -359,12 +364,13 @@ function measure(svg: SVGSVGElement): Measured | null {
           via: { pt: { x: gapLeft + 6, y: leftY }, dir: { x: 1, y: 0 } },
           start: { theta0: Math.PI / 2 - 0.02, dir: -1 },
         },
-        top: { E: { x: cx + 30, y: -70 } },
+        top: { E: { x: cx + 30, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
         right: {
           E: { x: W + 80, y: rightY },
           via: { pt: { x: gapRight - 30, y: rightY }, dir: { x: -1, y: 0 } },
+          start: { theta0: 1.5 * Math.PI, dir: -1 },
         },
-        bottom: { E: { x: cx - 24, y: H + 70 } },
+        bottom: { E: { x: cx - 24, y: H + 70 }, start: { theta0: 0, dir: -1 } },
       },
     },
   }
@@ -399,6 +405,89 @@ function Weave() {
     }
   }, [])
 
+  // Scroll placement. Wide screens pin the intro for a scroll runway while the
+  // threads draw in; narrow screens draw as the ring passes through the middle
+  // of the screen. The native path is CSS (animation-timeline on the scope's
+  // view timeline, see Weave.css); without it an IntersectionObserver gates a
+  // rAF loop that applies the same progress. Reduced motion: no pinning and
+  // the finished weave.
+  useEffect(() => {
+    const svg = svgRef.current
+    const pin = svg?.parentElement
+    const scope = pin?.parentElement
+    if (!svg || !pin || !scope || !measured) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      scope.setAttribute('data-mode', 'static')
+      return
+    }
+
+    const vh = window.innerHeight
+    const { compact, cy } = measured.layout
+    let start: number
+    let len: number
+    if (compact) {
+      scope.setAttribute('data-mode', 'inline')
+      start = cy + 0.15 * vh
+      len = 0.45 * vh
+    } else {
+      const pinH = pin.offsetHeight
+      const top = Math.min(0, vh - pinH)
+      scope.setAttribute('data-mode', 'pinned')
+      scope.style.setProperty('--pin-h', `${pinH}px`)
+      scope.style.setProperty('--pin-top', `${top}px`)
+      start = vh - top
+      len = 1.6 * vh
+    }
+    scope.style.setProperty('--w-start', `${start}px`)
+    scope.style.setProperty('--w-len', `${len}px`)
+
+    const native =
+      CSS.supports('animation-timeline', 'view()') &&
+      CSS.supports('animation-range', 'cover 0px cover 10px')
+    const paths = Array.from(svg.querySelectorAll<SVGPathElement>('.weave__reveal-path'))
+    const word = svg.querySelector<SVGTextElement>('.weave__word')
+    let frame = 0
+    let observer: IntersectionObserver | undefined
+
+    if (!native) {
+      const docTop = scope.getBoundingClientRect().top + window.scrollY
+      const rangeStart = docTop - vh + start
+      const clamp = (v: number) => Math.min(1, Math.max(0, v))
+      const apply = () => {
+        const p = clamp((window.scrollY - rangeStart) / len)
+        for (const path of paths) {
+          const total = parseFloat(path.style.getPropertyValue('--len'))
+          const r0 = parseFloat(path.dataset.r0 ?? '0')
+          const r1 = parseFloat(path.dataset.r1 ?? '1')
+          path.style.strokeDashoffset = String(total * (1 - clamp((p - r0) / (r1 - r0))))
+        }
+        if (word) word.style.opacity = String(clamp((p - 0.84) / 0.14))
+      }
+      const tick = () => {
+        apply()
+        frame = requestAnimationFrame(tick)
+      }
+      observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          if (!frame) frame = requestAnimationFrame(tick)
+        } else {
+          if (frame) cancelAnimationFrame(frame)
+          frame = 0
+          apply()
+        }
+      })
+      observer.observe(scope)
+      apply()
+    }
+
+    return () => {
+      observer?.disconnect()
+      if (frame) cancelAnimationFrame(frame)
+      for (const path of paths) path.style.strokeDashoffset = ''
+      if (word) word.style.opacity = ''
+    }
+  }, [measured])
+
   const scene = useMemo(() => {
     if (!measured) return null
     const { layout, count } = measured
@@ -411,19 +500,27 @@ function Weave() {
       const o = strands[c.over]
       const u = strands[c.under]
       // Just long enough to clear the under-thread at this crossing's angle.
-      const length = Math.min(26, (o.hw[c.overIdx] + u.hw[c.underIdx] + 5.5) / c.sin + 3)
+      const length = Math.min(26, (o.hw[c.overIdx] + u.hw[c.underIdx] + 2.6) / c.sin + 3)
       const reach = Math.ceil(length / STEP)
       const i0 = Math.max(0, c.overIdx - reach)
       const i1 = Math.min(o.pts.length - 1, c.overIdx + reach + 1)
-      masks[c.under].push(ribbon(o, i0, i1, 3.2))
+      masks[c.under].push(ribbon(o, i0, i1, 1.5))
       return {
-        wide: ribbon(o, i0, i1, 1),
+        wide: ribbon(o, i0, i1, 0.6),
         piece: ribbon(o, i0, i1, 0),
         twist: hairline(o, i0, i1),
         color: o.spec.color,
+        over: c.over,
       }
     })
-    return { layout, strands, masks, pieces }
+    const reveals = strands.map((s, k) => {
+      let len = 0
+      for (let i = 1; i < s.pts.length; i++) len += dist(s.pts[i], s.pts[i - 1])
+      const d = `M${s.pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join('L')}`
+      // Threads start a beat apart and all finish before the word appears.
+      return { d, len: Math.ceil(len) + 2, r0: 0.04 * k, r1: 0.74 + 0.03 * k }
+    })
+    return { layout, strands, masks, pieces, reveals }
   }, [measured])
 
   const W = measured?.layout.W ?? 0
@@ -445,11 +542,31 @@ function Weave() {
       </desc>
       <defs>
         <filter id="weave-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1.6" stdDeviation="1.8" floodColor="#30150e" floodOpacity="0.28" />
+          <feDropShadow dx="0" dy="0.8" stdDeviation="1" floodColor="#30150e" floodOpacity="0.14" />
         </filter>
         <filter id="weave-soft" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2.2" />
+          <feGaussianBlur stdDeviation="1.1" />
         </filter>
+        {scene &&
+          scene.reveals.map((r, idx) => (
+            <mask
+              key={`reveal-${idx}`}
+              id={`weave-reveal-${idx}`}
+              maskUnits="userSpaceOnUse"
+              x={-300}
+              y={-300}
+              width={scene.layout.W + 600}
+              height={scene.layout.H + 600}
+            >
+              <path
+                d={r.d}
+                className="weave__reveal-path"
+                data-r0={r.r0}
+                data-r1={r.r1}
+                style={{ '--len': r.len, '--r0': r.r0, '--r1': r.r1 } as CSSProperties}
+              />
+            </mask>
+          ))}
         {scene &&
           scene.masks.map((m, idx) => (
             <mask
@@ -473,19 +590,21 @@ function Weave() {
         <>
           <g filter="url(#weave-shadow)">
             {scene.strands.map((s, idx) => (
-              <g key={s.spec.id} mask={`url(#weave-mask-${idx})`}>
-                <path d={ribbon(s, 0, s.pts.length - 1, 0)} style={{ fill: s.spec.color }} />
-                <path d={hairline(s, 0, s.pts.length - 1)} className="weave__twist" />
+              <g key={s.spec.id} mask={`url(#weave-reveal-${idx})`}>
+                <g mask={`url(#weave-mask-${idx})`}>
+                  <path d={ribbon(s, 0, s.pts.length - 1, 0)} style={{ fill: s.spec.color }} />
+                  <path d={hairline(s, 0, s.pts.length - 1)} className="weave__twist" />
+                </g>
               </g>
             ))}
           </g>
 
           {scene.pieces.map((c, i) => (
-            <g key={i}>
+            <g key={i} mask={`url(#weave-reveal-${c.over})`}>
               <path
                 d={c.wide}
                 className="weave__cast"
-                transform="translate(0.6 2.2)"
+                transform="translate(0.3 1.1)"
                 filter="url(#weave-soft)"
               />
               <path d={c.piece} style={{ fill: c.color }} />

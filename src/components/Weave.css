@@ -20,9 +20,9 @@
 .weave__twist {
   fill: none;
   stroke: var(--color-cream);
-  stroke-width: 0.7;
+  stroke-width: 0.35;
   stroke-linecap: round;
-  opacity: 0.28;
+  opacity: 0.3;
 }
 
 .weave__label {
@@ -42,4 +42,58 @@
   font-family: var(--font-body);
   font-weight: 500;
   fill: var(--color-text);
+}
+
+/* The reveal masks draw each thread along its own centreline: a wide stroke
+   whose dash offset runs from "hidden" to "fully drawn". */
+.weave__reveal-path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 24;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: 0;
+}
+
+@keyframes weave-draw {
+  from {
+    stroke-dashoffset: var(--len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes weave-word {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Scroll-linked on the scope's view timeline (About.css names it --weave).
+   --w-start / --w-len (set in Weave.tsx) place the animation on the scroll
+   distance where the intro is pinned; each thread has its own slice (--r0,
+   --r1) of it, and the word fades in last. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) and (animation-range: cover 0px cover 10px) {
+    .weave__reveal-path {
+      animation: weave-draw linear both;
+      animation-timeline: --weave;
+      animation-range:
+        cover calc(var(--w-start) + var(--w-len) * var(--r0))
+        cover calc(var(--w-start) + var(--w-len) * var(--r1));
+    }
+
+    .weave__word {
+      animation: weave-word linear both;
+      animation-timeline: --weave;
+      animation-range:
+        cover calc(var(--w-start) + var(--w-len) * 0.84)
+        cover calc(var(--w-start) + var(--w-len) * 0.98);
+    }
+  }
 }
