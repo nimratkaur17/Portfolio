@@ -64,6 +64,7 @@ function Cursor() {
     const handleOver = (event: MouseEvent) => {
       const target = event.target as Element | null
       dot.classList.toggle('is-active', Boolean(target?.closest?.(INTERACTIVE)))
+      dot.classList.toggle('is-on-contact', Boolean(target?.closest?.('.contact-surface')))
     }
 
     const handleLeaveWindow = () => dot.classList.remove('is-visible')
