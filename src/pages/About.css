@@ -271,34 +271,20 @@
   font-weight: 500;
 }
 
-/* Hand-drawn underline that draws in left to right. A background-size
-   transition on the inline span (not a wrapping block), so it follows the
-   text across line breaks: with the default box-decoration-break: slice the
-   stroke runs through the line fragments in order. The stroke images are
-   olive (#5b5a3a, the --color-accent value); they stretch to the phrase width
-   as a tapered brush-stroke shape (pointed ends, thicker in the middle). */
+/* Inline highlight sweep. A background-size transition on the inline span
+   (not a wrapping block), so the wipe follows the text across line breaks:
+   with the default box-decoration-break: slice, the gradient runs through the
+   line fragments in order. Sage tint keeps espresso text well above AA. */
 .highlight {
-  --underline: url('../underline-1.svg');
-  background-image: var(--underline);
+  background-image: linear-gradient(to right, var(--color-sage), var(--color-sage));
   background-repeat: no-repeat;
-  background-size: 0% 0.6em;
-  background-position: left bottom;
-  /* Vertical padding on an inline span paints background without changing the
-     line height; it is what lifts the stroke clear of the letters. */
-  padding-bottom: 0.22em;
+  background-size: 0% 100%;
+  background-position: left center;
   transition: background-size 500ms cubic-bezier(0.22, 0.9, 0.25, 1);
 }
 
-.highlight[data-variant='1'] {
-  --underline: url('../underline-2.svg');
-}
-
-.highlight[data-variant='2'] {
-  --underline: url('../underline-3.svg');
-}
-
 .highlight.is-swept {
-  background-size: 100% 0.6em;
+  background-size: 100% 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -307,7 +293,7 @@
   }
 
   .highlight {
-    background-size: 100% 0.6em;
+    background-size: 100% 100%;
     transition: none;
   }
 }
