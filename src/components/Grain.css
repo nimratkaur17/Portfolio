@@ -5,7 +5,7 @@
    hero's view timeline (see Hero.css); the rAF fallback in Hero.tsx sets
    --grain-f instead. */
 .grain {
-  --grain-o: 0.035;
+  --grain-o: 0.2;
   position: fixed;
   inset: 0;
   z-index: 0;
