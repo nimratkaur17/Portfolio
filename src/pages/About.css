@@ -276,13 +276,16 @@
    text across line breaks: with the default box-decoration-break: slice the
    stroke runs through the line fragments in order. The stroke images are
    olive (#5b5a3a, the --color-accent value); they stretch to the phrase width
-   with a non-scaling stroke, so the line weight stays constant. */
+   as a tapered brush-stroke shape (pointed ends, thicker in the middle). */
 .highlight {
   --underline: url('../underline-1.svg');
   background-image: var(--underline);
   background-repeat: no-repeat;
-  background-size: 0% 0.55em;
+  background-size: 0% 0.6em;
   background-position: left bottom;
+  /* Vertical padding on an inline span paints background without changing the
+     line height; it is what lifts the stroke clear of the letters. */
+  padding-bottom: 0.22em;
   transition: background-size 500ms cubic-bezier(0.22, 0.9, 0.25, 1);
 }
 
@@ -295,7 +298,7 @@
 }
 
 .highlight.is-swept {
-  background-size: 100% 0.55em;
+  background-size: 100% 0.6em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -304,7 +307,7 @@
   }
 
   .highlight {
-    background-size: 100% 0.55em;
+    background-size: 100% 0.6em;
     transition: none;
   }
 }
