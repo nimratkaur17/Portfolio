@@ -39,8 +39,9 @@
 }
 
 .weave__word {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: 0.14em;
   fill: var(--color-text);
 }
 

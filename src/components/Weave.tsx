@@ -95,7 +95,7 @@ const shape = (theta: number) => 1 + 0.05 * Math.sin(theta + 0.8) + 0.03 * Math.
 
 function buildStrands(layout: Layout, threads: ThreadSpec[]): Strand[] {
   const { cx, cy, R, entries, compact } = layout
-  const wMax = compact ? 1.3 : 1.5
+  const wMax = compact ? 1.0 : 1.15
   const amp = compact ? 6 : 8
   const spiralR = compact ? SPIRAL_COMPACT : SPIRAL_DESKTOP
   const spiralSweep = 1.0
@@ -534,11 +534,11 @@ function Weave() {
       role="img"
       aria-labelledby="weave-title weave-desc"
     >
-      <title id="weave-title">Four disciplines woven into a ring around the word designer</title>
+      <title id="weave-title">Four disciplines woven into a ring around the words people-centered designer</title>
       <desc id="weave-desc">
         Four threads, psychology, data science, information science and digital studies, each
         enter from a different edge, curve inward, and weave over and under one another into a
-        closed ring. Inside the ring is the word designer.
+        closed ring. Inside the ring are the words people-centered designer.
       </desc>
       <defs>
         <filter id="weave-shadow" x="-20%" y="-20%" width="140%" height="140%">
@@ -654,12 +654,17 @@ function Weave() {
 
           <text
             x={scene.layout.cx}
-            y={scene.layout.cy + 7}
+            y={scene.layout.cy - 8}
             textAnchor="middle"
             className="weave__word"
-            style={{ fontSize: scene.layout.compact ? 17 : 21 }}
           >
-            designer
+            <tspan x={scene.layout.cx}>PEOPLE-</tspan>
+            <tspan x={scene.layout.cx} dy="15">
+              CENTERED
+            </tspan>
+            <tspan x={scene.layout.cx} dy="15">
+              DESIGNER
+            </tspan>
           </text>
         </>
       )}
