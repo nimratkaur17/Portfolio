@@ -30,13 +30,14 @@
 }
 
 .case-study__kicker {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin: 0 0 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
   color: var(--color-bg);
   opacity: 0.75;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 .case-study__title {
@@ -82,11 +83,15 @@
 }
 
 .case-study__rail a {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   position: relative;
   display: block;
   color: var(--color-muted);
   text-decoration: none;
-  font-size: 0.875rem;
   line-height: 1.4;
   transition: color 200ms ease;
 }

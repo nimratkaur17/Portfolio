@@ -31,9 +31,12 @@ Tint and shade ramps are not defined yet. If a component needs a lighter or dark
 
 ## Type
 
-- Figtree throughout
-- Two weights only: 400 regular, 500 medium. 800 for hero skill pills.
-- Sentence case everywhere. No ALL CAPS, no Title Case except proper nouns.
+Exactly three typefaces, one job each, no overlap. Use the tokens in `index.css`, never a raw family name.
+
+- `--font-name`: Cantora One, only for the name "Nimrat Kaur" (hero and contact footer). Single weight, so always `font-weight: 400`.
+- `--font-body`: Figtree for every heading and all body copy. Weights 400 and 500 (800 only for the how-I-think pills).
+- `--font-label`: Space Mono, uppercase and letterspaced, only for small labels: kickers, rail labels, stat card captions, fact labels, tags. Single weight, so `font-weight: 400`.
+- Body and headings stay sentence case; uppercase belongs to the Space Mono labels only.
 
 ## Motion conventions
 

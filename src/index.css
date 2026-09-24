@@ -17,6 +17,15 @@
      gutter rather than running content flush to the browser frame. */
   --gutter: clamp(20px, 5vw, 72px);
 
+  /* Exactly three typefaces, one job each, no overlap:
+     name  - Cantora One, only the name "Nimrat Kaur"
+     body  - Figtree, every heading and all body copy
+     label - Space Mono, uppercase + letterspaced, small labels only
+             (kickers, rail labels, captions) */
+  --font-name: 'Cantora One', 'Figtree', sans-serif;
+  --font-body: 'Figtree', sans-serif;
+  --font-label: 'Space Mono', ui-monospace, monospace;
+
   color-scheme: light;
 }
 
@@ -53,7 +62,7 @@ body {
   min-height: 100dvh;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: 'Figtree', sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
 }
 
@@ -73,4 +82,11 @@ h6 {
 .app {
   position: relative;
   min-height: 100dvh;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }

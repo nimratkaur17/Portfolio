@@ -54,11 +54,13 @@
 }
 
 .wave__label {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   position: absolute;
   left: 50%;
-  font-family: 'Caveat', cursive;
-  font-size: 1.5rem;
-  font-weight: 600;
   color: var(--color-text);
   white-space: nowrap;
   opacity: 0;

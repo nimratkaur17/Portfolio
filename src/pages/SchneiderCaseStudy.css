@@ -89,8 +89,12 @@
 }
 
 .cs-facts dt {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin-bottom: 4px;
-  font-size: 0.8125rem;
   color: var(--color-muted);
 }
 

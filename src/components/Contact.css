@@ -53,11 +53,12 @@
 }
 
 .contact-kicker {
-  margin: 0;
-  font-weight: 500;
-  font-size: 0.875rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  margin: 0;
   color: var(--color-primary-d);
 }
 
@@ -130,12 +131,12 @@
 }
 
 .contact-reading__label {
-  margin: 0 0 17px;
-  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 17px;
   color: var(--color-primary-d);
 }
 
@@ -190,10 +191,12 @@
 }
 
 .contact-reading__stats {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin: 0;
-  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.02em;
   color: var(--color-primary-d);
   opacity: 0.8;
 }
@@ -219,8 +222,8 @@
    the pre-measurement fallback for a no-JS render. */
 .contact-name__text {
   display: inline-block;
-  font-family: 'Figtree', sans-serif;
-  font-weight: 500;
+  font-family: var(--font-name);
+  font-weight: 400;
   font-size: clamp(3rem, 12vw, 9rem);
   line-height: 1;
   white-space: nowrap;
@@ -236,7 +239,7 @@
   border-radius: 9999px;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: 'Figtree', sans-serif;
+  font-family: var(--font-body);
   font-weight: 500;
   font-size: 1rem;
   white-space: nowrap;

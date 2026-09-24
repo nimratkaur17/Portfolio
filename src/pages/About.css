@@ -86,6 +86,11 @@
 }
 
 .hero-photo__label {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   position: absolute;
   top: -10px;
   left: 22px;
@@ -93,9 +98,6 @@
   border-radius: 4px;
   background: var(--color-primary);
   color: var(--color-bg);
-  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -137,12 +139,15 @@
 }
 
 .hero-photo__annotation-value {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   position: relative;
   padding: 1px 5px;
   background: var(--color-bg);
   color: var(--color-primary);
-  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
-  font-size: 0.6875rem;
 }
 
 .hero-photo__frame {

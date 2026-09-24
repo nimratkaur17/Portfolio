@@ -5,7 +5,7 @@
   border-radius: 9999px;
   background: var(--color-primary);
   color: var(--color-bg);
-  font-family: 'Figtree', sans-serif;
+  font-family: var(--font-body);
   font-weight: 800;
   line-height: 1;
   white-space: nowrap;
