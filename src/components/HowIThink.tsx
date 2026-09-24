@@ -127,6 +127,8 @@ function HowIThink() {
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  // The "hover on me" hint goes away for good after the first interaction.
+  const [hintSeen, setHintSeen] = useState(false)
   const canHoverRef = useRef(false)
   const showTimerRef = useRef<number | undefined>(undefined)
   const closeTimerRef = useRef<number | undefined>(undefined)
@@ -196,7 +198,10 @@ function HowIThink() {
     [],
   )
 
-  const openCard = (i: number) => setActiveIndex(i)
+  const openCard = (i: number) => {
+    setActiveIndex(i)
+    setHintSeen(true)
+  }
   const closeCard = (i: number) => setActiveIndex((current) => (current === i ? null : current))
   const toggleCard = (i: number) => setActiveIndex((current) => (current === i ? null : i))
 
@@ -264,6 +269,28 @@ function HowIThink() {
             <span className="wave__label" aria-hidden="true">
               {step.label}
             </span>
+            {i === 0 && (
+              <span className={`wave__hint${hintSeen ? ' is-hidden' : ''}`} aria-hidden="true">
+                <svg className="wave__hint-arrow" viewBox="0 0 40 30">
+                  <path
+                    d="M37 25 C27 28 9 23 4 6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M4 6 L1.5 14 M4 6 L11.5 9.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span className="wave__hint-text wave__hint-text--hover">hover on me</span>
+                <span className="wave__hint-text wave__hint-text--tap">tap me</span>
+              </span>
+            )}
             <button
               type="button"
               className="wave__node"

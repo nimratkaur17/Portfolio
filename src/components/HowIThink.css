@@ -78,6 +78,69 @@
   }
 }
 
+/* Quiet cue beside the first dot: small faint text and a hand-drawn arrow
+   pointing back at it. Fades in once the line has finished drawing and goes
+   away for good after the first hover or tap. */
+.wave__hint {
+  position: absolute;
+  top: 16px;
+  left: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--color-blush);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wave__hint-arrow {
+  flex: none;
+  width: 34px;
+  height: 26px;
+  margin-top: 2px;
+  overflow: visible;
+}
+
+.wave__hint-text {
+  margin-top: 20px;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.wave__hint-text--tap {
+  display: none;
+}
+
+@media (hover: none) {
+  .wave__hint-text--hover {
+    display: none;
+  }
+
+  .wave__hint-text--tap {
+    display: inline;
+  }
+}
+
+.is-drawn .wave__hint {
+  animation: wave-hint-in 700ms ease calc(var(--draw-ms, 3200ms) + 250ms) both;
+}
+
+.wave__hint.is-hidden {
+  animation: none;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+@keyframes wave-hint-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
 .wave__node {
   position: absolute;
   top: 0;
@@ -182,7 +245,9 @@
   --card-x: 8px;
   --card-y: 8px;
   --card-origin: right bottom;
-  right: 34px;
+  /* Sits mostly left of the dot but reaches a little past it, so it stays on
+     screen near the left edge; the line is too low there to touch it. */
+  right: -44px;
   bottom: 30px;
 }
 
@@ -228,19 +293,19 @@
 .wave__card-tools {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 /* Modern chip: solid deep blue, medium weight, softly squared corners. */
 .wave__chip {
   display: inline-flex;
   align-items: center;
-  padding: 6px 11px;
-  border-radius: 8px;
+  padding: 9px 15px;
+  border-radius: 10px;
   background: var(--color-chip);
   color: var(--color-cream);
-  font-size: 0.75rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -283,6 +348,15 @@
     opacity: 1;
     transform: translate(-50%, 0);
     animation: none;
+  }
+
+  .wave__hint {
+    opacity: 0.6;
+    animation: none;
+  }
+
+  .wave__hint.is-hidden {
+    opacity: 0;
   }
 
   .wave__node::before {
