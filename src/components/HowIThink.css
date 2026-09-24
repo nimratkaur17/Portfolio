@@ -18,7 +18,7 @@
    dots and labels can be timed to the moment the line reaches them. */
 .wave__path {
   fill: none;
-  stroke: var(--color-text);
+  stroke: var(--color-cream);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -43,11 +43,12 @@
 .wave__label {
   position: absolute;
   left: 0;
-  font-size: 0.8125rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
+  text-transform: lowercase;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  color: var(--color-cream);
   white-space: nowrap;
   opacity: 0;
   transform: translate(-50%, 6px);
@@ -55,11 +56,11 @@
 }
 
 .wave__marker--above .wave__label {
-  bottom: 26px;
+  bottom: 30px;
 }
 
 .wave__marker--below .wave__label {
-  top: 26px;
+  top: 30px;
 }
 
 .is-drawn .wave__label {
@@ -98,8 +99,8 @@
   position: absolute;
   inset: 11px;
   border-radius: 50%;
-  background: var(--color-bg);
-  border: 3px solid var(--color-primary);
+  background: var(--color-pine);
+  border: 3px solid var(--color-cream);
   transform: scale(0);
 }
 
@@ -122,7 +123,7 @@
   position: absolute;
   inset: 2px;
   border-radius: 50%;
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid var(--color-cream);
   opacity: 0;
   transform: scale(0.6);
   transition:
@@ -141,7 +142,7 @@
 }
 
 .wave__node:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-cream);
   outline-offset: 2px;
   border-radius: 50%;
 }
@@ -231,9 +232,20 @@
   margin-top: 6px;
 }
 
+/* Modern chip: solid deep blue, medium weight, softly squared corners. */
 .wave__chip {
-  padding: 5px 12px;
-  font-size: 0.6875rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 11px;
+  border-radius: 8px;
+  background: var(--color-chip);
+  color: var(--color-cream);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow: inset 0 0 0 1px rgba(247, 236, 220, 0.1);
 }
 
 @media (max-width: 640px) {
@@ -242,7 +254,7 @@
   }
 
   .wave__label {
-    font-size: 0.75rem;
+    font-size: 1.125rem;
   }
 
   /* Too narrow to open beside the dot: the card slides up from the bottom of

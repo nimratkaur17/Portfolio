@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, KeyboardEvent } from 'react'
-import Pill from './Pill'
 import './HowIThink.css'
 
 interface Step {
@@ -74,13 +73,16 @@ const TAIL_STOPS = [0, ...STEPS.map((step) => step.t), 1]
 // Per-segment wiggle as a fraction of segment length (control point 1, 2);
 // deliberately uneven so it reads hand-drawn rather than mechanical.
 const WIGGLE = [
-  [-0.11, 0.09],
-  [0.1, -0.12],
-  [-0.09, 0.11],
-  [0.12, -0.1],
-  [-0.1, 0.09],
-  [0.11, -0.12],
+  [-0.24, 0.16],
+  [0.2, -0.27],
+  [-0.17, 0.25],
+  [0.27, -0.18],
+  [-0.21, 0.15],
+  [0.25, -0.22],
 ]
+// Each stop's tangent is nudged a few degrees off the trend so the line
+// wanders like a pen stroke instead of running dead straight.
+const TANGENT_JITTER = [-0.1, 0.13, -0.08, 0.12, -0.11, 0.07, -0.09]
 
 function layoutLine(w: number, h: number) {
   let run = w * RUN_FRACTION
@@ -97,9 +99,11 @@ function layoutLine(w: number, h: number) {
 
 function buildPath(w: number, h: number) {
   const { run, rise, pointAt } = layoutLine(w, h)
-  const length = Math.hypot(run, rise)
-  const tx = run / length
-  const ty = -rise / length
+  const angle = Math.atan2(-rise, run)
+  const tangent = (i: number) => {
+    const theta = angle + TANGENT_JITTER[i % TANGENT_JITTER.length]
+    return { x: Math.cos(theta), y: Math.sin(theta) }
+  }
   const pts = TAIL_STOPS.map(pointAt)
   let d = `M${pts[0].x},${pts[0].y}`
   for (let i = 1; i < pts.length; i++) {
@@ -107,7 +111,9 @@ function buildPath(w: number, h: number) {
     const b = pts[i]
     const seg = Math.hypot(b.x - a.x, b.y - a.y)
     const [f1, f2] = WIGGLE[(i - 1) % WIGGLE.length]
-    d += ` C${a.x + (tx * seg) / 3},${a.y + (ty * seg) / 3 + f1 * seg} ${b.x - (tx * seg) / 3},${b.y - (ty * seg) / 3 + f2 * seg} ${b.x},${b.y}`
+    const ta = tangent(i - 1)
+    const tb = tangent(i)
+    d += ` C${a.x + (ta.x * seg) / 3},${a.y + (ta.y * seg) / 3 + f1 * seg} ${b.x - (tb.x * seg) / 3},${b.y - (tb.y * seg) / 3 + f2 * seg} ${b.x},${b.y}`
   }
   return d
 }
@@ -286,9 +292,9 @@ function HowIThink() {
                 <p className="wave__card-note">{step.note}</p>
                 <div className="wave__card-tools">
                   {step.tools.map((tool) => (
-                    <Pill key={tool} className="wave__chip">
+                    <span key={tool} className="wave__chip">
                       {tool}
-                    </Pill>
+                    </span>
                   ))}
                 </div>
               </div>

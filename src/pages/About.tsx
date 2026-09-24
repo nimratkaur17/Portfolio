@@ -77,6 +77,7 @@ function About() {
         <section
           className="about__section about__section--wide about__feature"
           aria-label="How I think"
+          data-nav-theme="light"
         >
           <h2>How I think</h2>
           <HowIThink />
