@@ -21,7 +21,7 @@ const THREADS: ThreadSpec[] = [
   { id: 'psychology', label: 'PSYCHOLOGY', color: 'var(--color-primary)', side: 'left' },
   { id: 'data', label: 'DATA SCIENCE', color: 'var(--color-contrast)', side: 'top' },
   { id: 'information', label: 'INFORMATION SCIENCE', color: 'var(--color-muted)', side: 'right' },
-  { id: 'digital', label: 'DIGITAL STUDIES', color: 'var(--color-accent)', side: 'left' },
+  { id: 'digital', label: 'DIGITAL STUDIES', color: 'var(--color-accent)', side: 'bottom' },
 ]
 
 // Where a thread comes in from, and (optionally) a waypoint it must run
@@ -40,11 +40,12 @@ interface Layout {
   cy: number
   R: number
   compact: boolean
-  entries: Record<string, Entry>
+  entries: Partial<Record<Side, Entry>>
   labelExtras: boolean
   // Where the top and bottom labels sit so they stay on screen while the
   // intro is pinned (clear of the fixed nav, above the bottom edge).
   labelTop: number
+  labelBottom: number
   xMin: number
   xMax: number
 }
@@ -70,7 +71,7 @@ const SPIRAL_DESKTOP = 26
 const RING_SWEEP = 3.5 // radians of ring each thread wraps (about 200 degrees)
 const SPIRAL_COMPACT = 26
 const SIDE_ANGLE: Record<Side, number> = { left: Math.PI, top: 1.5 * Math.PI, right: 0, bottom: 0.5 * Math.PI }
-const SAG: Record<Side, number> = { left: 0.03, top: -0.03, right: 0.06, bottom: -0.04 }
+const SAG: Record<Side, number> = { left: 0.02, top: -0.07, right: 0.06, bottom: -0.06 }
 
 const dist = (a: Pt, b: Pt) => Math.hypot(a.x - b.x, a.y - b.y)
 const unit = (v: Pt): Pt => {
@@ -112,7 +113,7 @@ function buildStrands(layout: Layout, threads: ThreadSpec[]): Strand[] {
   return threads.map((spec, k) => {
     const phi = k * (n === 2 ? Math.PI : Math.PI / 2)
     const psi = k * 1.7 + 0.4
-    const entry = entries[spec.id] as Entry
+    const entry = entries[spec.side] as Entry
     const E = entry.E
     const source = entry.via ? entry.via.pt : E
     const radius = (theta: number) =>
@@ -309,6 +310,7 @@ function measure(svg: SVGSVGElement): Measured | null {
   if (!thesis || !photo) return null
   const t = rel(thesis.getBoundingClientRect())
   const p = rel(photo.getBoundingClientRect())
+  const paras = Array.from(thesis.querySelectorAll('p')).map((el) => rel(el.getBoundingClientRect()))
   const W = c.width
   const H = c.height
   const compact = window.innerWidth < 760
@@ -327,29 +329,29 @@ function measure(svg: SVGSVGElement): Measured | null {
         compact,
         labelExtras: true,
         labelTop: 22,
+        labelBottom: H - 16,
         xMin: 8,
         xMax: W - 8,
         entries: {
-          psychology: { E: { x: -70, y: cy - 22 }, start: { theta0: Math.PI / 2, dir: -1 } },
-          information: { E: { x: W + 70, y: cy - 58 }, start: { theta0: 1.5 * Math.PI, dir: -1 } },
+          left: { E: { x: -70, y: cy - 22 }, start: { theta0: Math.PI / 2, dir: -1 } },
+          right: { E: { x: W + 70, y: cy - 58 }, start: { theta0: 1.5 * Math.PI, dir: -1 } },
         },
       },
     }
   }
 
-  // Per the sketch: the ring sits at the bottom right, below the portrait,
-  // and all four threads meet there. The left thread runs under the text.
-  const shift = Math.max(0, H - window.innerHeight)
-  const photoW = p.right - p.left
-  const R = 64
-  const cx = p.left + 0.85 * photoW
-  const cyPhoto = p.bottom + 4 + R
-  // Two threads run in from the left under the last line of text, so the ring
-  // never sits higher than that allows.
-  const cyText = t.bottom + 60
-  const cy = Math.max(cyPhoto, cyText)
-  const psychologyY = cy - 14
-  const digitalY = cy + 34
+  const gapLeft = t.right
+  const gapRight = p.left
+  const cx = (gapLeft + gapRight) / 2
+  const R = Math.max(44, Math.min(70, (gapRight - gapLeft) / 2 - 46))
+  // Vertical centre: the gap between the first two paragraphs. The left thread
+  // runs through that gap, clear of every line of text.
+  const gapY = paras.length > 1 ? (paras[0].bottom + paras[1].top) / 2 : (p.top + p.bottom) / 2
+  const leftY = gapY + 5
+  // The left thread runs straight through the paragraph gap and then curls up
+  // around the ring's underside, so the ring sits one radius (plus spiral) above it.
+  const cy = Math.max(R + 70, leftY - 0.965 * (R + SPIRAL_DESKTOP + 3))
+  const rightY = p.top - 34
   return {
     count: 4,
     layout: {
@@ -360,28 +362,23 @@ function measure(svg: SVGSVGElement): Measured | null {
       R,
       compact,
       labelExtras: false,
-      labelTop: 88 + shift + 24,
-      xMin: 0,
-      xMax: W,
+      labelTop: 88 + Math.max(0, H - window.innerHeight) + 24,
+      labelBottom: Math.min(H - 16, window.innerHeight - 24),
+      xMin: gapLeft + 14,
+      xMax: gapRight - 14,
       entries: {
-        // Both come in from the left edge, one above the other, and curl up
-        // into the ring's underside.
-        psychology: {
-          E: { x: -80, y: psychologyY },
-          start: { theta0: Math.PI - 0.35, dir: -1 },
+        left: {
+          E: { x: -80, y: leftY },
+          via: { pt: { x: gapLeft + 6, y: leftY }, dir: { x: 1, y: 0 } },
+          start: { theta0: Math.PI / 2 - 0.02, dir: -1 },
         },
-        digital: {
-          E: { x: -80, y: digitalY },
-          start: { theta0: Math.PI - 0.95, dir: -1 },
-        },
-        // Dives behind the portrait from the top edge and reappears below it.
-        data: { E: { x: p.left + 0.62 * photoW, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
-        // Down the right side, then curls left into the top of the ring.
-        information: {
-          E: { x: W + 40, y: 88 + shift + 40 },
-          via: { pt: { x: W - 80, y: cy - 150 }, dir: { x: 0, y: 1 } },
+        top: { E: { x: cx + 30, y: -70 }, start: { theta0: Math.PI, dir: -1 } },
+        right: {
+          E: { x: W + 80, y: rightY },
+          via: { pt: { x: gapRight - 30, y: rightY }, dir: { x: -1, y: 0 } },
           start: { theta0: 1.5 * Math.PI, dir: -1 },
         },
+        bottom: { E: { x: cx - 24, y: H + 70 }, start: { theta0: 0, dir: -1 } },
       },
     },
   }
@@ -503,7 +500,7 @@ function Weave() {
     if (!measured) return null
     const { layout, count } = measured
     const threads =
-      count === 2 ? THREADS.filter((t) => t.id === 'psychology' || t.id === 'information') : THREADS
+      count === 2 ? THREADS.filter((t) => t.side === 'left' || t.side === 'right') : THREADS
     const strands = buildStrands(layout, threads)
     const crossings = findCrossings(strands)
     const masks: string[][] = strands.map(() => [])
@@ -624,29 +621,29 @@ function Weave() {
           ))}
 
           {scene.strands.map((s) => {
-            const { W: w, labelTop } = scene.layout
+            const { W: w, labelTop, labelBottom } = scene.layout
+            const e = s.pts[0]
             const common = { className: 'weave__label', style: { fill: s.spec.color } } as const
-            // Each label is placed from the thread's own path, so it sits
-            // right beside the line rather than at a fixed corner.
-            if (s.spec.side === 'left') {
-              const at = s.pts.find((pt) => pt.x >= 60) ?? s.pts[0]
+            if (s.spec.side === 'left')
               return (
-                <text key={s.spec.id} x={16} y={Math.max(14, at.y - 10)} {...common}>
+                <text key={s.spec.id} x={16} y={Math.max(14, e.y - 9)} {...common}>
                   {s.spec.label}
                 </text>
               )
-            }
-            if (s.spec.side === 'right') {
-              const at = s.pts.find((pt) => pt.x <= w - 60) ?? s.pts[0]
+            if (s.spec.side === 'right')
               return (
-                <text key={s.spec.id} x={w - 16} y={Math.max(14, at.y - 12)} textAnchor="end" {...common}>
+                <text key={s.spec.id} x={w - 16} y={Math.max(14, e.y - 12)} textAnchor="end" {...common}>
                   {s.spec.label}
                 </text>
               )
-            }
-            const at = s.pts.find((pt) => pt.y >= labelTop) ?? s.pts[0]
+            if (s.spec.side === 'top')
+              return (
+                <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelTop} {...common}>
+                  {s.spec.label}
+                </text>
+              )
             return (
-              <text key={s.spec.id} x={Math.min(w - 16, at.x + 14)} y={labelTop} {...common}>
+              <text key={s.spec.id} x={Math.min(w - 16, e.x + 14)} y={labelBottom} {...common}>
                 {s.spec.label}
               </text>
             )

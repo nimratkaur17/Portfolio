@@ -4,7 +4,7 @@
 }
 
 .about__title {
-  padding-top: 24px;
+  padding-top: 40px;
   margin: 0 0 48px;
 }
 
@@ -55,32 +55,26 @@
 }
 
 @media (min-width: 760px) {
-  /* Text top-left at about 44% of the width; the portrait sits to its right,
-     shifted left and up from the far edge, with room below it (and below the
-     text) for the woven ring at the bottom right. */
+  /* row-reverse puts the photo at the right end; space-between then pins the
+     text to the left gutter instead of leaving a gap before it. */
   .about__intro {
-    display: grid;
-    grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .about__intro .thesis {
-    grid-column: 1;
-    grid-row: 1;
-    min-width: 0;
-    padding-top: 0;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 56px;
   }
 
   .about__intro .hero-photo {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: start;
-    width: min(460px, 88%);
-    margin-left: 22%;
+    flex: 0 0 auto;
+    width: min(460px, 46%);
+    margin-right: min(56px, 4vw);
   }
 
-  .about__weave-pin {
-    padding-bottom: 170px;
+  .about__intro .thesis {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 520px;
+    padding-top: 28px;
   }
 }
 
