@@ -52,8 +52,17 @@
   font-size: calc(var(--name-size) * 0.25);
   font-weight: 400;
   line-height: 1.1;
-  color: var(--color-pine);
+  color: var(--color-rot-1);
+  transition: color 280ms ease;
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 250ms both;
+}
+
+.hero__word[data-tone='1'] {
+  color: var(--color-rot-2);
+}
+
+.hero__word[data-tone='2'] {
+  color: var(--color-rot-3);
 }
 
 .hero__word-sizer {

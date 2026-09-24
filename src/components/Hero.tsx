@@ -7,6 +7,7 @@ const WORDS = ['Product designer', 'Systems thinker', 'Design thinker', 'Collabo
 const WIDEST_WORD = 'Endlessly curious'
 const WORD_INTERVAL = 1700
 const WORD_FADE = 280
+const TONES = 3
 const NAME_RADIUS = 190
 
 function Hero() {
@@ -14,6 +15,9 @@ function Hero() {
   const lettersRef = useRef<(HTMLSpanElement | null)[]>([])
   const [reduceMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [wordIndex, setWordIndex] = useState(0)
+  // Advances on every swap, independent of the word, so pairings only repeat
+  // every WORDS.length * TONES swaps (15).
+  const [toneIndex, setToneIndex] = useState(0)
   const [hasRotated, setHasRotated] = useState(false)
   const [entered, setEntered] = useState(false)
   const [inView, setInView] = useState(true)
@@ -43,6 +47,7 @@ function Hero() {
     let swapTimer = 0
     const interval = window.setInterval(() => {
       currentWord()?.classList.add('is-leaving')
+      setToneIndex((i) => (i + 1) % TONES)
       swapTimer = window.setTimeout(() => {
         setWordIndex((i) => (i + 1) % WORDS.length)
         setHasRotated(true)
@@ -127,7 +132,7 @@ function Hero() {
               </span>
             ))}
           </span>
-          <span className="hero__word" aria-hidden="true">
+          <span className="hero__word" data-tone={toneIndex} aria-hidden="true">
             <span className="hero__word-sizer">{WIDEST_WORD}</span>
             <span
               key={wordIndex}

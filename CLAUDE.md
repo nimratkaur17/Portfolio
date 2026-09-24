@@ -27,6 +27,8 @@ Use these as CSS custom properties. Never hardcode hex values in components. Nev
 
 Rough usage ratio: 60% ivory and espresso, 25% merlot, 10% olive and navy, 5% sand. Merlot is the signature colour — concentrated, not spread thin.
 
+The rotating hero word cycles through `--color-rot-1/2/3` (#42503E, #253654, #54182B), separate from olive, navy and merlot.
+
 Tint and shade ramps are not defined yet. If a component needs a lighter or darker step, propose specific values rather than inventing them silently.
 
 ## Type
