@@ -16,6 +16,11 @@
   will-change: opacity;
 }
 
+/* Quieter on the About page. */
+body:has(.about) .grain {
+  --grain-o: 0.04;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) and (timeline-scope: --x) {
     .grain {

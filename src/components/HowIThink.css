@@ -1,7 +1,8 @@
 .wave {
   position: relative;
+  flex: 1 1 auto;
   width: 100%;
-  aspect-ratio: 960 / 640;
+  min-height: 460px;
   margin: 16px 0 0;
 }
 
@@ -13,6 +14,8 @@
   overflow: visible;
 }
 
+/* Draws on slowly, once, when the section scrolls into view. Linear so the
+   dots and labels can be timed to the moment the line reaches them. */
 .wave__path {
   fill: none;
   stroke: var(--color-text);
@@ -21,32 +24,16 @@
   stroke-linejoin: round;
   stroke-dasharray: var(--path-length, 1000);
   stroke-dashoffset: var(--path-length, 1000);
-  transition: stroke-dashoffset 1400ms cubic-bezier(0.25, 0.85, 0.3, 1);
+  transition: stroke-dashoffset var(--draw-ms, 3200ms) linear;
 }
 
 .is-drawn .wave__path {
   stroke-dashoffset: 0;
 }
 
-.wave__node-dot {
-  fill: var(--color-bg);
-  stroke: var(--color-primary);
-  stroke-width: 3;
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: scale(0);
-  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: var(--pop-delay, 0ms);
-}
-
-.is-drawn .wave__node-dot {
-  transform: scale(1);
-}
-
 .wave__marker {
   position: absolute;
   z-index: 1;
-  transform: translate(-50%, -50%);
 }
 
 .wave__marker--active {
@@ -54,120 +41,185 @@
 }
 
 .wave__label {
+  position: absolute;
+  left: 0;
   font-size: 0.8125rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  position: absolute;
-  left: 50%;
+  letter-spacing: 0.08em;
   color: var(--color-text);
   white-space: nowrap;
   opacity: 0;
-  transform: translate(-50%, 0) scale(0.8);
-  transition:
-    opacity 400ms ease,
-    transform 400ms ease;
-  transition-delay: var(--pop-delay, 0ms);
-  pointer-events: none;
-}
-
-.wave__arrow {
-  position: absolute;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  opacity: 0;
-  transition: opacity 400ms ease;
-  transition-delay: var(--pop-delay, 0ms);
+  transform: translate(-50%, 6px);
   pointer-events: none;
 }
 
 .wave__marker--above .wave__label {
-  bottom: 38px;
-}
-
-.wave__marker--above .wave__arrow {
-  bottom: 6px;
-  transform: translateX(-50%);
+  bottom: 26px;
 }
 
 .wave__marker--below .wave__label {
-  top: 38px;
-}
-
-.wave__marker--below .wave__arrow {
-  top: 6px;
-  transform: translateX(-50%) scaleY(-1);
-}
-
-.is-drawn .wave__label,
-.is-drawn .wave__arrow {
-  opacity: 1;
+  top: 26px;
 }
 
 .is-drawn .wave__label {
-  transform: translate(-50%, 0) scale(1);
+  animation: wave-label-in 500ms cubic-bezier(0.22, 0.9, 0.25, 1) var(--pop-delay, 0ms) both;
+}
+
+@keyframes wave-label-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .wave__node {
   position: absolute;
   top: 0;
   left: 0;
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   border: none;
   background: transparent;
   padding: 0;
   cursor: pointer;
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The dot itself pops in as the line reaches it. */
+.wave__node::before {
+  content: '';
+  position: absolute;
+  inset: 11px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 3px solid var(--color-primary);
+  transform: scale(0);
+}
+
+.is-drawn .wave__node::before {
+  animation: wave-dot-in 460ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--pop-delay, 0ms) both;
+}
+
+@keyframes wave-dot-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Soft ring that eases in on hover, focus and while the card is open. */
+.wave__node::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-primary);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 260ms ease,
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.wave__node:hover::after,
+.wave__marker--active .wave__node::after {
+  opacity: 0.35;
+  transform: scale(1);
+}
+
+.wave__marker--active .wave__node {
+  transform: translate(-50%, -50%) scale(1.12);
 }
 
 .wave__node:focus-visible {
   outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
+  outline-offset: 2px;
   border-radius: 50%;
 }
 
+/* The card only animates transform and opacity (no height): a small slide and
+   scale from the dot's side, with a soft layered shadow. */
 .wave__card {
+  --card-x: -8px;
+  --card-y: -8px;
   position: absolute;
-  top: 0;
-  width: 220px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  background: var(--color-bg);
-  border: 1px solid var(--color-muted);
-  border-radius: 10px;
-  transform: translateY(-50%);
-  transition:
-    max-height 320ms ease,
-    opacity 320ms ease;
-  pointer-events: none;
   z-index: 5;
+  width: 268px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+  background: var(--color-bg);
+  box-shadow:
+    0 1px 2px rgba(48, 21, 14, 0.06),
+    0 20px 40px -14px rgba(48, 21, 14, 0.24);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(var(--card-x), var(--card-y)) scale(0.97);
+  transform-origin: var(--card-origin, left top);
+  transition:
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    visibility 0s linear 320ms;
 }
 
-.wave__card--right {
-  left: 22px;
+.wave__card--below-right {
+  --card-origin: left top;
+  left: 34px;
+  top: 30px;
 }
 
-.wave__card--left {
-  right: 22px;
+.wave__card--above-left {
+  --card-x: 8px;
+  --card-y: 8px;
+  --card-origin: right bottom;
+  right: 34px;
+  bottom: 30px;
 }
 
 .wave__card.is-open {
-  max-height: 280px;
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transform: translate(0, 0) scale(1);
+  transition-delay: 0s;
 }
 
 .wave__card-inner {
-  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 18px 20px 20px;
+}
+
+.wave__card-step {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+}
+
+.wave__card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text);
 }
 
 .wave__card-note {
-  margin: 0 0 10px;
-  font-size: 0.875rem;
+  margin: 0;
+  font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--color-text);
 }
@@ -176,6 +228,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 6px;
 }
 
 .wave__chip {
@@ -189,11 +242,23 @@
   }
 
   .wave__label {
-    font-size: 1.25rem;
+    font-size: 0.75rem;
   }
 
-  .wave__card {
-    width: 180px;
+  /* Too narrow to open beside the dot: the card slides up from the bottom of
+     the screen instead. */
+  .wave__card,
+  .wave__card--below-right,
+  .wave__card--above-left {
+    --card-x: 0px;
+    --card-y: 14px;
+    --card-origin: center bottom;
+    position: fixed;
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
   }
 }
 
@@ -202,15 +267,19 @@
     transition: none;
   }
 
-  .wave__node-dot {
-    transition: none;
+  .wave__label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    animation: none;
   }
 
-  .wave__label,
-  .wave__arrow {
-    transition: none;
+  .wave__node::before {
+    transform: scale(1);
+    animation: none;
   }
 
+  .wave__node,
+  .wave__node::after,
   .wave__card {
     transition: none;
   }

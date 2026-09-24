@@ -223,15 +223,19 @@
   margin-left: -50vw;
   margin-top: 64px;
   margin-bottom: 64px;
-  padding: 72px var(--gutter);
+  padding: 104px var(--gutter) 40px;
   background: var(--color-surface);
+  /* One screen tall: the title plus the wave fill exactly the viewport. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 @media (max-width: 640px) {
   .about__feature {
     margin-top: 40px;
     margin-bottom: 40px;
-    padding: 48px var(--gutter);
+    padding: 104px var(--gutter) 32px;
   }
 }
 
