@@ -38,6 +38,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   color: var(--color-muted);
+  transition: color 200ms ease;
 }
 
 .bc__grid .belief__statement {
@@ -46,6 +47,7 @@
   font-weight: 500;
   line-height: 1.2;
   color: var(--color-text);
+  transition: color 200ms ease;
 }
 
 .bc__grid .belief__detail {
@@ -58,7 +60,8 @@
   transform: translateY(-6px);
   transition:
     opacity 260ms ease,
-    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color 200ms ease;
 }
 
 /* Highlighter wash behind the row, bleeding past its right edge. */
@@ -71,7 +74,7 @@
   right: -40px;
   z-index: -1;
   border-radius: 6px 20px 20px 6px;
-  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  background: var(--color-rose);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -85,7 +88,7 @@
   right: 0;
   bottom: -1px;
   height: 1px;
-  background: var(--color-muted);
+  background: var(--color-rose);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 300ms ease;
@@ -100,6 +103,16 @@
   .belief:hover .belief__detail {
     opacity: 1;
     transform: none;
+  }
+
+  /* Cream text on the rose wash (about 5.5:1) instead of espresso/slate. */
+  .bc__grid .belief:hover .belief__statement,
+  .belief:hover .belief__num {
+    color: var(--color-cream);
+  }
+
+  .bc__grid .belief:hover .belief__detail {
+    color: color-mix(in srgb, var(--color-cream) 88%, transparent);
   }
 }
 
