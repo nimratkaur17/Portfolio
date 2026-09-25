@@ -30,9 +30,9 @@ const OPTIONS = [
 
 const MESSAGES = [
   'Tick what’s true of your team.',
+  'Tell me more.',
+  'Tell me more.',
   'Promising.',
-  'Go on.',
-  'We’re close.',
   'We should talk this week.',
 ]
 
@@ -69,9 +69,12 @@ function Checklist() {
   const toggle = (index: number) => {
     const next = on.map((value, i) => (i === index ? !value : value))
     // Crossfade: the old message lingers, fading out, while the new one fades in.
-    setPrevious(MESSAGES[count])
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setPrevious(null), MESSAGE_FADE)
+    const nextCount = next.filter(Boolean).length
+    if (MESSAGES[nextCount] !== MESSAGES[count]) {
+      setPrevious(MESSAGES[count])
+      window.clearTimeout(timer.current)
+      timer.current = window.setTimeout(() => setPrevious(null), MESSAGE_FADE)
+    }
     setOn(next)
   }
 
@@ -111,7 +114,7 @@ function Checklist() {
         <div className="checklist__fill" style={{ '--p': count / 4 } as CSSProperties} />
       </div>
       <div className="checklist__message" aria-live="polite">
-        <span key={count} className="checklist__msg checklist__msg--in">
+        <span key={MESSAGES[count]} className="checklist__msg checklist__msg--in">
           {MESSAGES[count]}
         </span>
         {previous && (
