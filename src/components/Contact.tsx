@@ -114,7 +114,7 @@ function Contact() {
   }
 
   return (
-    <div className="contact-wrap" ref={wrapRef}>
+    <div className="contact-wrap" id="contact" ref={wrapRef}>
       <div className="contact-panel">
         <div className="contact-surface" ref={surfaceRef}>
           <div className="contact-top">

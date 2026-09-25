@@ -294,6 +294,23 @@
   }
 }
 
+.about__band {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-top: 0;
+  margin-bottom: 64px;
+  padding: 96px var(--gutter);
+  background: var(--color-cream);
+}
+
+@media (max-width: 640px) {
+  .about__band {
+    padding: 64px var(--gutter);
+  }
+}
+
 .about__section h2 {
   margin: 0 0 16px;
   font-size: 1.25rem;

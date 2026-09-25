@@ -1,0 +1,371 @@
+/* One ivory band, two columns: beliefs on the left, a hiring checklist on the
+   right with the closing line under it. */
+.bc__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  column-gap: 88px;
+  align-items: start;
+}
+
+/* ---- Beliefs (hover only) ---- */
+
+.beliefs {
+  display: grid;
+  /* Every row is as tall as the tallest, and each row always lays out its
+     second line (hidden, not removed), so hovering never changes any height. */
+  grid-auto-rows: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.belief {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  padding: 26px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-muted) 28%, transparent);
+}
+
+.belief:last-child {
+  border-bottom: none;
+}
+
+.belief__num {
+  padding-top: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.bc__grid .belief__statement {
+  margin: 0;
+  font-size: clamp(1.375rem, 2.3vw, 1.875rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.bc__grid .belief__detail {
+  margin: 12px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  /* Slate, deepened a touch so it holds contrast at this size. */
+  color: color-mix(in srgb, var(--color-muted) 78%, var(--color-text));
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 260ms ease,
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Highlighter wash behind the row, bleeding past its right edge. */
+.belief::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: -18px;
+  right: -40px;
+  z-index: -1;
+  border-radius: 6px 20px 20px 6px;
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The hairline that draws across on hover. */
+.belief::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--color-muted);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .belief:hover::before,
+  .belief:hover::after {
+    transform: scaleX(1);
+  }
+
+  .belief:hover .belief__detail {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* No hover on touch: every second line is simply shown. */
+@media (hover: none), (pointer: coarse) {
+  .bc__grid .belief__detail {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Checklist ---- */
+
+.checklist {
+  padding: 28px 28px 24px;
+  border: 1px solid color-mix(in srgb, var(--color-muted) 45%, transparent);
+  border-radius: 18px;
+}
+
+.bc__grid .checklist__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.bc__grid .checklist__prompt {
+  margin: 8px 0 18px;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.checklist__options {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist__options li + li .check-row {
+  border-top: 1px solid color-mix(in srgb, var(--color-muted) 22%, transparent);
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+  font-size: 1.0625rem;
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+
+.check-row:hover {
+  background: color-mix(in srgb, var(--color-surface) 32%, transparent);
+}
+
+.check-row:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.check-row__box {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--color-muted);
+  border-radius: 6px;
+  color: var(--color-bg);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+.check-row__mark {
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.check-row.is-on .check-row__box {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  animation: check-pop 350ms cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.check-row.is-on .check-row__mark {
+  opacity: 1;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  45% {
+    transform: scale(1.08) rotate(6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.checklist__progress {
+  height: 6px;
+  margin-top: 22px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-muted) 22%, transparent);
+}
+
+.checklist__fill {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left center;
+  transition: transform 400ms ease;
+}
+
+.checklist__message {
+  position: relative;
+  min-height: 1.6em;
+  margin-top: 14px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.checklist__msg {
+  display: block;
+}
+
+.checklist__msg--in {
+  animation: msg-in 200ms ease both;
+}
+
+.checklist__msg--out {
+  position: absolute;
+  inset: 0 auto auto 0;
+  animation: msg-out 200ms ease both;
+}
+
+@keyframes msg-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes msg-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---- Closing line (always visible) ---- */
+
+.bc__closing {
+  margin-top: 40px;
+}
+
+.bc__grid .bc__lead {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.bc__grid .bc__copy {
+  max-width: 440px;
+  margin: 12px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.bc__cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 22px;
+  padding: 12px 26px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.bc__cta:hover {
+  background: var(--color-primary-h);
+}
+
+.bc__cta:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 759px) {
+  .bc__grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 56px;
+  }
+
+  .belief::before {
+    right: -12px;
+  }
+}
+
+/* Reduced motion: no scale, rotate or translate; plain 150ms fades. */
+@media (prefers-reduced-motion: reduce) {
+  .bc__grid .belief__detail {
+    transform: none;
+    transition: opacity 150ms ease;
+  }
+
+  .belief::before,
+  .belief::after {
+    transform: none;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .belief:hover::before,
+    .belief:hover::after {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  .check-row.is-on .check-row__box {
+    animation: none;
+  }
+
+  .check-row__mark {
+    transition: opacity 150ms ease;
+  }
+
+  .checklist__fill {
+    transition: none;
+  }
+
+  .checklist__msg--in,
+  .checklist__msg--out {
+    animation-duration: 150ms;
+  }
+}

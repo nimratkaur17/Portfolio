@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import BeyondDesign from '../components/BeyondDesign'
+import BeliefsChecklist from '../components/BeliefsChecklist'
 import Contact from '../components/Contact'
 import Highlight from '../components/Highlight'
 import HowIThink from '../components/HowIThink'
@@ -87,6 +88,13 @@ function About() {
         >
           <h2>How I think</h2>
           <HowIThink />
+        </section>
+
+        <section
+          className="about__section about__section--wide about__band"
+          aria-label="What I believe, and are you hiring"
+        >
+          <BeliefsChecklist />
         </section>
 
         <section className="about__section about__section--wide" aria-label="Beyond design">
