@@ -105,14 +105,14 @@
     transform: none;
   }
 
-  /* Cream text on the rose wash (about 5.5:1) instead of espresso/slate. */
+  /* Espresso on the rose wash (5.5:1); slate would drop to about 1.5:1. */
   .bc__grid .belief:hover .belief__statement,
   .belief:hover .belief__num {
-    color: var(--color-cream);
+    color: var(--color-text);
   }
 
   .bc__grid .belief:hover .belief__detail {
-    color: color-mix(in srgb, var(--color-cream) 88%, transparent);
+    color: color-mix(in srgb, var(--color-text) 92%, transparent);
   }
 }
 
