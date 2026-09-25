@@ -338,9 +338,9 @@
 /* Inline highlight sweep. A background-size transition on the inline span
    (not a wrapping block), so the wipe follows the text across line breaks:
    with the default box-decoration-break: slice, the gradient runs through the
-   line fragments in order. The rose tint keeps espresso text well above AA (6:1). */
+   line fragments in order. The rose tint keeps espresso text well above AA (about 7:1). */
 .highlight {
-  background-image: linear-gradient(to right, var(--color-rose), var(--color-rose));
+  background-image: linear-gradient(to right, var(--color-highlight), var(--color-highlight));
   background-repeat: no-repeat;
   background-size: 0% 100%;
   background-position: left center;

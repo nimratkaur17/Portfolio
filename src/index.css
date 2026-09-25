@@ -13,7 +13,8 @@
   --color-pine: #42503e; /* dark pine green — case study turning-point section */
   --color-gold: #c9973b; /* warm gold — floral accent illustrations */
   --color-blush: #f0d6c5; /* text on the pine How I think section */
-  --color-rose: #bf8f9c; /* dusty rose — About text highlights and the hovered belief row */
+  --color-rose: #bf8f9c; /* dusty rose — the hovered belief row */
+  --color-highlight: #c9a1ac; /* lighter rose — About intro text highlights */
   --color-chip: #253654; /* skill chips in How I think */
   --color-rot-1: #4a6a3f; /* rotating hero word, colour 1 of 3 */
   --color-rot-2: #2b4a80; /* rotating hero word, colour 2 of 3 */
