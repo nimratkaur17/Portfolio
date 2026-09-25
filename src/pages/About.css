@@ -335,22 +335,6 @@
   font-size: 1.125rem;
 }
 
-.about__reading-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 1.0625rem;
-  color: var(--color-text);
-}
-
-.about__closing p {
-  font-size: 1.1875rem;
-  font-weight: 500;
-}
-
 /* Inline highlight sweep. A background-size transition on the inline span
    (not a wrapping block), so the wipe follows the text across line breaks:
    with the default box-decoration-break: slice, the gradient runs through the

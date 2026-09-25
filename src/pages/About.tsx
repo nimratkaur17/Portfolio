@@ -101,23 +101,6 @@ function About() {
           <h2>Beyond design</h2>
           <BeyondDesign />
         </section>
-
-        <section className="about__section" aria-label="Currently reading">
-          <h2>Currently reading</h2>
-          <ul className="about__reading-list">
-            <li>Placeholder Title One — Placeholder Author</li>
-            <li>Placeholder Title Two — Placeholder Author</li>
-            <li>Placeholder Title Three — Placeholder Author</li>
-          </ul>
-        </section>
-
-        <section className="about__section about__closing" aria-label="Closing statement">
-          <h2>Closing statement</h2>
-          <p>
-            The one thing I'd want you to remember after reading all of this — placeholder for
-            now.
-          </p>
-        </section>
       </main>
 
       <Contact />
