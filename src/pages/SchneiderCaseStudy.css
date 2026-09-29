@@ -11,6 +11,33 @@
   max-width: none;
 }
 
+/* No merlot band here - the hero sits directly on the page's own cream,
+   so the kicker and title swap to espresso instead of the ivory used
+   against merlot elsewhere on the case-study template. */
+.cs-schneider .case-study__hero {
+  background: var(--color-cream);
+  padding-bottom: 28px;
+}
+
+.cs-schneider .case-study__hero-inner {
+  max-width: none;
+}
+
+.cs-schneider .case-study__kicker,
+.cs-schneider .case-study__title {
+  color: var(--color-text);
+}
+
+.cs-schneider .case-study__layout {
+  padding-top: 28px;
+}
+
+@media (min-width: 761px) {
+  .cs-schneider .case-study__title {
+    white-space: nowrap;
+  }
+}
+
 .cs-schneider .case-study__section {
   padding-top: 112px;
 }
@@ -53,11 +80,6 @@
 
 /* Screenshots are small, portrait captures: cap the width so they never
    scale past their native size, and centre them in the wide column. */
-.cs-figure--slider {
-  max-width: 520px;
-  margin-inline: auto;
-}
-
 .cs-figure--tall {
   max-width: 380px;
   margin-inline: auto;
@@ -65,12 +87,110 @@
 
 /* Overview */
 .cs-hero-visual {
+  --phone-w: 270px;
   display: grid;
   place-items: center;
-  margin-bottom: 56px;
-  padding: 56px 24px;
+  margin-bottom: 32px;
+  padding: 28px 24px 32px;
   border-radius: 20px;
   background: var(--color-surface);
+}
+
+@media (max-width: 760px) {
+  .cs-hero-visual {
+    --phone-w: 150px;
+  }
+}
+
+.cs-key-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 56px;
+  margin-top: 40px;
+}
+
+.cs-schneider .cs-key-line__statement {
+  flex: 1 1 55%;
+  margin: 0;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.cs-key-line__support {
+  flex: 1 1 40%;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+@media (max-width: 700px) {
+  .cs-key-line {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.cs-role-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.cs-role-prose {
+  max-width: 620px;
+}
+
+.cs-role-side {
+  flex: 0 0 auto;
+  width: 430px;
+  margin-right: 64px;
+  padding-top: 4px;
+}
+
+.cs-role-tags {
+  margin-top: 32px;
+  margin-left: 20px;
+}
+
+.cs-role-tags ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-role-tags li {
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: var(--color-pine);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-cream);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .cs-role-layout {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .cs-role-side {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .cs-role-tags li {
+    white-space: normal;
+  }
 }
 
 .cs-schneider .case-study__section .cs-meta {
@@ -104,12 +224,189 @@
   color: var(--color-text);
 }
 
-/* The brief: three quote cards side by side */
+/* The brief: full-bleed navy, same breakout mechanics as .cs-turning. The
+   article column starts at the layout gutter, so pulling back by --gutter
+   and spanning 100vw reaches both browser edges (the rail sits above it). */
+.cs-brief {
+  position: relative;
+  width: 100vw;
+  margin: 128px 0 0 calc(var(--gutter) * -1);
+  padding: 112px var(--gutter);
+  background: var(--color-contrast);
+}
+
+.cs-schneider .case-study__section.cs-brief:first-of-type {
+  padding-top: 112px;
+}
+
+.cs-schneider .case-study__section.cs-brief h2 {
+  color: var(--color-cream);
+}
+
+/* Scoped to the section's own intro copy, not `.cs-brief p` generally - a
+   blanket rule would out-specificity the brief-quote cards' own (espresso)
+   text color, since those cards are nested inside this section too. */
+.cs-schneider .case-study__section.cs-brief .cs-brief__intro p {
+  color: var(--color-cream);
+}
+
+.cs-brief__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.cs-brief__heading-col {
+  max-width: 500px;
+}
+
+.cs-schneider .case-study__section.cs-brief .cs-brief__heading-col h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.cs-brief__intro {
+  flex: 0 1 420px;
+  padding-top: 8px;
+}
+
+.cs-schneider .case-study__section.cs-brief .cs-brief__intro p {
+  font-size: 1rem;
+}
+
+@media (min-width: 1101px) {
+  /* Keep the text out from under the index rail (220px + 64px gap) */
+  .cs-brief__inner {
+    max-width: calc(100vw - 2 * var(--gutter) - 284px);
+  }
+}
+
+.cs-brief + .case-study__section {
+  padding-top: 112px;
+}
+
+/* Three quote cards side by side */
 .brief-quotes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-top: 48px;
+}
+
+@media (max-width: 700px) {
+  .cs-brief__top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cs-brief__intro {
+    flex-basis: auto;
+  }
+}
+
+/* Four bets: full-bleed rose, same breakout mechanics as .cs-brief, but rose
+   is light enough that the page's default espresso text still reads fine -
+   no nav/rail dark-mode flip needed here. */
+.cs-beyond {
+  position: relative;
+  width: 100vw;
+  margin: 112px 0 0 calc(var(--gutter) * -1);
+  padding: 80px var(--gutter) 112px;
+  background: var(--color-rose);
+}
+
+.cs-schneider .case-study__section.cs-beyond:first-of-type {
+  padding-top: 112px;
+}
+
+.cs-beyond + .case-study__section {
+  padding-top: 112px;
+}
+
+@media (min-width: 1101px) {
+  .cs-beyond__inner {
+    max-width: calc(100vw - 2 * var(--gutter) - 284px);
+  }
+}
+
+.cs-beyond__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.cs-beyond__top h2 {
+  max-width: 500px;
+  margin: 0;
+}
+
+.cs-beyond__intro {
+  flex: 0 0 auto;
+}
+
+.cs-schneider .case-study__section.cs-beyond .cs-beyond__intro p {
+  font-size: 1.125rem;
+  white-space: nowrap;
+}
+
+.bets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, auto);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.bets-grid__item--1 {
+  grid-column: 1 / span 1;
+  grid-row: 1;
+}
+
+.bets-grid__item--2 {
+  grid-column: 2 / span 2;
+  grid-row: 1;
+}
+
+.bets-grid__item--3 {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+}
+
+.bets-grid__item--4 {
+  grid-column: 3 / span 1;
+  grid-row: 2;
+}
+
+@media (max-width: 900px) {
+  .cs-beyond__top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cs-schneider .case-study__section.cs-beyond .cs-beyond__intro p {
+    white-space: normal;
+  }
+
+  .bets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bets-grid__item--1,
+  .bets-grid__item--2,
+  .bets-grid__item--3,
+  .bets-grid__item--4 {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .cs-beyond,
+  .cs-schneider .case-study__section.cs-beyond:first-of-type {
+    margin-top: 80px;
+    padding-block: 80px;
+  }
 }
 
 /* Turning point: full-bleed pine green, ivory text. The article column starts at
@@ -143,6 +440,77 @@
   padding-top: 112px;
 }
 
+/* Rose runs straight into pine here - both are full-bleed color bands back
+   to back, so cs-turning's usual top margin (breathing room before a
+   colored band starts) would just show as a stray strip of page cream
+   wedged between them. */
+.cs-beyond + .cs-turning {
+  margin-top: 0;
+}
+
+.cs-feedback__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.cs-feedback__top h2 {
+  max-width: 500px;
+  margin: 0;
+}
+
+.cs-feedback__intro {
+  flex: 0 1 420px;
+}
+
+.cs-schneider .case-study__section.cs-feedback .cs-feedback__intro p {
+  font-size: 1rem;
+}
+
+.cs-feedback-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 32px;
+}
+
+.cs-feedback-quote {
+  flex: 0 1 380px;
+  padding: 28px 32px;
+  border-radius: 20px;
+  background: var(--color-rose);
+}
+
+.cs-feedback-quote blockquote {
+  margin: 0;
+}
+
+.cs-schneider .case-study__section .cs-feedback-quote p {
+  margin: 0;
+  font-size: clamp(1.1875rem, 2vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.cs-feedback-row .cs-prose {
+  flex: 1;
+}
+
+@media (max-width: 700px) {
+  .cs-feedback__top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cs-feedback-row {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
 /* Rail: sits above the full-bleed section and flips to ivory over it */
 .cs-schneider .case-study__rail {
   z-index: 1;
@@ -158,15 +526,15 @@
 
 .case-study__rail--on-dark a:hover,
 .case-study__rail--on-dark a.is-active {
-  color: var(--color-bg);
+  color: var(--color-cream);
 }
 
 .case-study__rail--on-dark a.is-active::before {
-  background: var(--color-bg);
+  background: var(--color-cream);
 }
 
 .case-study__rail--on-dark a:focus-visible {
-  outline-color: var(--color-bg);
+  outline-color: var(--color-cream);
 }
 
 @media (max-width: 760px) {
@@ -190,6 +558,12 @@
   .cs-turning,
   .cs-schneider .case-study__section.cs-turning:first-of-type {
     margin-top: 80px;
+    padding-block: 80px;
+  }
+
+  .cs-brief,
+  .cs-schneider .case-study__section.cs-brief:first-of-type {
+    margin-top: 92px;
     padding-block: 80px;
   }
 }

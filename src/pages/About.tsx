@@ -54,26 +54,23 @@ function About() {
             <p>
               <Highlight>Curiosity about people</Highlight> is the thread running through
               everything I&rsquo;ve done, though it took me a while to figure out what to do with
-              it. That curiosity is what pulled me toward psychology and the social sciences
-              first, and then toward data, because I wanted the{' '}
-              <Highlight>numbers-backed reasoning behind why people do what they do</Highlight>,
-              not just a good theory about it. Design is where the two finally came together.
-              It&rsquo;s the part where you stop observing and actually get to influence the
-              experience, tangibly, in something a person can use.
+              it. It pulled me toward psychology first, then toward data, because I wanted{' '}
+              <Highlight>numbers-backed reasoning for why people do what they do</Highlight>, not
+              just a good theory about it. Design is where the two came together. It&rsquo;s where
+              you stop observing and start shaping something a person can actually use.
             </p>
             <p>
               At UW-Madison I picked up the <Highlight>design way of thinking</Highlight>, which
-              mostly means <Highlight>asking better questions</Highlight>, understanding people
-              more honestly, and turning genuinely complicated ideas into something useful.
-              I&rsquo;m drawn to <Highlight delay={150}>problems that are messy</Highlight>{' '}
-              underneath: business problems, tangled data, AI systems whose reasoning you
-              can&rsquo;t actually see. Knowing how things get built keeps my{' '}
-              <Highlight>designs grounded in technical reality</Highlight>, so I&rsquo;m designing
-              things that can actually exist rather than things that look good in a file.
+              mostly means <Highlight>asking better questions</Highlight> and turning complicated
+              ideas into something useful. I&rsquo;m drawn to{' '}
+              <Highlight delay={150}>problems that are messy</Highlight> underneath: business
+              problems, tangled data, AI systems whose reasoning you can&rsquo;t see. Knowing how
+              things get built keeps my <Highlight>work grounded in technical reality</Highlight>,
+              so I design things that can exist rather than things that look good in a file.
             </p>
             <p>
-              Outside of that, I read a lot, hike when I can, and am generally happiest exploring
-              somewhere I haven&rsquo;t been before.
+              Outside of that, I read a lot, hike when I can, and am happiest exploring somewhere I
+              haven&rsquo;t been before.
             </p>
           </section>
         </div>

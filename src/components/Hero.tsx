@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import PenLine from './PenLine'
 import './Hero.css'
 
 const NAME = 'Nimrat Kaur'
@@ -212,7 +213,7 @@ function Hero() {
 
   return (
     <section className="hero" ref={heroRef}>
-      <div className="hero__grid">
+      <div className="hero__top">
         <h1 className="hero__heading" aria-label={`${NAME}, product designer`}>
           <span className="hero__name-move" ref={moveRef}>
             <span className="hero__name">
@@ -240,16 +241,18 @@ function Hero() {
             </span>
           </span>
         </h1>
-        <p className="hero__line hero__line--one">
-          Designing so complexity lives in the system, not in the user&rsquo;s head
-        </p>
+      </div>
+
+      <PenLine />
+
+      <div className="hero__bottom">
         <p
-          className="hero__line hero__line--two"
+          className="hero__line"
           onAnimationEnd={(event) => {
             if (event.target === event.currentTarget) setEntered(true)
           }}
         >
-          Blending research, design, and strategy to build digital experiences that matter
+          Designing so complexity lives in the system, not in the user&rsquo;s head
         </p>
       </div>
     </section>

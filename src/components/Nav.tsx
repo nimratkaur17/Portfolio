@@ -43,6 +43,24 @@ function Nav() {
     return () => observer.disconnect()
   }, [location.pathname])
 
+  // The logo reads "Open to work" for as long as any part of the hero is
+  // still on screen (this is also when it's fading in as the shrinking name
+  // lands here - see Hero.tsx/css). Once the hero scrolls fully away, or on
+  // any page without one, it goes back to the name for good.
+  const [inHero, setInHero] = useState(false)
+  useEffect(() => {
+    const hero = document.querySelector('.hero')
+    if (location.pathname !== '/' || !hero) {
+      setInHero(false)
+      return
+    }
+    const observer = new IntersectionObserver(([entry]) => setInHero(entry.isIntersecting), {
+      threshold: 0,
+    })
+    observer.observe(hero)
+    return () => observer.disconnect()
+  }, [location.pathname])
+
   const handleProjectsClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()
     if (location.pathname === '/') {
@@ -52,10 +70,18 @@ function Nav() {
     }
   }
 
+  // The Schneider case study opens on cream, not the merlot band other case
+  // studies use, so the default merlot logo would clash - espresso matches
+  // the links there instead. `nav--on-dark` still wins over this once the
+  // reader scrolls into that page's own dark sections (see the CSS order).
+  const isSchneiderCaseStudy = location.pathname === '/case/schneider-freightpower-owner-operator-app'
+
   return (
-    <nav className={`nav${onDark ? ' nav--on-dark' : ''}`}>
-      <Link to="/" className="nav__logo">
-        Nimrat Kaur
+    <nav
+      className={`nav${isSchneiderCaseStudy ? ' nav--espresso' : ''}${onDark ? ' nav--on-dark' : ''}`}
+    >
+      <Link to="/" className={`nav__logo${inHero ? ' nav__logo--pinned' : ''}`}>
+        {inHero ? 'Open to work' : 'Nimrat Kaur'}
       </Link>
       <ul className="nav__links">
         <li>

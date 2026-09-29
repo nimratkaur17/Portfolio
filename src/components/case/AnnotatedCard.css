@@ -6,6 +6,43 @@
   margin-top: 40px;
 }
 
+.annotated--with-compare {
+  grid-template-columns: minmax(200px, 300px) auto minmax(240px, 340px) minmax(0, 1fr);
+  gap: 20px 28px;
+}
+
+.annotated__compare {
+  position: sticky;
+  top: 120px;
+}
+
+.annotated__compare-label {
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.annotated__arrow-cell {
+  align-self: center;
+  width: 52px;
+  color: var(--color-primary);
+}
+
+.annotated__arrow {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.annotated__arrow path {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
 .annotated__figure {
   position: sticky;
   top: 120px;
@@ -54,16 +91,33 @@
 }
 
 .annotated__item {
-  display: flex;
-  gap: 16px;
-  padding: 16px 18px;
   border-radius: 14px;
+  padding: 4px 18px;
   scroll-margin-top: 88px;
   transition: background-color 250ms ease;
 }
 
 .annotated__item.is-active {
   background: color-mix(in srgb, var(--color-surface), transparent 45%);
+}
+
+.annotated__item-toggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.annotated__item-toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 
 .annotated__num {
@@ -79,9 +133,33 @@
   color: var(--color-bg);
 }
 
-.case-study__section .annotated__item p {
+.annotated__item-title {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.case-study__section .annotated__item-body {
+  margin: 0;
+  padding-left: 44px;
   font-size: 1rem;
   line-height: 1.6;
+  color: var(--color-text);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 300ms cubic-bezier(0.22, 0.9, 0.25, 1),
+    opacity 200ms ease,
+    padding-block 300ms ease;
+}
+
+.annotated__item:hover .annotated__item-body,
+.annotated__item.is-active .annotated__item-body {
+  max-height: 320px;
+  opacity: 1;
+  padding-block: 2px 14px;
 }
 
 .annotated__item strong {
@@ -89,22 +167,31 @@
 }
 
 @media (max-width: 900px) {
-  .annotated {
+  .annotated,
+  .annotated--with-compare {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 12px;
   }
 
+  .annotated__compare,
   .annotated__figure {
     position: relative;
     top: 0;
     width: min(100%, 340px);
     margin: 0 auto;
   }
+
+  .annotated__arrow-cell {
+    width: 56px;
+    margin: 0 auto;
+    transform: rotate(90deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .annotated__pin,
-  .annotated__item {
+  .annotated__item,
+  .annotated__item-body {
     transition: none;
   }
 

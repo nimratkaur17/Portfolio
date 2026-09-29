@@ -1,9 +1,11 @@
 import AnnotatedCard from '../components/case/AnnotatedCard'
 import type { Annotation } from '../components/case/AnnotatedCard'
-import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
+import BetCard from '../components/case/BetCard'
 import BriefQuote from '../components/case/BriefQuote'
+import FeedbackEcho from '../components/case/FeedbackEcho'
 import ImageSlot from '../components/case/ImageSlot'
-import SpokenQuote from '../components/case/SpokenQuote'
+import PainTiles from '../components/case/PainTiles'
+import TeamDiagram from '../components/case/TeamDiagram'
 import PhoneTrio from '../components/PhoneTrio'
 import cardAfter from '../card-after.png'
 import cardBefore from '../card-before.png'
@@ -37,6 +39,15 @@ const SECTIONS = [
 ] as const
 
 const SECTION_IDS = SECTIONS.map((section) => section.id)
+
+const OWNED: string[] = [
+  'Competitor analysis',
+  'User interviews',
+  'Research',
+  'Design consistency',
+  'Feature ideation',
+  'Code implementation',
+]
 
 const CARD_CHANGES: Annotation[] = [
   {
@@ -83,7 +94,7 @@ function SchneiderCaseStudy() {
 
   return (
     <main className="case-study cs-schneider">
-      <header className="case-study__hero" data-nav-theme="light">
+      <header className="case-study__hero">
         <div className="case-study__hero-inner">
           <p className="case-study__kicker">Case study</p>
           <h1 className="case-study__title">Schneider FreightPower Owner Operator App</h1>
@@ -115,13 +126,15 @@ function SchneiderCaseStudy() {
             <div className="cs-prose">
               <p>
                 Owner-operators run their businesses from the truck, and on FreightPower they were
-                doing most of the work themselves. Retyping the same rate and distance into every
-                search. Holding one load's numbers in their head while checking another. Piecing
-                together the trip home one search at a time. Working out tolls somewhere outside the
-                app. And checking back on a saved load to find it simply gone. Every one of those
-                minutes was a minute not earning.
+                doing most of the work themselves.
               </p>
-              <p>
+            </div>
+            <PainTiles />
+            <div className="cs-key-line">
+              <p className="cs-key-line__statement">
+                Every one of those minutes was a minute not earning.
+              </p>
+              <p className="cs-key-line__support">
                 My team and I spent seven weeks rebuilding how they find, weigh and book loads, so
                 the app does that work instead.
               </p>
@@ -130,60 +143,82 @@ function SchneiderCaseStudy() {
 
           <section id="role" className="case-study__section">
             <h2>Where I sat on the team</h2>
-            <div className="cs-prose">
-              <p>
-                I was the only designer on a team of six, alongside four developers and a data
-                engineer. I ran the research, designed and prototyped the product, and proposed two
-                of the features that ended up defining it: side-by-side load comparison and a
-                multi-stop route map.
-              </p>
-              <p>
-                Because I also write React, I didn't hand off a file and wait. I built the
-                comparison feature, the home page and the preferences flow, and implemented dark
-                mode across every screen.
-              </p>
-              <p>
-                Screens built in parallel by different people don't naturally agree with each other.
-                After the first build round, I went back through the whole app and rebuilt its
-                structure around one consistent hierarchy, so it read as a single product rather
-                than a set of pages. The design system wasn't a Figma file someone else interpreted.
-                I was the one making the components agree.
-              </p>
+            <div className="cs-role-layout">
+              <div className="cs-prose cs-role-prose">
+                <p>
+                  I was the only designer on a team of six, alongside four developers and a data
+                  engineer. I ran the research, designed and prototyped the product, and proposed
+                  two of the features that ended up defining it: side-by-side load comparison and a
+                  multi-stop route map.
+                </p>
+                <p>
+                  Because I also write React, I didn't hand off a file and wait. I built the
+                  comparison feature, the home page and the preferences flow, and implemented dark
+                  mode across every screen.
+                </p>
+                <p>
+                  Screens built in parallel by different people don't naturally agree with each
+                  other. After the first build round, I went back through the whole app and rebuilt
+                  its structure around one consistent hierarchy, so it read as a single product
+                  rather than a set of pages. The design system wasn't a Figma file someone else
+                  interpreted. I was the one making the components agree.
+                </p>
+              </div>
+              <div className="cs-role-side">
+                <TeamDiagram />
+                <div className="cs-role-tags">
+                  <ul>
+                    {OWNED.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </section>
 
-          <section id="brief" className="case-study__section">
-            <h2>Three sentences that became the brief</h2>
-            <div className="cs-prose">
-              <p>
-                I started with interviews, a hands-on audit of the existing platform, and a look at
-                how competing load boards handle fast, high-stakes decisions. Three things people
-                said ended up shaping almost every decision that followed.
-              </p>
-            </div>
-            <div className="brief-quotes">
-              <BriefQuote
-                id="quote-1"
-                quote={
-                  '"Takes too long to put in what I want, the rate, distance and what not, and then go through lists on lists to find a load I can work with."'
-                }
-                problem="Every search started from zero, and the numbers that decide a load were hard to pick out."
-                became="Saved preferences, recommended loads, and a rebuilt load card."
-              />
-              <BriefQuote
-                id="quote-2"
-                quote={
-                  '"Have to remember information to compare loads. There isn\'t anything reliable and quick."'
-                }
-                problem="Weighing two loads meant holding one in your head while looking at the other."
-                became="Side-by-side comparison."
-              />
-              <BriefQuote
-                id="quote-3"
-                quote={'"Say going from Chicago to Ohio, they\'ll want to pick up stuff on their way home."'}
-                problem="Drivers plan trips, but the app only understood single loads."
-                became="Multi-load booking on a route map."
-              />
+          <section
+            id="brief"
+            className="case-study__section cs-brief"
+            data-nav-theme="light"
+            data-rail-theme="dark"
+          >
+            <div className="cs-brief__inner">
+              <div className="cs-brief__top">
+                <div className="cs-brief__heading-col">
+                  <h2>Three sentences that became the brief</h2>
+                </div>
+                <div className="cs-prose cs-brief__intro">
+                  <p>
+                    I started with interviews, a hands-on audit of the existing platform, and a look
+                    at how competing load boards handle fast, high-stakes decisions. Three things
+                    people said ended up shaping almost every decision that followed.
+                  </p>
+                </div>
+              </div>
+              <div className="brief-quotes">
+                <BriefQuote
+                  id="quote-1"
+                  tone="rose"
+                  quote="Takes too long to put in what I want, the rate, distance and what not, and then go through lists on lists to find a load I can work with."
+                  problem="Every search started from zero, and the numbers that decide a load were hard to pick out."
+                  became="Saved preferences, recommended loads, and a rebuilt load card."
+                />
+                <BriefQuote
+                  id="quote-2"
+                  tone="slate"
+                  quote="Have to remember information to compare loads. There isn't anything reliable and quick."
+                  problem="Weighing two loads meant holding one in your head while looking at the other."
+                  became="Side-by-side comparison."
+                />
+                <BriefQuote
+                  id="quote-3"
+                  tone="cream"
+                  quote="Say going from Chicago to Ohio, they'll want to pick up stuff on their way home."
+                  problem="Drivers plan trips, but the app only understood single loads."
+                  became="Multi-load booking on a route map."
+                />
+              </div>
             </div>
           </section>
 
@@ -196,66 +231,104 @@ function SchneiderCaseStudy() {
                 on the card, so that's where most of the work had to land.
               </p>
             </div>
-            <div className="cs-figure cs-figure--slider">
-              <BeforeAfterSlider
-                before={IMAGES.originalCard}
-                after={IMAGES.redesignedCard}
-                beforeAlt="The original load card"
-                afterAlt="The redesigned load card"
-                beforeLabel="Original"
-                afterLabel="Redesign"
-                ratio="560 / 602"
-              />
-            </div>
             <AnnotatedCard
               src={IMAGES.redesignedCard}
               alt="The redesigned load card"
               ratio="524 / 670"
               items={CARD_CHANGES}
+              compareSrc={IMAGES.originalCard}
+              compareAlt="The original load card"
+              compareRatio="560 / 602"
             />
           </section>
 
-          <section id="beyond" className="case-study__section">
-            <h2>Four bets beyond the card</h2>
-            <div className="cs-prose">
-              <p>
-                I call these bets because that's what they were: decisions made under uncertainty,
-                each aimed at a problem drivers described.
-              </p>
-              <p>
-                <strong>Recommended loads.</strong> Drivers were typing the same rate, distance and
-                lane criteria into every search. I moved that into saved preferences and let the app
-                surface matches, so searching becomes the exception rather than the starting point.
-                Every recommendation carries one line explaining why it's there, like "near your
-                last delivery" or "pays above standard," so the logic is never a black box.
-              </p>
-              <p>
-                <strong>Side-by-side comparison.</strong> Drivers were memorizing numbers across
-                screens because the product gave them nowhere to put them. Comparison lets them pin
-                a few loads and see them together without leaving the flow they're in.
-              </p>
-            </div>
-            <div className="cs-figure cs-figure--tall">
-              <ImageSlot
-                src={IMAGES.compare}
-                alt="The compare screen: Load A and Load B side by side, with a Quicklook table below"
-                ratio="804 / 1282"
-              />
-            </div>
-            <div className="cs-prose">
-              <p>
-                <strong>Multi-load booking with a route map.</strong> Drivers think in trips, not
-                single loads. I proposed booking loads in sequence against a map of the whole route,
-                so "Chicago to Ohio and something on the way back" becomes one plan instead of three
-                separate searches. One of our developers built the multi route search and map. A
-                toggle lets drivers avoid or minimize toll roads, answering another complaint we
-                heard: "Don't want to figure how much will be spent on tolls and stuff outside the
-                app. Why can't it all be in one?"
-              </p>
-              <p>
-                <strong>Dark mode.</strong> Drivers use this platform on the road at every hour of
-                the day. I implemented a dark theme across the entire app.
-              </p>
+          <section id="beyond" className="case-study__section cs-beyond">
+            <div className="cs-beyond__inner">
+              <div className="cs-beyond__top">
+                <h2>Four bets beyond the card</h2>
+                <div className="cs-prose cs-beyond__intro">
+                  <p>Each feature designed to solve a problem drivers described.</p>
+                </div>
+              </div>
+
+              <div className="bets-grid">
+                <BetCard
+                  number="01"
+                  tone="cream"
+                  title="Recommended loads"
+                  className="bets-grid__item--1"
+                >
+                  <p>
+                    Drivers were typing the same rate, distance and lane criteria into every
+                    search. I moved that into saved preferences and let the app surface matches,
+                    so searching becomes the exception rather than the starting point. Every
+                    recommendation carries one line explaining why it's there, so the logic is
+                    never a black box.
+                  </p>
+                  <div className="bet-card__tags">
+                    <span className="bet-card__tag">Why: near your last delivery</span>
+                    <span className="bet-card__tag">Why: pays above standard</span>
+                  </div>
+                </BetCard>
+
+                <BetCard
+                  number="02"
+                  tone="navy"
+                  title="Side-by-side comparison"
+                  className="bets-grid__item--2"
+                >
+                  <div className="bet-card__body">
+                    <div className="bet-card__text">
+                      <p>
+                        Drivers were memorizing numbers across screens because the product gave
+                        them nowhere to put them. Comparison lets them pin a few loads and see
+                        them together without leaving the flow they're in.
+                      </p>
+                      <p className="bet-card__caption">I designed and built this one in React</p>
+                    </div>
+                    <div className="bet-card__figure">
+                      <ImageSlot
+                        src={IMAGES.compare}
+                        alt="The compare screen: Load A and Load B side by side, with a Quicklook table showing RPM and deadhead"
+                        ratio="804 / 1050"
+                      />
+                    </div>
+                  </div>
+                </BetCard>
+
+                <div className="bet-card bet-card--cream bet-card--split bets-grid__item--3">
+                  <div className="bet-card__col">
+                    <p className="bet-card__num" aria-hidden="true">
+                      03
+                    </p>
+                    <h3 className="bet-card__title">Multi-load booking with a route map</h3>
+                    <p>
+                      Drivers think in trips, not single loads. I proposed booking loads in
+                      sequence against a map of the whole route. One of our developers built the
+                      multi route search and map.
+                    </p>
+                  </div>
+                  <div className="bet-card__col">
+                    <p className="bet-card__pull-quote">
+                      "Chicago to Ohio and something on the way back" becomes one plan instead of
+                      three separate searches.
+                    </p>
+                    <p className="bet-card__caption">And the toll question</p>
+                    <p>
+                      A toggle lets drivers avoid or minimize toll roads, answering another
+                      complaint we heard: "Don't want to figure how much will be spent on tolls
+                      and stuff outside the app. Why can't it all be in one?"
+                    </p>
+                  </div>
+                </div>
+
+                <BetCard number="04" tone="dark" title="Dark mode" className="bets-grid__item--4">
+                  <p>
+                    Drivers use this platform on the road at every hour of the day. I implemented
+                    a dark theme across the entire app.
+                  </p>
+                </BetCard>
+              </div>
             </div>
           </section>
 
@@ -286,32 +359,40 @@ function SchneiderCaseStudy() {
             </div>
           </section>
 
-          <section id="feedback" className="case-study__section">
-            <h2>From the people who hear every complaint</h2>
-            <div className="cs-prose">
-              <p>
-                We didn't get to test with drivers before handoff. What we did get was a second
-                round with Schneider's BOAs and BORs, the business representatives who field driver
-                complaints and walk them through problems every day.
-              </p>
+          <section id="feedback" className="case-study__section cs-feedback">
+            <div className="cs-feedback__top">
+              <h2>From the people who hear every complaint</h2>
+              <div className="cs-prose cs-feedback__intro">
+                <p>
+                  We didn't get to test with drivers before handoff. What we did get was a second
+                  round with Schneider's BOAs and BORs, the business representatives who field
+                  driver complaints and walk them through problems every day.
+                </p>
+              </div>
             </div>
-            <SpokenQuote
-              speaker="girl"
-              quote={'"Search feels so much more straightforward than what drivers currently use."'}
-            />
-            <SpokenQuote
-              speaker="guy"
-              quote={
+
+            <FeedbackEcho
+              round1="Weighing two loads meant holding one in your head while looking at the other."
+              round2={
                 '"I like how you can compare loads without switching between screens to remember the information."'
               }
-              echo={{ href: '#quote-2', label: 'Echoes the brief' }}
+              echoHref="#quote-2"
             />
-            <div className="cs-prose cs-prose--after-quote">
-              <p>
-                That second comment is close to word for word the problem described in the first
-                round. It was the clearest sign the comparison feature was aimed at the right thing.
-              </p>
-              <p>We handed the work to Schneider's team, and their feedback was positive.</p>
+
+            <div className="cs-feedback-row">
+              <div className="cs-feedback-quote">
+                <blockquote>
+                  <p>"Search feels so much more straightforward than what drivers currently use."</p>
+                </blockquote>
+              </div>
+              <div className="cs-prose">
+                <p>
+                  That second comment is close to word for word the problem described in the first
+                  round. It was the clearest sign the comparison feature was aimed at the right
+                  thing.
+                </p>
+                <p>We handed the work to Schneider's team, and their feedback was positive.</p>
+              </div>
             </div>
           </section>
 

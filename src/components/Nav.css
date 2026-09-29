@@ -55,6 +55,14 @@
   border-radius: 2px;
 }
 
+/* Schneider's hero sits on cream, not the merlot band other case studies
+   open on, so the logo swaps to espresso to match the links. Declared
+   before .nav--on-dark below so on-dark still wins once the reader
+   scrolls into that page's own navy/pine sections. */
+.nav--espresso .nav__logo {
+  color: var(--color-text);
+}
+
 /* No background of its own (see Nav.tsx) - some pages open on a dark
    section (navy Projects, the merlot case-study band), where the
    default merlot logo and espresso links would sit dark-on-dark. Swap
@@ -107,6 +115,18 @@
   100% {
     opacity: 1;
   }
+}
+
+/* "Open to work" is a different message from the shrinking name, not a
+   duplicate of it, so it doesn't need to wait for the name to arrive - it's
+   pinned fully visible for the whole hero, overriding the scroll-driven fade
+   above. The moment the hero scrolls away this class comes off and the logo
+   reverts to the normal animation, which is already sitting at its 100%
+   (fully visible) keyframe by then - so "Nimrat Kaur" is simply there with no
+   extra fade of its own. */
+.nav__logo--pinned {
+  animation: none;
+  opacity: 1;
 }
 
 @media (max-width: 480px) {

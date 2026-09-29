@@ -3,29 +3,26 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: 128px 0 72px;
+  justify-content: center;
+  padding: 112px 0 96px;
   view-timeline-name: --hero;
 }
 
-/* 12-column composition, nothing centred: line one sits above the name from
-   column 4, the name drops lower, line two is right-aligned to column 12.
-   The empty space between them is deliberate. */
-.hero__grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: auto 1fr auto;
-  column-gap: 24px;
-  row-gap: 48px;
-  min-height: 380px;
+/* Name sits near the top of the hero; the pen line (full-bleed, see
+   PenLine.css) runs between it and the remaining tagline below. */
+.hero__top {
+  margin-top: 24px;
   padding: 0 var(--gutter);
+}
+
+.hero__bottom {
+  display: flex;
+  justify-content: flex-end;
+  padding: 28px var(--gutter) 0;
 }
 
 .hero__heading {
   --name-size: clamp(3rem, 10vw, 9.5rem);
-  grid-column: 1 / -1;
-  grid-row: 2;
-  align-self: center;
   display: flex;
   align-items: baseline;
   gap: 0 0.3em;
@@ -124,27 +121,13 @@
   flex: none;
 }
 
-.hero__line--one {
-  grid-column: 4 / span 7;
-  grid-row: 1;
-  align-self: start;
-  max-width: 21ch;
-  font-size: clamp(1.5rem, 2.6vw, 2.375rem);
+.hero__line {
+  max-width: 24ch;
+  font-size: clamp(1.3125rem, 2.25vw, 2.0625rem);
   font-weight: 400;
   line-height: 1.2;
   color: var(--color-text);
   animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 450ms both;
-}
-
-.hero__line--two {
-  grid-column: 7 / -1;
-  grid-row: 3;
-  justify-self: end;
-  max-width: 24ch;
-  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
-  line-height: 1.45;
-  color: var(--color-accent);
-  animation: hero-rise 800ms cubic-bezier(0.25, 0.85, 0.3, 1) 650ms both;
 }
 
 @keyframes hero-rise {
@@ -199,13 +182,7 @@
 
 @media (max-width: 760px) {
   .hero {
-    padding-top: 112px;
-  }
-
-  .hero__grid {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    row-gap: 40px;
+    padding-top: 104px;
   }
 
   .hero__heading {
@@ -220,20 +197,14 @@
     font-size: 1.5rem;
   }
 
+  .hero__bottom {
+    justify-content: flex-start;
+    padding-top: 16px;
+  }
+
   .hero__line {
-    grid-column: 1;
-    justify-self: start;
-    align-self: start;
     max-width: none;
-  }
-
-  .hero__line--one {
-    font-size: 1.5rem;
-  }
-
-  .hero__line--two {
-    max-width: 24ch;
-    font-size: 1.0625rem;
+    font-size: 1.3125rem;
   }
 }
 

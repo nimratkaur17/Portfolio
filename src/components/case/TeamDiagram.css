@@ -1,0 +1,118 @@
+/* Two rows of three, the sixth (bottom-right) slot always "me". Sized so
+   "Data engineer" - the longest label - has room to sit on one line. */
+.team-diagram {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.team-diagram__member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-diagram__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1.5px solid color-mix(in srgb, var(--color-muted) 50%, transparent);
+  color: var(--color-muted);
+}
+
+.team-diagram__icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+.team-diagram__label {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.team-diagram__member.is-you .team-diagram__icon {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-bg);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.team-diagram__member.is-you .team-diagram__label {
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* The callout is anchored to the icon itself - not the label below it - so
+   the arrow visibly starts at the icon it's pointing from instead of
+   floating under unrelated text. */
+.team-diagram__icon-wrap {
+  position: relative;
+}
+
+.team-diagram__callout {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary);
+}
+
+.team-diagram__arrow {
+  width: 20px;
+  height: 9px;
+  overflow: visible;
+  flex: none;
+}
+
+.team-diagram__arrow path {
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.team-diagram__note {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .team-diagram__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .team-diagram__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* "Me" sits in the grid's last column, flush with the right edge - a
+     callout placed beside the icon here runs off the viewport. Stack it
+     below instead, still anchored to the icon (not the label). */
+  .team-diagram__member.is-you {
+    padding-bottom: 26px;
+  }
+
+  .team-diagram__callout {
+    top: 100%;
+    left: 50%;
+    margin-left: 0;
+    margin-top: 6px;
+    transform: translateX(-50%);
+  }
+}

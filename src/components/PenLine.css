@@ -1,0 +1,66 @@
+/* Full-bleed, like the other 100vw breakouts on the site: the line runs the
+   full width of the viewport regardless of the hero's own gutter. */
+.pen-line {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-top: 28px;
+  margin-left: -50vw;
+  pointer-events: none;
+}
+
+.pen-line__svg {
+  display: block;
+  overflow: visible;
+}
+
+.pen-line__stroke {
+  vector-effect: non-scaling-stroke;
+}
+
+.pen-line__arrow {
+  stroke: var(--color-text);
+  vector-effect: non-scaling-stroke;
+}
+
+.pen-line__node {
+  fill: var(--color-cream);
+  stroke: var(--color-contrast);
+}
+
+.pen-line__end {
+  fill: var(--color-contrast);
+}
+
+.pen-line__label {
+  font-family: var(--font-label);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  fill: var(--color-contrast);
+}
+
+.pen-line__closing {
+  font-family: var(--font-label);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  fill: var(--color-muted);
+}
+
+.pen-line__caption {
+  font-family: var(--font-label);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  fill: var(--color-muted);
+}
+
+@media (max-width: 759px) {
+  .pen-line__label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .pen-line__closing,
+  .pen-line__caption {
+    font-size: 12px;
+  }
+}
