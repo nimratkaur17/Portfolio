@@ -16,6 +16,10 @@
   --color-rose: #bf8f9c; /* dusty rose — the hovered belief row, Schneider pain tiles */
   --color-highlight: #d1a7b3; /* lighter rose — About intro text highlights */
   --color-chip: #253654; /* skill chips in How I think */
+  --color-wcv-blue: #215eac; /* Native Vote site's own blue - connect band */
+  --color-wcv-red: #c1392e; /* Native Vote site's own red - impact numbers band */
+  --color-wcv-dark: #30261d; /* Native Vote site's own dark - Looking Forward band */
+  --color-wcv-yellow: #ffcd00; /* Native Vote site's own yellow - floral accents */
   --color-rot-1: #4a6a3f; /* rotating hero word, colour 1 of 3 */
   --color-rot-2: #2b4a80; /* rotating hero word, colour 2 of 3 */
   --color-rot-3: #7a2141; /* rotating hero word, colour 3 of 3 */

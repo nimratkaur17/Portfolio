@@ -1,15 +1,16 @@
 import BeforeAfterSlider from '../components/case/BeforeAfterSlider'
 import ImageSlot from '../components/case/ImageSlot'
-import DashboardEvidence from '../components/wcv/DashboardEvidence'
+import ColorSwatches from '../components/wcv/ColorSwatches'
+import ConversionStats from '../components/wcv/ConversionStats'
 import FloralReveal from '../components/wcv/FloralReveal'
 import LaptopFrame from '../components/wcv/LaptopFrame'
 import type { PageNote } from '../components/wcv/OldPageNotes'
 import OldPageNotes from '../components/wcv/OldPageNotes'
+import PageviewsChart from '../components/wcv/PageviewsChart'
 import PhotoGrid from '../components/wcv/PhotoGrid'
 import UsabilityStatCards from '../components/wcv/UsabilityStatCards'
 import afterDesign from '../after-design.png'
 import beforeDesign from '../before-design.png'
-import buttonsAnalytics from '../buttons-analytics.png'
 import floralArt from '../floral-art.png'
 import grid1 from '../grid1.png'
 import grid2 from '../grid2.png'
@@ -22,7 +23,7 @@ import impactBand from '../impact-band.png'
 import impactNumbers from '../impact-numbers.png'
 import oldDesign1 from '../old-design1.png'
 import oldDesign2 from '../old-design2.png'
-import votingAnalytics from '../voting-analytics.png'
+import { useRailOnDark } from './useRailOnDark'
 import { useScrollSpy } from './useScrollSpy'
 import './CaseStudy.css'
 import './WisconsinCaseStudy.css'
@@ -31,8 +32,6 @@ import './WisconsinCaseStudy.css'
 // arrive. null renders a neutral placeholder panel that holds the layout.
 const IMAGES = {
   hero: heroWcv as string | null,
-  pageviewsChart: votingAnalytics as string | null,
-  conversionChart: buttonsAnalytics as string | null,
   oldPage1: oldDesign1 as string | null,
   oldPage2: oldDesign2 as string | null,
   nextStepBefore: beforeDesign as string | null,
@@ -50,6 +49,20 @@ const COMMUNITY_PHOTOS = [
   { src: grid5, alt: 'The Beyond the Numbers section with the Story Spotlight', caption: 'Beyond the numbers' },
 ]
 
+const COLOR_SWATCHES: { tone: 'blue' | 'red' | 'dark' | 'white' | 'yellow'; name: string; meaning: string }[] = [
+  { tone: 'blue', name: 'Blue', meaning: 'where you connect' },
+  { tone: 'red', name: 'Red', meaning: 'the impact numbers' },
+  { tone: 'dark', name: 'Dark', meaning: 'Looking Forward' },
+  { tone: 'white', name: 'White', meaning: 'government partnership' },
+  { tone: 'yellow', name: 'Yellow', meaning: 'the florals between' },
+]
+
+const TEST_STEPS = [
+  'Each participant was randomly assigned one version.',
+  'They completed three real tasks, with optional screen recordings to confirm whether they succeeded,',
+  'Rated the site on the System Usability Scale.',
+]
+
 const SECTIONS = [
   { id: 'overview', rail: 'Overview' },
   { id: 'data', rail: 'The data' },
@@ -61,6 +74,32 @@ const SECTIONS = [
 ] as const
 
 const SECTION_IDS = SECTIONS.map((section) => section.id)
+
+const PAGEVIEWS = [
+  { label: 'Voting Info', value: 5212, highlight: true },
+  { label: 'Native Vote', value: 2089 },
+  { label: 'Home', value: 1847 },
+  { label: 'Staff', value: 615 },
+]
+
+const CONVERSIONS = [
+  { value: '3.0%', label: 'Pledge to Vote pop-up', highlight: true },
+  { value: '1.0%', label: 'Register to Vote button', detail: 'Seen 4,885 · clicked 59' },
+]
+
+const ANNOTATION_QUESTIONS = [
+  "What's the message?",
+  'Who is it for?',
+  'What should they do next?',
+  'What are we assuming?',
+]
+
+const RECURRING_ANSWERS = [
+  'Text too dense to scan.',
+  'Type too light to read.',
+  "Actions that didn't look like actions.",
+  "And the page's strongest evidence sitting inside paragraphs, where nobody skimming would ever find it.",
+]
 
 // Recreated as real text from photos of the physical sticky notes - same
 // words, same color, same signature - so they're never blurry or cropped.
@@ -153,10 +192,11 @@ const PAGE_NOTES: PageNote[] = [
 
 function WisconsinCaseStudy() {
   const activeId = useScrollSpy(SECTION_IDS)
+  const railOnDark = useRailOnDark()
 
   return (
     <main className="case-study cs-wcv">
-      <header className="case-study__hero" data-nav-theme="light">
+      <header className="case-study__hero">
         <div className="case-study__hero-inner">
           <p className="case-study__kicker">Case study</p>
           <h1 className="case-study__title">Wisconsin Conservation Voices, Native Vote</h1>
@@ -204,65 +244,86 @@ function WisconsinCaseStudy() {
             </div>
           </section>
 
-          <section id="data" className="case-study__section">
-            <h2>What a year of clicks told us</h2>
-            <div className="cs-prose">
-              <p>
-                Before changing anything, we went through a year of the site's Squarespace
-                analytics. Two numbers decided most of what came next.
-              </p>
-              <p>
-                <strong>Voting Info is the front door, and the exit.</strong> It drew 5,212 views,
-                more than twice any other page. People spent about two minutes there, and nine in
-                ten left without going anywhere else.
-              </p>
-              <p>
-                <strong>A pop-up beat the page's own buttons.</strong> Register to Vote was seen by
-                4,885 people and clicked by 59, a rate of 1.0%. The Pledge to Vote pop-up, asking
-                for something similar, converted at 3.0%. People weren't uninterested. The page's
-                own buttons just weren't doing the work.
-              </p>
+          <section
+            id="data"
+            className="case-study__section cs-data"
+            data-nav-theme="light"
+            data-rail-theme="dark"
+          >
+            <div className="cs-data__inner">
+              <div className="cs-data__top">
+                <h2>What a year of clicks told us</h2>
+                <div className="cs-prose cs-data__intro">
+                  <p>
+                    Before changing anything, we went through a year of the site's Squarespace
+                    analytics. Two numbers decided most of what came next.
+                  </p>
+                </div>
+              </div>
+
+              <div className="findings-grid">
+                <div className="finding-card">
+                  <p className="finding-card__label">Finding 1 · Top pageviews by page</p>
+                  <h3 className="finding-card__title">
+                    Voting Info is the front door, and the exit.
+                  </h3>
+                  <PageviewsChart rows={PAGEVIEWS} />
+                  <p className="finding-card__body">
+                    It drew 5,212 views, more than twice any other page. People spent about two
+                    minutes there, and nine in ten left without going anywhere else.
+                  </p>
+                </div>
+                <div className="finding-card">
+                  <p className="finding-card__label">Finding 2 · Button conversions by button</p>
+                  <h3 className="finding-card__title">A pop-up beat the page's own buttons.</h3>
+                  <ConversionStats stats={CONVERSIONS} />
+                  <p className="finding-card__body">
+                    Register to Vote was seen by 4,885 people and clicked by 59, a rate of 1.0%.
+                    The Pledge to Vote pop-up, asking for something similar, converted at 3.0%.
+                    People weren't uninterested.{' '}
+                    <strong>The page's own buttons just weren't doing the work.</strong>
+                  </p>
+                </div>
+              </div>
+
+              <div className="cs-data__annotate">
+                <div className="cs-data__annotate-text">
+                  <p>
+                    The numbers showed where people struggled. To find out why, we annotated every
+                    section of the old pages against the same four questions:
+                  </p>
+                  <ul className="question-tiles">
+                    {ANNOTATION_QUESTIONS.map((question) => (
+                      <li key={question} className="question-tile">
+                        {question}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="cs-data__answers-lead">
+                    The answers kept landing in the same places.
+                  </p>
+                  <ol className="answers-list">
+                    {RECURRING_ANSWERS.map((answer, index) => (
+                      <li key={answer} className="answers-list__item">
+                        <span className="answers-list__num" aria-hidden="true">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span>{answer}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+                <div className="cs-data__annotate-old">
+                  <OldPageNotes
+                    pages={[
+                      { src: IMAGES.oldPage1, alt: 'The old Voting Info page' },
+                      { src: IMAGES.oldPage2, alt: 'The old Native Vote page' },
+                    ]}
+                    notes={PAGE_NOTES}
+                  />
+                </div>
+              </div>
             </div>
-
-            <DashboardEvidence
-              items={[
-                {
-                  src: IMAGES.pageviewsChart,
-                  alt: 'Squarespace top pageviews by page, with Voting Info far ahead of every other page',
-                  caption: 'Top pageviews by page',
-                  ratio: '1576 / 1028',
-                  annotation: { label: '5,212 views, Voting Info', x: 10, y: 34 },
-                },
-                {
-                  src: IMAGES.conversionChart,
-                  alt: 'Squarespace button conversions by button, with the Pledge to Vote pop-up ahead of Register to Vote',
-                  caption: 'Button conversions by button',
-                  ratio: '1572 / 1028',
-                  annotation: { label: '3.0% vs 1.0%', x: 84, y: 86 },
-                },
-              ]}
-            />
-
-            <div className="cs-prose cs-prose--after-figure">
-              <p>
-                The numbers showed where people struggled. To find out why, we annotated every
-                section of the old pages against the same four questions: what's the message, who
-                is it for, what should they do next, and what are we assuming?
-              </p>
-              <p>
-                The answers kept landing in the same places. Text too dense to scan. Type too light
-                to read. Actions that didn't look like actions. And the page's strongest evidence
-                sitting inside paragraphs, where nobody skimming would ever find it.
-              </p>
-            </div>
-
-            <OldPageNotes
-              pages={[
-                { src: IMAGES.oldPage1, alt: 'The old Voting Info page' },
-                { src: IMAGES.oldPage2, alt: 'The old Native Vote page' },
-              ]}
-              notes={PAGE_NOTES}
-            />
           </section>
 
           <section id="next-step" className="case-study__section">
@@ -338,67 +399,85 @@ function WisconsinCaseStudy() {
             </div>
           </section>
 
-          <section id="color" className="case-study__section">
-            <h2>Color as a way of knowing where you are</h2>
-            <div className="cs-prose">
-              <p>
-                The old page was blue headings on white, top to bottom. Nothing told you that you
-                had moved from one idea to another.
-              </p>
-              <p>
-                The redesign runs in full-width bands: blue where you connect, red for the impact
-                numbers, dark behind Looking Forward, white for the government partnership. Between
-                them, yellow accent illustrations inspired by Ojibwe floral art carry the rhythm and
-                a sense of the communities the program serves.
-              </p>
+          <section id="color" className="case-study__section cs-color">
+            <div className="cs-color__top">
+              <h2>Color as a way of knowing where you are</h2>
+              <div className="cs-prose cs-color__intro">
+                <p>
+                  The old page was blue headings on white, top to bottom. Nothing told you that
+                  you had moved from one idea to another.
+                </p>
+              </div>
             </div>
+
+            <div className="cs-prose">
+              <p>The redesign runs in full-width bands, each color doing a job:</p>
+            </div>
+
+            <ColorSwatches swatches={COLOR_SWATCHES} />
 
             <FloralReveal src={floralArt} />
             <PhotoGrid photos={COMMUNITY_PHOTOS} />
           </section>
 
-          <section id="test" className="case-study__section">
-            <h2>Two sites, one set of tasks</h2>
-            <div className="cs-prose">
-              <p>
-                We tested the redesign against the live site. The program exists for Native voters
-                in Wisconsin, so we recruited through Tribal Libraries, Archives &amp; Museums and
-                our own networks, to make sure the feedback reflected the people the site is for.
-              </p>
-              <p>
-                Each participant was randomly assigned one version. They completed three real
-                tasks, with optional screen recordings to confirm whether they succeeded, then rated
-                the site on the System Usability Scale.
-              </p>
+          <section
+            id="test"
+            className="case-study__section cs-test"
+            data-nav-theme="light"
+            data-rail-theme="dark"
+          >
+            <div className="cs-test__inner">
+              <h2>Two sites, one set of tasks</h2>
+              <div className="cs-prose">
+                <p>
+                  We tested the redesign against the live site. The program exists for Native
+                  voters in Wisconsin, so we recruited through Tribal Libraries, Archives &amp;
+                  Museums and our own networks, to make sure the feedback reflected the people the
+                  site is for.
+                </p>
+              </div>
+
+              <ol className="test-steps">
+                {TEST_STEPS.map((step, index) => (
+                  <li key={step} className="test-step">
+                    <span className="test-step__num" aria-hidden="true">
+                      {index + 1}
+                    </span>
+                    <p>{step}</p>
+                  </li>
+                ))}
+              </ol>
+
+              <UsabilityStatCards />
+
+              <div className="cs-prose cs-prose--after-figure">
+                <p>
+                  On the old site, testers described sections as text-dense and hard to read
+                  against their backgrounds. Neither came up for the redesign.
+                </p>
+                <p>
+                  We handed WCV the designs and a set of implementation guidelines for
+                  Squarespace. Their team built it, and it's the Native Vote page today.
+                </p>
+              </div>
+
+              <a
+                className="wcv-live-link wcv-live-link--on-dark"
+                href="https://www.conservationvoices.org/nativevote"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View the live Native Vote page
+              </a>
             </div>
-
-            <UsabilityStatCards />
-
-            <div className="cs-prose cs-prose--after-figure">
-              <p>
-                On the old site, testers described sections as text-dense and hard to read against
-                their backgrounds. Neither came up for the redesign.
-              </p>
-              <p>
-                We handed WCV the designs and a set of implementation guidelines for Squarespace.
-                Their team built it, and it's the Native Vote page today.
-              </p>
-            </div>
-
-            <a
-              className="wcv-live-link"
-              href="https://www.conservationvoices.org/nativevote"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View the live Native Vote page
-            </a>
           </section>
 
           <section id="reflections" className="case-study__section">
             <h2>What I'm taking with me</h2>
+            <p className="cs-reflect__statement">
+              Everything I changed on that page was already on it.
+            </p>
             <div className="cs-prose">
-              <p>Everything I changed on that page was already on it.</p>
               <p>
                 Register to Vote had been seen 4,885 times and clicked 59. The turnout figures the
                 program had spent years earning were sitting inside paragraphs. The story about
@@ -408,14 +487,19 @@ function WisconsinCaseStudy() {
               <p>
                 That's the thing I took from this project. On a page, being there and being found
                 are not the same condition, and the distance between them is where the work is. I
-                didn't give Native Vote anything it didn't have. I made what it already had harder
-                to walk past.
+                didn't give Native Vote anything it didn't have.{' '}
+                <span className="cs-reflect__close">
+                  I made what it already had harder to walk past.
+                </span>
               </p>
             </div>
           </section>
         </article>
 
-        <nav className="case-study__rail" aria-label="Sections in this case study">
+        <nav
+          className={`case-study__rail${railOnDark ? ' case-study__rail--on-dark' : ''}`}
+          aria-label="Sections in this case study"
+        >
           <ul>
             {SECTIONS.map((section) => (
               <li key={section.id}>

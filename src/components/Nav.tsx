@@ -70,15 +70,20 @@ function Nav() {
     }
   }
 
-  // The Schneider case study opens on cream, not the merlot band other case
+  // These case studies open on cream, not the merlot band other case
   // studies use, so the default merlot logo would clash - espresso matches
   // the links there instead. `nav--on-dark` still wins over this once the
-  // reader scrolls into that page's own dark sections (see the CSS order).
-  const isSchneiderCaseStudy = location.pathname === '/case/schneider-freightpower-owner-operator-app'
+  // reader scrolls into one of that page's own dark sections (see the CSS
+  // order in Nav.css).
+  const CREAM_HERO_CASE_STUDIES = [
+    '/case/schneider-freightpower-owner-operator-app',
+    '/case/wisconsin-conservation-voices-native-vote',
+  ]
+  const isCreamHeroCaseStudy = CREAM_HERO_CASE_STUDIES.includes(location.pathname)
 
   return (
     <nav
-      className={`nav${isSchneiderCaseStudy ? ' nav--espresso' : ''}${onDark ? ' nav--on-dark' : ''}`}
+      className={`nav${isCreamHeroCaseStudy ? ' nav--espresso' : ''}${onDark ? ' nav--on-dark' : ''}`}
     >
       <Link to="/" className={`nav__logo${inHero ? ' nav__logo--pinned' : ''}`}>
         {inHero ? 'Open to work' : 'Nimrat Kaur'}

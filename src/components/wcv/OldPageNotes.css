@@ -8,8 +8,8 @@
 
 .old-notes__page {
   position: relative;
-  flex: 0 0 260px;
-  width: 260px;
+  flex: 0 0 300px;
+  width: 300px;
 }
 
 .old-notes__spot {
@@ -40,7 +40,7 @@
   height: 14px;
   border: 2px solid var(--color-bg);
   border-radius: 50%;
-  background: var(--color-gold);
+  background: var(--color-primary);
   box-shadow: 0 4px 10px color-mix(in srgb, var(--color-text), transparent 65%);
   transition: transform 200ms cubic-bezier(0.25, 0.85, 0.3, 1);
 }

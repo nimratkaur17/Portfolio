@@ -55,10 +55,10 @@
   border-radius: 2px;
 }
 
-/* Schneider's hero sits on cream, not the merlot band other case studies
-   open on, so the logo swaps to espresso to match the links. Declared
-   before .nav--on-dark below so on-dark still wins once the reader
-   scrolls into that page's own navy/pine sections. */
+/* These case-study heroes sit on cream, not the merlot band other case
+   studies open on, so the logo swaps to espresso to match the links.
+   Declared before .nav--on-dark below so on-dark still wins once the
+   reader scrolls into one of that page's own dark full-bleed sections. */
 .nav--espresso .nav__logo {
   color: var(--color-text);
 }
