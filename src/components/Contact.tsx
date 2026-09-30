@@ -8,7 +8,7 @@ const NAME = 'Nimrat Kaur'
 const READING = {
   title: 'The Emperor of Gladness',
   author: 'Ocean Vuong',
-  pagesRead: 68,
+  pagesRead: 148,
   pagesTotal: 402,
 }
 const READING_PERCENT = Math.round((READING.pagesRead / READING.pagesTotal) * 100)
