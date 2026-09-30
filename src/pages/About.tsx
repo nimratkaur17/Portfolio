@@ -5,6 +5,8 @@ import Contact from '../components/Contact'
 import Highlight from '../components/Highlight'
 import HowIThink from '../components/HowIThink'
 import Weave from '../components/Weave'
+import portrait1 from '../IMG_2972.jpg'
+import portrait2 from '../IMG_3309.jpg'
 import './About.css'
 
 function About() {
@@ -38,12 +40,12 @@ function About() {
             >
               <img
                 className="hero-photo__img hero-photo__img--base"
-                src="/portrait-1.svg"
+                src={portrait2}
                 alt="Portrait of Nimrat Kaur"
               />
               <img
                 className="hero-photo__img hero-photo__img--alt"
-                src="/portrait-2.svg"
+                src={portrait1}
                 alt=""
                 aria-hidden="true"
               />
